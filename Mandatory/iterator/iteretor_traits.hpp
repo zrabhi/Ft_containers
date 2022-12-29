@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iteretor_traits.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
+/*   By: zakaria <zakaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:25:14 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/12/28 16:53:22 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/29 15:14:53 by zakaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ namespace ft
         typedef typename Iterator::value_type            value_type;
         typedef typename Iterator::pointer               pointer;
         typedef typename Iterator::reference             reference;
-        typedef typename Iterator::iterator_category    iterator_category ;      
+        typedef typename Iterator::iterator_category     iterator_category ;      
     };
     template<class T> 
     struct iterator_traits<T*>
