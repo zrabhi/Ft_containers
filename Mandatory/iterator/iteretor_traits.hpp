@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iteretor_traits.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zakaria <zakaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:25:14 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/12/29 15:14:53 by zakaria          ###   ########.fr       */
+/*   Updated: 2022/12/29 19:39:40 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ namespace ft
     template<class T> 
     struct iterator_traits<T*>
     {
-        typedef T                                           value_type;
+        typedef  T                                           value_type;
         typedef *T                                          pointer;
-        typedef T&                                          reference;
+        typedef  T&                                          reference;
         typedef  typename std::random_access_iterator_tag   iterator_category;   
         typedef  typename std::ptrdiff_t                    difference_type;
     };
