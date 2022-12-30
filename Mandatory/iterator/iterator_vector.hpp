@@ -6,12 +6,12 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 16:09:51 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/12/29 19:45:42 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/30 16:37:03 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ITERATOR_VCETOR_HPP
-#define ITEARTOR_VECTOR_HPP
+#ifndef ITERATOR_VECTOR_HPP
+#define ITERATOR_VECTOR_HPP
 
 #include "iteretor_traits.hpp"
 #include <iterator>
@@ -24,58 +24,68 @@ namespace ft
     {
         public:
             typedef T                                                                                                     Iterator;
-            typedef typename    ft::iterator_traits<ft::iterator<std::random_access_iterator_tag, T>>::value_type         value_type;
-            typedef typename    ft::iterator_traits<ft::iterator<std::random_access_iterator_tag, T>>::difference_type    Distance;
-            typedef typename    ft::iterator_traits<ft::iterator<std::random_access_iterator_tag, T>>::pointer            pointer;
-            typedef typename    ft::iterator_traits<ft::iterator<std::random_access_iterator_tag, T>>::reference          reference;
-            typedef typename    ft::iterator_traits<ft::iterator<std::random_access_iterator_tag, T>>::iterator_category  iterator_category;
+            typedef typename    ft::iterator_traits<ft::iterator<std::random_access_iterator_tag, T> >::value_type         value_type;
+            typedef typename    ft::iterator_traits<ft::iterator<std::random_access_iterator_tag, T> >::Distance   difference_type;
+            typedef typename    ft::iterator_traits<ft::iterator<std::random_access_iterator_tag, T> >::pointer            pointer;
+            typedef typename    ft::iterator_traits<ft::iterator<std::random_access_iterator_tag, T> >::reference          reference;
+            typedef typename    ft::iterator_traits<ft::iterator<std::random_access_iterator_tag, T> >::iterator_category  iterator_category;
        
         protected :
-            Iterator    _ptr;
+            pointer    _ptr;
         public:
         //------Default constructor
-            RandomAccessIter(poiner _ptr ) : _ptr(ptr){};
+            // RandomAccessIter
+            RandomAccessIter(): _ptr(nullptr)
+            {}; 
+            RandomAccessIter(pointer ptr ) : _ptr(ptr)
+            {};
             //------Copy constrcutor
-            RandomAccessIter(RandomAccessIter<T> &obj) : _ptr(obj._ptr){};
+            RandomAccessIter(const RandomAccessIter<T> &obj) : _ptr(obj._ptr)
+            {};
             //------opreators
             //------(++_ptr)
-            RandomAccessIter& operator++() const
+            RandomAccessIter& operator++() 
             {
                 return (++_ptr, *this);    
             }  
             //----(_ptr++)      
-            RandomAccessIter& operator++(int) const
+            RandomAccessIter operator++(int) 
             {
-                RandomAccessIter tmp = *this;
+                RandomAccessIter tmp(*this);
                 return (++_ptr, tmp);
             }
             //----(_ptr--);
-            RandomAccessIter& operator--() const
+            RandomAccessIter& operator--() 
             {
                 return(--_ptr, *this);           
             }
             //---(--_ptr)
-            RandomAccessIter operator--(int) const
+            RandomAccessIter operator--(int) 
             {
-                RandomAccessIter tmp = *this ;
+                RandomAccessIter tmp(*this) ;
                 return (--_ptr, tmp);
             }
+            RandomAccessIter& operator=(RandomAccessIter &obj)
+            {
+                return (this->_ptr =obj._ptr, *this);
+            } 
             reference operator*() const
             {
                 return (*_ptr);
             }
             //----Difference
-            RandomAccessIter& operator-(difference_type n) const
+            RandomAccessIter& operator-(difference_type n) 
             {
-                return (this->_ptr - n);
+                return ((this->_ptr = this->_ptr - n), *this);
             }
-            RandomAccessIter& operator+(difference_type n) const
+            RandomAccessIter& operator+(difference_type n) 
             {
-                return (this->_ptr + n);
+                return ((this->_ptr = this->_ptr + n), *this);
             }
+        
             RandomAccessIter& operator+=(difference_type n) const
             {
-                return (this_ptr +=n, *this );
+                return (this->_ptr +=n, *this );
             }
             RandomAccessIter& operator-=(difference_type n) const
             {
@@ -83,12 +93,12 @@ namespace ft
             }
             reference operator[](difference_type n)
             {
-                return (this->_ptr[n])
+                return (this->_ptr[n]);
             }
             //----compar--operators
             bool  operator==(const RandomAccessIter& iter) const
                 {
-                    return (_ptr == iter1._ptr);
+                    return (_ptr == iter._ptr);
                 }
             bool operator>( const RandomAccessIter& iter) const
                 {
@@ -106,7 +116,29 @@ namespace ft
             {
                 return (!(_ptr < iter._ptr));
             }
+            bool operator!=(const RandomAccessIter& iter) const
+            {
+                return (this->_ptr != iter._ptr);
+            }
     };
+    //----reverse__iterator---
+        template<typename T>
+        class RandomAccessIterRev : public ft::iterator<std::random_access_iterator_tag, T>
+        {
+                public:
+                    typedef T                                                                                                      Iterator;
+                    typedef typename    ft::iterator_traits<ft::iterator<std::random_access_iterator_tag, T> >::value_type         value_type;
+                    typedef typename    ft::iterator_traits<ft::iterator<std::random_access_iterator_tag, T> >::Distance           difference_type;
+                    typedef typename    ft::iterator_traits<ft::iterator<std::random_access_iterator_tag, T> >::pointer            pointer;
+                    typedef typename    ft::iterator_traits<ft::iterator<std::random_access_iterator_tag, T> >::reference          reference;
+                    typedef typename    ft::iterator_traits<ft::iterator<std::random_access_iterator_tag, T> >::iterator_category  iterator_category;
+                protected:
+                    pointer _ptr;
+                public:
+            //----member fucntions;
+
+        };
+    
 }
 
 
