@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 16:09:51 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/12/30 16:37:03 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/31 18:27:29 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,21 +97,21 @@ namespace ft
             }
             //----compar--operators
             bool  operator==(const RandomAccessIter& iter) const
-                {
-                    return (_ptr == iter._ptr);
-                }
+            {
+                return (_ptr == iter._ptr);
+            }
             bool operator>( const RandomAccessIter& iter) const
-                {
-                    return (_ptr > iter._ptr);     
-                }
+            {
+                return (_ptr > iter._ptr);     
+            }
             bool operator<(const RandomAccessIter& iter) const
-                {
-                    return (_ptr < iter._ptr);
-                }
+            {
+                return (_ptr < iter._ptr);
+            }
             bool operator <=(const RandomAccessIter& iter) const
-                {
-                    return (!(_ptr > iter._ptr));
-                }
+            {
+                return (!(_ptr > iter._ptr));
+            }
             bool operator >=(const RandomAccessIter& iter ) const
             {
                 return (!(_ptr < iter._ptr));
@@ -135,8 +135,91 @@ namespace ft
                 protected:
                     pointer _ptr;
                 public:
+                    RandomAccessIterRev(){};
+                
+                    RandomAccessIterRev(pointer ptr) : _ptr(ptr)
+                    {};
+                
+                    RandomAccessIterRev(const RandomAccessIterRev<T>& obj) : _ptr(obj._ptr)
+                    {};
+                
+                    RandomAccessIterRev& operator++()
+                    {
+                        return (--_ptr, *this);    
+                    }
+                
+                    RandomAccessIterRev& operator--()
+                    {
+                        return (++_ptr, *this);
+                    }
+                
+                    RandomAccessIterRev operator--(int)
+                    {
+                        RandomAccessIterRev tmp(*this);
+                        return (++_ptr, *this);
+                    }
+                
+                    RandomAccessIterRev operator++(int)
+                    {
+                        RandomAccessIterRev tmp(*this);
+                        return (--_ptr, *this);   
+                    }
+                
+                    RandomAccessIterRev& operator+(difference_type n)
+                    {
+                        return (this->_ptr = this->_ptr - n, *this);
+                    } 
+                
+                    RandomAccessIterRev& operator-(difference_type n)
+                    {
+                        return (this->_ptr = this->_ptr + n, *this);
+                    }
+                
+                    RandomAccessIterRev& operator-=(difference_type n)
+                    {
+                        return (this->_ptr -=n, *this);
+                    }
+                
+                    RandomAccessIterRev& operator+=(difference_type n)
+                    {
+                        return (this->_ptr += n, *this);
+                    }
+                    
+                    reference operator[](difference_type n)
+                    {
+                        return (this->_ptr[n]);
+                    }
+                    bool  operator==(const RandomAccessIter& iter) const
+                    {
+                        return (_ptr == iter._ptr);
+                    }
+            
+                    bool operator>( const RandomAccessIterRev& iter) const
+                    {
+                        return (_ptr > iter._ptr);     
+                    }
+                
+                    bool operator<(const RandomAccessIterRev& iter) const
+                    {
+                        return (_ptr < iter._ptr);
+                    }
+                
+                    bool operator <=(const RandomAccessIterRev& iter) const
+                    {
+                        return (!(_ptr > iter._ptr));
+                    }
+            
+                    bool operator >=(const RandomAccessIterRev& iter ) const
+                    {
+                        return (!(_ptr < iter._ptr));
+                    }
+        
+                    bool operator!=(const RandomAccessIterRev& iter) const
+                    {
+                        return (this->_ptr != iter._ptr);
+                    }
             //----member fucntions;
-
+                                    
         };
     
 }
