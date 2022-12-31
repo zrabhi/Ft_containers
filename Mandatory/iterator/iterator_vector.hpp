@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 16:09:51 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/12/31 18:27:29 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/31 18:33:10 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,12 @@ namespace ft
                         RandomAccessIterRev tmp(*this);
                         return (--_ptr, *this);   
                     }
-                
+                    
+                    RandomAccessIterRev& operator=(RandomAccessIterRev& obj)
+                    {
+                        return (this->_ptr = obj._ptr, *this);
+                    }
+                    
                     RandomAccessIterRev& operator+(difference_type n)
                     {
                         return (this->_ptr = this->_ptr - n, *this);
@@ -184,7 +189,10 @@ namespace ft
                     {
                         return (this->_ptr += n, *this);
                     }
-                    
+                    reference operator*()
+                    {
+                        return (*_ptr);
+                    }
                     reference operator[](difference_type n)
                     {
                         return (this->_ptr[n]);
