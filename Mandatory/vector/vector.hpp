@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/01 19:03:09 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/01 21:22:57 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <sstream>
 # include <algorithm>
 # include <vector>
+# include <memory>
 # include "../iterator/iterator_vector.hpp"
 
 namespace ft
@@ -84,8 +85,8 @@ namespace ft
                         if (x != *this)
                         {
                              this->_alloc.clear();
-                                x.
-                                this->_aloc()
+                             x.
+                             this->_aloc()
                         }
                 };
                 
@@ -117,6 +118,16 @@ namespace ft
                         return (this->_end);
                 }
                 
+                reverse_iterator rend()
+                {
+                        return (this->_start);        
+                }
+                
+                const_reverse_iterator rend() const
+                {
+                        return (this->_start);      
+                }
+                
                 const_reverse_iterator rbegin() const
                 {
                         return (this->_end);
@@ -131,8 +142,39 @@ namespace ft
                 {
                         return (this->_end_c - this->_start);       
                 }
-                            
-};
-
+                
+                reference at(size_type n)
+                {
+                        if (n >= this->size())
+                                throw std::out_of_range("Vector::at: index out \
+                                        of range");
+                        return (this->_start[n]);
+                }
+                
+                const_reference at(size_type n) const
+                {
+                        if (n >= this->size())
+                                throw std::out_of_range("Vector::at: index out \
+                                        of range");
+                        return (this->_start[n]);    
+                }
+                
+                refernce operator[](size_type n)
+                {
+                        return (this->_start[n]);
+                }
+                
+                const_reference operator[](size_type n) const
+                {
+                        return (this->_start[n]);
+                }
+                
+                bool empty()
+                {
+                        if (size())
+                                return (true);
+                        return (false);
+                }     
+        };
 }
 #endif
