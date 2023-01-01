@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 16:09:51 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/12/31 18:33:10 by zrabhi           ###   ########.fr       */
+/*   Updated: 2022/12/31 19:24:48 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,8 @@ namespace ft
                 protected:
                     pointer _ptr;
                 public:
-                    RandomAccessIterRev(){};
+                    RandomAccessIterRev() : _ptr(nullptr)
+                    {};
                 
                     RandomAccessIterRev(pointer ptr) : _ptr(ptr)
                     {};
@@ -197,7 +198,7 @@ namespace ft
                     {
                         return (this->_ptr[n]);
                     }
-                    bool  operator==(const RandomAccessIter& iter) const
+                    bool  operator==(const RandomAccessIterRev& iter) const
                     {
                         return (_ptr == iter._ptr);
                     }
@@ -226,10 +227,8 @@ namespace ft
                     {
                         return (this->_ptr != iter._ptr);
                     }
-            //----member fucntions;
-                                    
+            //----member fucntions;                  
         };
-    
 }
 
 
