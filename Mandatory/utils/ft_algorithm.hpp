@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 21:24:12 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/02 15:51:09 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/02 16:15:55 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,12 @@ namespace ft
             }
             return (first2 != last2);
         }
+}
+
+template <typename T>
+const T& min(const T& a, const T& b)
+{
+  return (a < y) ? a : b;
 }
 
 #endif

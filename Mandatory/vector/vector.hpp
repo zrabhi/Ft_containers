@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/01 21:22:57 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/02 16:53:54 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ namespace ft
                 typedef typename  allocator_type::const_pointer                    const_pointer;
                 typedef typename  allocator_type::pointer                          pointer;
                 typedef typename  allocator_type::difference_type                  difference_type;
-                typedef typename  ft::RandomAccessIter<value_type>                 iterator;  
+                typedef typename  ft::RandomAccessIter<value_type>                 iterator;
                 typedef typename  ft::RandomAccessIter<const_value_type>           const_iterator;
                 typedef typename  ft::RandomAccessIterRev<value_type>              reverse_iterator;
                 typedef typename  ft::RandomAccessIterRev<const_value_type>        const_reverse_iterator;
@@ -71,9 +71,9 @@ namespace ft
                 template <class InputIterator>
                         Vector(InputIterator first, InputIterator last,
                              const_allocator_type& alloc = allocator_type())
-                {
-                        first = this->_start;
-                        last =  this->_end;
+                {  
+                        // first =  this->_start;
+                        // last  =  this->_end;
                         //---not done yet                   
                         
                 
@@ -84,9 +84,15 @@ namespace ft
                 {
                         if (x != *this)
                         {
+                             size_t size = x.size();        
                              this->_alloc.clear();
-                             x.
-                             this->_aloc()
+                             this->_alloc = x.alloc;
+                             this->_start = this->_alloc.allocate(size);
+                             this->_end = this->_start;
+                             for (size_t i = 0; i < size; i++)
+                             {
+                                this->_alloc.construct(this->_end, x[i]);
+                             }   
                         }
                 };
                 
