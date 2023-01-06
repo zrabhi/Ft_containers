@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 15:22:32 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/04 19:59:10 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/05 19:45:44 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,14 @@ int main()
     std::cout << "adding new elements in the back " << std::endl;
     myvec.push_back(15);
     myvec.push_back(8);
-    myvec.push_back(15);
+    // myvec.push_back(15);
     std::cout << "printing the addded element " << *(myvec.end() - 1) << std::endl;
+    
     myvec.erase(myvec.end() - 2);
-    std::cout << "Erasee  printing the addded element " << *(myvec.end() - 1) << std::endl;
+    for(size_t i = 0; i <= myvec.size() ; i++){
+        std::cout << "elements " << myvec[i] << std::endl;  
+    }
+    // std::cout << "Erasee  printing the addded element " << *(myvec.end() - 1) << std::endl;
     std::cout << "Printing the size " << myvec.size() << std::endl;
     std::cout << "Printing the Cpacity " << myvec.capacity() << std::endl;
 

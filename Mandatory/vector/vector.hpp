@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/04 20:03:24 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/06 22:45:00 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,35 +45,35 @@ namespace ft
                 allocator_type  _alloc;       
                 pointer         _start;
                 pointer         _end;
-                pointer         _end_c;
+                size_type       _capacity;
         public:
                 explicit Vector(const allocator_type& alloc = allocator_type()) : 
                         _alloc(alloc),
                                 _start(nullptr),
                                         _end(nullptr),
-                                                _end_c(nullptr)
+                                                _capacity(0)
                                         {}
                 //--Fill constructor-------
                 explicit Vector(size_type n, const value_type& val = value_type(),
                          const allocator_type& alloc = allocator_type())
                 {
-                        this->_alloc = alloc;        
+                        this->_alloc = alloc;
                         this->_start = this->_alloc.allocate(n);
                         this->_end = this->_start;
-                        this->_end_c = this->_start + n;
+                        this->_capacity = n;
                         while (n--)
                         {
                                 this->_alloc.construct(this->_end, val);
                                 /// @brief printing the adress of each elements
                                 /// @param n size of vector
                                 /// @param val value of each elemts
-                                /// @param alloc allocator 
-                                std::cout << "Value is : "<< this->_end << std::endl; 
+                                /// @param alloc allocator
+                                // std::cout << "Value is : "<< this->_end << std::endl; 
                                 this->_end++;
                         }
                         // std::cout << "Value of start is : "<< *this->_start << std::endl; 
                 }
-                //------range constructor----
+                // ------range constructor----
                 // template <class InputIterator>
                 //         Vector(InputIterator first, InputIterator last,
                 //              const allocator_type& alloc = allocator_type())
@@ -92,8 +92,8 @@ namespace ft
                         size_type size = x.size();        
                         this->_alloc = x._alloc;
                         this->_start = this->_alloc.allocate(size);
-                        this->_end_c = this->_start + size;
                         this->_end = this->_start;
+                        this->_capacity = x._capacity;
                         for (size_t i = 0; i < size; i++)
                         {
                                this->_alloc.construct(this->_end++, x[i]);
@@ -150,7 +150,7 @@ namespace ft
 
                 size_type max_size() const
                 {
-                        return (this->_end_c - this->_start);       
+                        return (this->_alloc.max_size());       
                 }
                 
                 reference at(size_type n)
@@ -212,18 +212,17 @@ namespace ft
                 } 
                 ///////////////////////////////////
 
-                size_type capacity() const
-                {
-                        if (this->size() >= this->_end_c - this->_start)
-                                return (this->size() * 2);
-                        return (this->size());
+                size_type capacity()
+                {         
+                        return (_capacity);
                 }
                 //Removes all elements form the vector and leavin the container with a size of 0
                 void clear()
                 {
                         this->_end--;
                         while (this->_end != this->_start)
-                                this->_alloc.destroy(this->_end--);
+                                this->_alloc.destroy(--this->_end);
+                        this->_alloc.destroy(this->_end);
                 }
                 //pop_back
                 
@@ -241,20 +240,65 @@ namespace ft
                 
                 void push_back(const value_type &val)
                 {
-                        pointer tmp = this->_start; 
-                        size_type size = this->size() + 1;
-                        this->clear();
-                        this->_start = this->_alloc.allocate(size);             
-                        this->_end   = this->_start;
-                        this->_end_c = this->_start + size;                    
-                        size = size - 1;
-                        while (size--)
+                        if (size() == _capacity)
                         {
-                             this->_alloc.construct(this->_end++, *tmp);
-                             tmp++;   
+                                _capacity *= 2;
+                                std::cout << "im hereeee" << std::endl;
+                                if (_capacity == 0)
+                                        _capacity = 1;
+                                pointer tmp = _start; 
+                                size_type size = this->size();
+                                // clear();
+                                _start = _alloc.allocate(_capacity);             
+                                _end = _start;
+                                for(size_t i = 0; i < size; i++)
+                                {
+                                        _alloc.construct(_end++, tmp[i]);
+                                }
+                                for (size_t i = 0; i < size; i++)
+                                {
+                                        _alloc.destroy(tmp + i);
+                                }
+                                _alloc.deallocate(tmp, size);
+                        _alloc.construct(_end++, val);
                         }
-                        this->_alloc.construct(this->_end++, val);
+                        else
+                                _alloc.construct(_end++, val);
                 }
+                
+                // void    resize(size_type n, value_type = value_type())
+                // {
+                //         if (n < this->size())
+                //                 this->_alloc.destroy(this->_start + n);
+                //         if (n > this->size())
+                //         {
+                //                 // this->_start = 
+                //                 for (size_t i = this->size(); i < n; ++i)
+                //                 {
+                //                         this->_alloc.allocate()
+                //                 }
+                //         }
+                // } 
+
+                void    reserve(size_type n)
+                {
+                        if (n > max_size())
+                                throw std::length_error("Greater than max_size");
+                        if (n > _capacity)
+                        {
+                                /// reallocate the storage;
+                                pointer ptr = this->_start;
+                                size_type size = this->size();
+                                this->clear();
+                                this->_start = this->_alloc.allocate(n);                    
+                                this->_end = this->_end;
+                                this->_end_c = this->_start + n;
+                                for (size_t i = 0; i < size; i++)
+                                {
+                                        this->_alloc.construct(this->_end[i], ptr[i]);
+                                }
+                        } 
+                }         
                 
                 // Removes from the vector either a single element (position) or a range of elements([first, last]) 
                 iterator erase(iterator position)
@@ -263,21 +307,32 @@ namespace ft
                                 this->pop_back();
                         else
                         {
-                                Vector   tmp(*this);
-                                size_type size = this->size();
+                                size_type pos = &(*position) - this->_start;
+                                // this->_alloc.destroy(this->_start + pos);
+                                pointer ptr = this->_start;
+                                Vector tmp(*this);
                                 size_t i(-1); 
-                                iterator nav = this->begin();
-                                while (++i < size && this->_start != this->_end - 1)
+                                std::cout << "POSITION " << pos << std::endl;
+                                while (++i < pos )
                                 {
-                                        if (nav == position)
-                                              tmp._start++, nav++, this->_alloc.destroy(this->_start);
-                                  this->_start = tmp._start;
-                                  this->_start++, tmp._start++, nav++;                       
-                                }                                 
-                        }
+                                        this->_start = ptr;;
+                                        this->_start++, ptr++;
+                                }
+                                while (pos < this->size())
+                                {
+                                        this->_start = ptr;
+                                        this->_start++, ptr++;
+                                }
+                        }                        
                   return (position);
                 };
 
+                void swap(Vector &x)
+                {
+                    Vector tmp(x);
+                    x = *this;
+                    *this = x;  
+                } 
                 iterator erase(iterator first, iterator last)
                 {
                 //    if (first != last)
@@ -289,11 +344,8 @@ namespace ft
 
                 //   return (position);                                                                                              
                 };
-                void swap(Vector &x)
-                {
-                    Vector tmp(x);
-                        
-                } 
         };
 }
+
+
 #endif
