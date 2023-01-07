@@ -1,9 +1,10 @@
 #include <iostream>
 #include <vector>
+#include <string>
 #include "vector/vector.hpp"
 ///---
  //----   test file
- int main()
+ int _main()
   {
     ///////////ERASE FUNCTION TEST
 
@@ -76,20 +77,92 @@
                         //   std::cout << "capacity :" << myvvt.capacity() << std::endl;
       
   ///////// SWAP FUCNTION TEST
-    ft::Vector<int> foo (3,100);   // three ints with a value of 100
-    ft::Vector<int> bar (5,200);   // five ints with a value of 200
+    // ft::Vector<int> foo (3,100);   // three ints with a value of 100
+    // ft::Vector<int> bar (5,200);   // five ints with a value of 200
 
-    foo.swap(bar);
+    // foo.swap(bar);
 
-    std::cout << "foo contains:";
-    for (unsigned i=0; i<foo.size(); i++)
-      std::cout << ' ' << foo[i];
-    std::cout << '\n';
+    // std::cout << "foo contains:";
+    // for (unsigned i=0; i<foo.size(); i++)
+    //   std::cout << ' ' << foo[i];
+    // std::cout << '\n';
 
-    std::cout << "bar contains:";
-    for (unsigned i=0; i<bar.size(); i++)
-      std::cout << ' ' << bar[i];
-    std::cout << '\n';
+    // std::cout << "bar contains:";
+    // for (unsigned i=0; i<bar.size(); i++)
+    //   std::cout << ' ' << bar[i];
+    // std::cout << '\n';
 
-    return 0;
- }
+  ///////////RESERVE FUNCTION TESTTT
+      //   ft::Vector<int>::size_type sz;
+      //   ft::Vector<int> foo;
+      //   sz = foo.capacity();
+      //   std::cout << "Makinf foo grow:\n";
+
+      //   for (int i = 0; i < 100; ++i){
+      //     foo.push_back(i);
+      //     if (sz != foo.capacity())
+      //     {
+      //       sz = foo.capacity();
+      //       std::cout << " capacity changed: " << sz << '\n';
+      //     }
+      //   }
+      //   ft::Vector<int> bar;
+      //   sz = bar.capacity();
+      //   std::cout << "sz of bar is " << sz << std::endl;
+      //   bar.reserve(100);   // this is the only difference with foo above
+      //   std::cout << "Bar capacity : " << bar.capacity() << std::endl;
+      //   std::cout << "making bar grow:\n";
+      //   for (int i = 0; i < 100; ++i) {
+      //     bar.push_back(i);
+      //     if (sz!=bar.capacity()) {
+      //       sz = bar.capacity();
+      //       std::cout << "capacity changed: " << sz << '\n';
+      //     }
+      //   }
+      // return 0;
+    
+    //////RESIZE FUNCTION TEST
+    //   std::vector<int> myvector;
+
+    //   for (int i = 1; i < 10; i++) myvector.push_back(i);
+
+    // myvector.resize(5);
+    // myvector.resize(8, 100);
+    // std:: cout << "My vector size : " << myvector.capacity() << '\n';
+    // myvector.resize(18);
+    //  for (int i=0;i<myvector.size();i++)
+    // std::cout << ' ' << myvector[i];
+    // std::cout << '\n';
+    // return 0;
+
+    ///////ASSIGN FUCNTION TEST
+  ft::Vector<int> first;
+  ft::Vector<int> second;
+  ft::Vector<int> third;
+
+  first.assign(3,55);           // 7 ints with a value of 100
+  first.assign (7,100);
+  first.assign(16, 16);
+  first.push_back(1);
+
+  // std::vector<int>::iterator it;
+  ft::RandomAccessIter<int> it;
+  it=first.begin()+1;
+
+  // second.assign (it,first.end()-1); // the 5 central values of first
+
+  int myints[] = {1776,7,4};
+  // third.assign (myints,myints+3);   // assigning from array.
+for (int i = 0; i < first.size(); i++)
+        std::cout << first[i] << std::endl;
+  std::cout << "Size of first: " << int (first.size()) << first.capacity() << '\n';
+  std::cout << "Size of second: " << int (second.size()) << '\n';
+  std::cout << "Size of third: " << int (third.size()) << '\n';
+  return 0;
+}
+
+int main()
+{
+  _main();
+  // system("leaks a.out");
+}
