@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/08 00:14:37 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/09 01:18:44 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ namespace ft
                 pointer         _start;
                 pointer         _end;
                 size_type       _capacity;
+                
                 void    _extra_capacity(size_type n, pointer tmp, size_type size)
                 {       
                         _start = _alloc.allocate(n);
@@ -80,6 +81,42 @@ namespace ft
 					resize(n, val);
 				}
 				
+                void    _insert_end(size_type n, const value_type& val, pointer tmp, size_type _size)
+                {
+                    _extra_capacity(n + _size, tmp, _size);
+                    _capacity = n + _size;
+                    for(size_t i = 0; i < n; i++)   _alloc.construct(_end++, val);
+                }
+                
+                void    __extra_capacity(size_type n)
+                {
+                    _start = _alloc.allocate(n);
+                    _end = _start; 
+                    _capacity = n;
+                }
+                
+                void    _insert_begin(size_type n, const value_type& val, pointer tmp, size_type _size)
+                {
+                    for(size_t i = 0; i < n; i++)
+                    {
+                        _alloc.construct(_end++, val);
+                    }
+                    for(size_t i = 0; i < _size; i++)
+                    {
+                        _alloc.construct(_end++, tmp[i]);
+                    }
+                    _destroy_ptr(tmp, _size);
+                }
+       
+                void    _destroy_ptr(pointer ptr, size_type _size)
+                {
+                    for (size_t i = 0; i < _size; i++)
+                        {
+                            _alloc.destroy(ptr + i);   
+                        }
+                    _alloc.deallocate(ptr, _size);
+                }
+
         public:
                 explicit Vector(const allocator_type& alloc = allocator_type()) : 
                         _alloc(alloc),
@@ -248,25 +285,55 @@ namespace ft
                 //Removes all elements form the vector and leavin the container with a size of 0
                 void clear()
                 {
-                    // _end--;
                     for(;_end != _start; --_end)
                             _alloc.destroy(_end);
-                    // _alloc.destroy(--_end);
                 }
 			
 				iterator insert (iterator position, const value_type &val)
 				{
-				
-				}
-				
-			template <class InputIterator>
-				void assign(InputIterator first, InputIterator last)
-				{
-						
-				};
+                    if (position == end() - 1)
+                        return (_alloc.construct(_start, val), position);    
+                    size_type _size = size();
+                    iterator _ptr = begin(); 
+                    for (size_t i = 0 ; i < _size; i++, _ptr++)
+                    {
+                        if (_ptr == position)
+                            _alloc.destroy(_start + i), _alloc.construct(_start + i, val);
+                    }
+                    return (position);
+                }
+
+                iterator insert (iterator position, size_type n, const value_type& val)
+                {
+                    size_type _size = size();
+                    pointer tmp = _start;
+                    if (position == end())
+                    {
+                        /// @todo needs optimizations
+                        if (_size + n > _capacity)
+                            _insert_end(n, val, tmp, _size); 
+                        return (end() - 1);
+                    }
+                    else if (position == begin())
+                    {
+                        if (_size + n > _capacity)
+                            __extra_capacity(n + _size);
+                        _insert_begin(n, val, tmp, _size);
+                        return (begin());    
+                    }
+                return (position);        
+            }
+			/// @todo: still need to implement enbale if and is_integral in this fucntion
+			// template <class InputIterator>
+			// 	void assign(InputIterator first, InputIterator last)
+			// 	{
+            //         // size_type _size = last - first;
+            //         // std::cout << "_size value is :" << _size << std::endl;
+            //     };
 							
-				void	assign (size_type n, const value_type &val)
+				void	assign (size_type n, const value_type& val)
 				{
+                    std::cout << "in normale assign " << std::endl;
 					_fill_val(val, n);
 				}
 				

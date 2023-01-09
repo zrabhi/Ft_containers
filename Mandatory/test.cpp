@@ -136,33 +136,47 @@
     // return 0;
 
     ///////ASSIGN FUCNTION TEST
-  ft::Vector<int> first;
-  ft::Vector<int> second;
-  ft::Vector<int> third;
+//   ft::Vector<int> first;
+//   ft::Vector<int> second;
+//   ft::Vector<int> third;
 
-  first.assign(3,55);           // 7 ints with a value of 100
-  first.assign (7,100);
-  first.assign(16, 16);
-  first.push_back(1);
+//   first.assign(3,55);           // 7 ints with a value of 100
+//   first.assign (7,100);
+//   first.assign(16, 16);
+//   first.push_back(1);
 
-  // std::vector<int>::iterator it;
-  ft::RandomAccessIter<int> it;
-  it=first.begin()+1;
+//   // std::vector<int>::iterator it;
+//   ft::RandomAccessIter<int> it;
+//   it = first.begin()+1;
 
-  // second.assign (it,first.end()-1); // the 5 central values of first
+//   // second.assign (it,first.end()-1); // the 5 central values of first
 
-  int myints[] = {1776,7,4};
-  // third.assign (myints,myints+3);   // assigning from array.
-for (int i = 0; i < first.size(); i++)
-        std::cout << first[i] << std::endl;
-  std::cout << "Size of first: " << int (first.size()) << first.capacity() << '\n';
-  std::cout << "Size of second: " << int (second.size()) << '\n';
-  std::cout << "Size of third: " << int (third.size()) << '\n';
-  return 0;
+//   int myints[] = {1776,7,4};
+//   // third.assign (myints,myints+3);   // assigning from array.
+// for (int i = 0; i < first.size(); i++)
+//         std::cout << first[i] << std::endl;
+//   std::cout << "Size of first: " << int (first.size()) << "  capacity  :" << first.capacity() << '\n';
+//   std::cout << "Size of second: " << int (second.size()) << '\n';
+//   std::cout << "Size of third: " << int (third.size()) << '\n';
+//   return 0;
+
+  ///---------Insert fucntion test
+  std::cout << "#########STD TEST##############" << '\n';
+  ft::Vector<int> myvec(5, 100);
+  for(size_t i = 0 ; i < myvec.size(); i++) std::cout << "value of vec is :" << myvec[i] << std::endl;
+  // std::cout << "vector size is " << myvec.size() << std::endl;
+  // std::vector<int>::iterator it = myvec.insert(myvec.begin(), 7, 3);
+  ft::RandomAccessIter<int> it = myvec.insert(myvec.end(), 7, 3);
+  std::cout << " value of iterator is : " << *it << std::endl;
+  std::cout << "vector CAPACITY is " << myvec.capacity() << std::endl;
+  std::cout << "########AFTER INSERT" << '\n';
+  std::cout << "vector size is " << myvec.size()<< std::endl;
+  for(size_t i = 0 ; i < myvec.size(); i++) std::cout << "value of vec is :" << myvec[i] << std::endl;
+  return (0);
 }
 
 int main()
 {
   _main();
-  // system("leaks a.out");
+  system("leaks a.out");
 }
