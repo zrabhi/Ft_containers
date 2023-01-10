@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/10 01:08:31 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/10 18:48:24 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ namespace ft
                 ~Vector()
                 {};
 
-                vector& operator= (const Vector& x)
+                Vector& operator= (const Vector& x)
                 {
                     if (*this != x)
                     {
@@ -450,37 +450,37 @@ namespace ft
     template <class T, class Alloc>
         bool operator== (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
         {
-                
+                return (lhs == rhs);
         }
 
     template <class T, class Alloc>
         bool operator!= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
         {
-            
+            return (lhs != rhs);
         }
 
     template <class T, class Alloc>
         bool operator<  (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
         {
-            
+            return (lhs < rhs);
         }
 
     template <class T, class Alloc>
         bool operator<= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
         {
-            
+            return ( lhs <= rhs);
         }
 
     template <class T, class Alloc>
         bool operator>  (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
         {
-            
+            return (lhs > rhs);
         }
 
     template <class T, class Alloc>
         bool operator>= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
         {
-                
+            return (lhs >= rhs);
         }
 
 }

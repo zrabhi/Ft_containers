@@ -4,8 +4,24 @@
 #include "vector/vector.hpp"
 ///---
  //----   test file
- int _main()
-  {
+
+
+template <typename T>
+
+typename std::enable_if<std::is_arithmetic<T>::value, T>::type
+foo(T t)
+{
+  std::cout << "Arithmetic type " << std::endl;
+  return t;
+}
+
+void foo(int i)
+{
+  std::cout << "ITS no arithemitic type " << std::endl;
+}
+
+int _main()
+{
     ///////////ERASE FUNCTION TEST
 
                       //     ft::Vector<int> myvector;
@@ -162,19 +178,27 @@
 
   ///---------Insert fucntion test
   
-  std::cout << "#########STD TEST##############" << '\n';
-  ft::Vector<int> myvec(5, 100);
-  for(size_t i = 0 ; i < myvec.size(); i++) std::cout << "value of vec is :" << myvec[i] << std::endl;
-  // std::cout << "vector size is " << myvec.size() << std::endl;
-  // std::vector<int>::iterator it = myvec.insert(myvec.end() - 1, 7, 3);
-  ft::RandomAccessIter<int> it = myvec.insert(myvec.end() - 1, 7, 3);
-  std::cout << " value of iterator is : " << *it << std::endl;
-  std::cout << "vector CAPACITY is " << myvec.capacity() << std::endl;
-  std::cout << "########AFTER INSERT" << '\n';
-  std::cout << "vector size is " << myvec.size()<< std::endl;
-  for (size_t i = 0 ; i < myvec.size(); i++) std::cout << "value of vec is :" << myvec[i] << std::endl;
-  return (0);
-  
+  // std::cout << "#########STD TEST##############" << '\n';
+  // ft::Vector<int> myvec(5, 100);
+  // for(size_t i = 0 ; i < myvec.size(); i++) std::cout << "value of vec is :" << myvec[i] << std::endl;
+  // // std::cout << "vector size is " << myvec.size() << std::endl;
+  // // std::vector<int>::iterator it = myvec.insert(myvec.end() - 1, 7, 3);
+  // ft::RandomAccessIter<int> it = myvec.insert(myvec.end() - 1, 7, 3);
+  // std::cout << " value of iterator is : " << *it << std::endl;
+  // std::cout << "vector CAPACITY is " << myvec.capacity() << std::endl;
+  // std::cout << "########AFTER INSERT" << '\n';
+  // std::cout << "vector size is " << myvec.size()<< std::endl;
+  // for (size_t i = 0 ; i < myvec.size(); i++) std::cout << "value of vec is :" << myvec[i] << std::endl;
+  // return (0);
+
+
+  ///////// SFINAE TESTS
+  int i;
+
+  ft::Vector<int> tt;
+  i = 5;
+  foo(5);
+  return 0;
 }
 
 int main()

@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 16:09:51 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/10 00:35:51 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/10 16:54:29 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,6 @@ namespace ft
             {
                 return (this->_ptr =obj._ptr, *this);
             }
-            RandomAccessIter& operator=(iterator obj)
-            {
-                return (this->_ptr =obj, *this);
-            }
-            
             reference operator*() const
             {
                 return (*_ptr);
