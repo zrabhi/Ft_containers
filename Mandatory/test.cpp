@@ -161,18 +161,20 @@
 //   return 0;
 
   ///---------Insert fucntion test
+  
   std::cout << "#########STD TEST##############" << '\n';
   ft::Vector<int> myvec(5, 100);
   for(size_t i = 0 ; i < myvec.size(); i++) std::cout << "value of vec is :" << myvec[i] << std::endl;
   // std::cout << "vector size is " << myvec.size() << std::endl;
-  // std::vector<int>::iterator it = myvec.insert(myvec.begin(), 7, 3);
-  ft::RandomAccessIter<int> it = myvec.insert(myvec.end(), 7, 3);
+  // std::vector<int>::iterator it = myvec.insert(myvec.end() - 1, 7, 3);
+  ft::RandomAccessIter<int> it = myvec.insert(myvec.end() - 1, 7, 3);
   std::cout << " value of iterator is : " << *it << std::endl;
   std::cout << "vector CAPACITY is " << myvec.capacity() << std::endl;
   std::cout << "########AFTER INSERT" << '\n';
   std::cout << "vector size is " << myvec.size()<< std::endl;
-  for(size_t i = 0 ; i < myvec.size(); i++) std::cout << "value of vec is :" << myvec[i] << std::endl;
+  for (size_t i = 0 ; i < myvec.size(); i++) std::cout << "value of vec is :" << myvec[i] << std::endl;
   return (0);
+  
 }
 
 int main()
