@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/12 01:52:31 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/12 20:12:53 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ namespace ft
 			
             void    _double( void )
             {
-                _capacity *= 2;
                 if (_capacity == 0)
                     _capacity = 1;
+                _capacity *= 2;
             }
             
 			void    _destroy_range(size_type n, size_type _size)
@@ -100,12 +100,16 @@ namespace ft
             void    _middle_extra_capacity(size_type n, size_type pos, const value_type& val, size_type _size)
             {
                 pointer tmp = _start;
+                pointer _ptr = _start;
                 reserve(n + _size);
+                if (n + _size > _capacity)
+                    _double(); _extra_capacity(_capacity, _ptr, size());
                 size_type _end_pos = size() - pos; 
                 _end = _end - _end_pos;
                 size_t i = 0;
                 for (; i < n; i++)
                 {
+                    std::cout << "dsads   " << i <<  '\n';
                     _alloc.destroy(_end);
                     _alloc.construct(_end++, val);
                 }
@@ -175,7 +179,6 @@ namespace ft
                 for(iterator ptr = first; ptr != last; ptr++)
                     push_back(*ptr);
             }                    
-            // }
             
             Vector(const Vector &x)
             {
@@ -329,34 +332,50 @@ namespace ft
                 for(;_end != _start; --_end)
                         _alloc.destroy(_end);
             }
-		
-			iterator insert (iterator position, const value_type &val)
-			{
-                if (position == end() - 1)
-                    return (_alloc.construct(_start, val), position);    
-                size_type _size = size();
-                iterator _ptr = begin(); 
-                for (size_t i = 0 ; i < _size; i++, _ptr++)
-                {
-                    if (_ptr == position)
-                        _alloc.destroy(_start + i), _alloc.construct(_start + i, val);
-                }
-                return (position);
-            }
-            iterator insert (iterator position, size_type n, const value_type& val)
+
+            template <class InputIt>    
+            void insert (iterator position, typename ft::enable_if<!(ft::is_integral<InputIt>::value), InputIt>::type first, 
+                        InputIt last)
             {
                 size_type pos = &(*position) - _start;
-                _middle_extra_capacity(n, &(*position) - _start, val, size());
+                iterator _ptr = first;
+                for(; _ptr != last; _ptr++)
+                {
+                    // std::cout << "im here :" << *_ptr << "last == " << *last<< std::endl;
+                    _middle_extra_capacity(1, pos++, *_ptr, size());
+                }
+            _middle_extra_capacity(1, pos++, *last, size());           
+                // return (_start + pos);
+            }
+
+            
+
+			iterator insert (iterator position, const value_type &val)
+			{
+                // if (position == end())
+                //     return (_alloc.construct(_start, val), position);    /// @....
+                size_type pos = &(*position) - _start;
+                _middle_extra_capacity(1, &(*position) - _start, val, size());
+                return (_start + pos);
+                // return (_start + pos);
+            }
+            
+            iterator insert (iterator position, size_type n, const value_type& val)
+            {
+                if (n < 0)
+                    throw std::length_error("ft::vector: negative_lenght");
+                size_type pos = &(*position) - _start;
+                _middle_extra_capacity(n - 1, &(*position) - _start, val, size());
                 return (_start + pos);
             }
 
             ///@todo: still need to implement enbale if and is_integral in this fucntion
-			// template <class InputIterator>
-			// 	void assign(InputIterator first, InputIterator last)
-			// 	{
-            //         // size_type _size = last - first;
-            //         // std::cout << "_size value is :" << _size << std::endl;
-            //   };
+			template <class InputIt>
+				void assign(typename ft::enable_if<!(ft::is_integral<InputIt>::value), InputIt>::type first, InputIt last)
+				{
+                    // size_type _size = last - first;
+                    // std::cout << "_size value is :" << _size << std::endl;
+              };
 							
 			void	assign (size_type n, const value_type& val)
 			{
@@ -384,14 +403,7 @@ namespace ft
             
             void push_back(const value_type &val)
             {
-                if (_size > _capacity)
-                {
-                    std::cout << "hello there " << std::endl;
-                    _double();
-                    pointer tmp = _start; 
-                    _extra_capacity(_capacity, tmp, size());
-                }
-                _alloc.construct(_end++, val);
+               insert(end() - 1, val);
             }
             void    reserve(size_type n)
             {
@@ -456,7 +468,7 @@ namespace ft
     template <class T, class Alloc>
         bool operator!= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
         {
-            return (lhs != rhs);
+            return !(lhs == rhs);
         }
 
     template <class T, class Alloc>

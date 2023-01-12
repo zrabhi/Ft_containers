@@ -22,8 +22,8 @@ void foo(int i)
   std::cout << "ITS no arithemitic type " << std::endl;
 }
 
-int _main()
-{
+// int _main()
+// {
     ///////////ERASE FUNCTION TEST
 
                       //     ft::Vector<int> myvector;
@@ -205,27 +205,153 @@ int _main()
   // // i = 5;
   // // foo(5);
   // return 0;
-  ft::Vector<int> first;                                // empty vector of ints
-  ft::Vector<int> second (5,100);                       // four ints with value 100
-  ft::Vector<int> third (second.begin(),second.end());  // iterating through second
-  for(size_t i = 0; i < third.size(); i++)
-  {
-    std::cout << "third value is :" << third[i] << std::endl; 
-  }
+  // ft::Vector<int> first;                                // empty vector of ints
+  // ft::Vector<int> second (5,100);                       // four ints with value 100
+  // ft::Vector<int> third (second.begin(),second.end());  // iterating through second
+  // for(size_t i = 0; i < third.size(); i++)
+  // {
+  //   std::cout << "third value is :" << third[i] << std::endl; 
+  // }
   
-  ft::Vector<int> fourth(third);                       // a copy of third
+  // ft::Vector<int> fourth(third);                       // a copy of third
 
-  // the iterator constructor can also be used to construct from arrays:
-  int myints[] = {16,2,77,29};
-  std::vector<int> fifth (myints, myints + sizeof(myints) / sizeof(int) );
+  // // the iterator constructor can also be used to construct from arrays:
+  // int myints[] = {16,2,77,29};
+  // std::vector<int> fifth (myints, myints + sizeof(myints) / sizeof(int) );
 
-  std::cout << "The contents of fifth are:";
-  for (std::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
-    std::cout << ' ' << *it;
-  std::cout << '\n';
+  // std::cout << "The contents of fifth are:";
+  // for (std::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
+  //   std::cout << ' ' << *it;
+  // std::cout << '\n';
 
-  return 0;
+  // return 0;
 
+//   ft::Vector<int> myvector (3,100);
+//   ft::RandomAccessIter<int> it;
+
+//   it = myvector.begin();
+//   it = myvector.insert ( it , 200 );
+
+//   // myvector.insert (it,2,300);
+
+//   // "it" no longer valid, get a new one:
+//   // it = myvector.begin();
+
+//   // std::vector<int> anothervector (2,400);
+//   // myvector.insert (it+2,anothervector.begin(),anothervector.end());
+
+//   // int myarray [] = { 501,502,503 };
+//   // myvector.insert (myvector.begin(), myarray, myarray+3);
+
+//   // std::cout << "myvector contains:";
+//   for (it=myvector.begin(); it<myvector.end(); it++)
+//     std::cout << ' ' << *it;
+//   std::cout << '\n';
+
+//   return 0;
+
+// }
+
+using namespace std;
+  #include <bits/stdc++.h>
+int _main()
+{
+  
+    // Initialising the vector
+//     ft::Vector<int> vector_name;
+  
+//     for(size_t i = 1 ; i < 6; i++) vector_name.push_back(i);
+//     // Printing out the original vector
+//     std::cout << "the size is :" << vector_name.size() << std::endl;
+//     std::cout << "the Capacity is :" << vector_name.capacity() << std::endl;
+//     cout << "Original vector :\n";
+// for(size_t i = 0; i < vector_name.size(); i++) cout << vector_name[i] << " ";
+//     cout << "\n";
+  
+//     // Inserting the value 100 at position 3(0-based
+//     // indexing) in the vector
+//     std::cout << "the size is :" << vector_name.size() << std::endl;
+//     std::cout << "the Capacity is :" << vector_name.capacity() << std::endl;
+//     vector_name.insert(vector_name.begin() + 3, 100);
+//         std::cout << "the size is :" << vector_name.size() << std::endl;
+//     std::cout << "the Capacity is :" << vector_name.capacity() << std::endl;
+    
+//     // Printing the modified vector
+//     cout << "Vector after inserting 100 at position 3 :\n";
+//     for(size_t i = 0; i < vector_name.size(); i++) cout << vector_name[i] << " ";
+//     cout << "\n";
+//     // Inserting the value 500 at position 1(0-based
+//     // indexing) in the vector
+//     vector_name.insert(vector_name.begin() + 1, 500);
+  
+//     std::cout << "the size is :" << vector_name.size() << std::endl;
+//     std::cout << "the Capacity is :" << vector_name.capacity() << std::endl;
+//     // Printing the modified vector
+//     cout << "Vector after inserting 500 at position 1 :\n";
+//    for(size_t i = 0; i < vector_name.size(); i++) cout << vector_name[i] << " ";
+//     return 0;
+// ft::Vector<int>vect;
+    
+   
+//    vect.push_back(1);
+//    vect.push_back(2);
+//    vect.push_back(3);
+//    vect.push_back(5);
+//    std::cout <<"Capcityyyyy :" << vect.capacity() << std::endl;
+//     // adding new value in the vector 
+//     vect.insert(vect.begin()+3,4);
+    
+//     //printing values of the vector 
+//     for(int i=0;i<vect.size();i++)
+//     {
+//         cout<<vect[i]<<" ";
+//     }
+
+//  ft::Vector<int> vect;
+   
+//     vect.push_back(1);
+//     vect.push_back(2);
+//     vect.push_back(3);
+//     vect.push_back(5);
+    
+//     // adding new value in the vector 
+//     vect.insert(vect.begin()+2,5,3);
+    
+//     //printing values of the vector 
+//     for(int i=0;i<vect.size();i++)
+//     {
+//         cout<<vect[i]<<" ";
+//     }
+    
+    ft::Vector<int>vect1;
+    vect1.push_back(1);
+    vect1.push_back(2);
+    vect1.push_back(3);
+    vect1.push_back(7);
+    vect1.push_back(8);
+    vect1.push_back(9);
+    ft::Vector<int>vect2;
+    vect2.push_back(4);
+    vect2.push_back(5);
+    vect2.push_back(6);
+    
+    // adding new value in the vector 
+    // vect1.begin() + 3 represents the 4th index of vector1
+    // vect2.begin() and vect2.end() represents the starting and ending position of vector2
+    vect1.insert(vect1.begin()+3,vect2.begin(),vect2.end() - 1);
+    
+    //printing values of the vector 
+    for(int i=0;i<vect1.size();i++)
+    {
+        cout<<vect1[i]<<" ";
+    }
+    
+    return 0;
+    // std::vector<int> myvec(5,100);
+    // myvec.reserve(7);
+    // myvec.reserve(12);
+
+    // std::cout << myvec.capacity() << "fafafa"<< std::endl;
 }
 
 int main()
