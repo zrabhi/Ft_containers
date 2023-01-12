@@ -2,6 +2,8 @@
 #include <vector>
 #include <string>
 #include "vector/vector.hpp"
+#include <sstream>
+#include "utils/ft_is_integral.hpp"
 ///---
  //----   test file
 
@@ -193,16 +195,41 @@ int _main()
 
 
   ///////// SFINAE TESTS
-  int i;
+  // int i;
 
-  ft::Vector<int> tt;
-  i = 5;
-  foo(5);
+  // i = 0;
+  // std::cout << std::boolalpha;
+  // std::cout << (bool)ft::is_integral<int >::value << std::endl;
+  // // SHOW(ft::is_integral<int>::value);
+  // // ft::Vector<int> tt;
+  // // i = 5;
+  // // foo(5);
+  // return 0;
+  ft::Vector<int> first;                                // empty vector of ints
+  ft::Vector<int> second (5,100);                       // four ints with value 100
+  ft::Vector<int> third (second.begin(),second.end());  // iterating through second
+  for(size_t i = 0; i < third.size(); i++)
+  {
+    std::cout << "third value is :" << third[i] << std::endl; 
+  }
+  
+  ft::Vector<int> fourth(third);                       // a copy of third
+
+  // the iterator constructor can also be used to construct from arrays:
+  int myints[] = {16,2,77,29};
+  std::vector<int> fifth (myints, myints + sizeof(myints) / sizeof(int) );
+
+  std::cout << "The contents of fifth are:";
+  for (std::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
+    std::cout << ' ' << *it;
+  std::cout << '\n';
+
   return 0;
+
 }
 
 int main()
 {
   _main();
-  system("leaks a.out");
+  // system("leaks a.out");
 }
