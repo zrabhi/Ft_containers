@@ -326,10 +326,10 @@ int _main()
     ft::Vector<int>vect1;
     vect1.push_back(1);
     vect1.push_back(2);
-    vect1.push_back(3);
-    vect1.push_back(7);
-    vect1.push_back(8);
-    vect1.push_back(9);
+    // vect1.push_back(3);
+    // vect1.push_back(7);
+    // vect1.push_back(8);
+    // vect1.push_back(9);
     ft::Vector<int>vect2;
     vect2.push_back(4);
     vect2.push_back(5);
@@ -338,7 +338,7 @@ int _main()
     // adding new value in the vector 
     // vect1.begin() + 3 represents the 4th index of vector1
     // vect2.begin() and vect2.end() represents the starting and ending position of vector2
-    vect1.insert(vect1.begin()+3,vect2.begin(),vect2.end() - 1);
+    // vect1.insert(vect1.begin()+3,vect2.begin(),vect2.end() - 1);
     
     //printing values of the vector 
     for(int i=0;i<vect1.size();i++)

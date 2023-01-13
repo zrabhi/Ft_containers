@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/12 20:12:53 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/13 11:13:09 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ namespace ft
                 pointer tmp = _start;
                 pointer _ptr = _start;
                 reserve(n + _size);
-                if (n + _size > _capacity)
-                    _double(); _extra_capacity(_capacity, _ptr, size());
+                // if (n + _size > _capacity)
+                //     _double(); _extra_capacity(_capacity, _ptr, size());
                 size_type _end_pos = size() - pos; 
                 _end = _end - _end_pos;
                 size_t i = 0;
@@ -352,8 +352,12 @@ namespace ft
 
 			iterator insert (iterator position, const value_type &val)
 			{
-                // if (position == end())
-                //     return (_alloc.construct(_start, val), position);    /// @....
+                if (position == end() - 1)
+                {
+                    if (_capacity == 0)
+                        return (_double(), __extra_capacity(2), _alloc.construct(_end++, val), position);    /// @....
+                }
+                std::cout << "im heree" << std::endl;
                 size_type pos = &(*position) - _start;
                 _middle_extra_capacity(1, &(*position) - _start, val, size());
                 return (_start + pos);
@@ -403,7 +407,14 @@ namespace ft
             
             void push_back(const value_type &val)
             {
-               insert(end() - 1, val);
+                   if (size() == _capacity)
+                    {
+                        _double();
+                        pointer tmp = _start; 
+                        _extra_capacity(_capacity, tmp, size());
+                    }
+                    _alloc.construct(_end++, val);
+            //    insert(end() - 1, val);
             }
             void    reserve(size_type n)
             {
