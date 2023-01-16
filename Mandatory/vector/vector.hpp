@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/16 16:35:58 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/16 20:06:55 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 namespace ft
 {   
     template <class T, class Allocator = std::allocator<T> >
-    class Vector {
+    class vector {
             
 			public:
                 typedef                 T                                          value_type;
@@ -114,6 +114,7 @@ namespace ft
                     }
                 }
             } 
+          
             void    _insert_begin(size_type n, const value_type& val, pointer tmp, size_type _size)
             {
                 for(size_t i = 0; i < n; i++)
@@ -158,14 +159,14 @@ namespace ft
             }
 
         public:
-            explicit Vector(const allocator_type& alloc = allocator_type()) : 
+            explicit vector(const allocator_type& alloc = allocator_type()) : 
                     _alloc(alloc),
                             _start(nullptr),
                                     _end(nullptr),
                                             _capacity(0),
                                                 _size(0)
                                     {}
-            explicit Vector(size_type n, const value_type& val = value_type(),
+            explicit vector(size_type n, const value_type& val = value_type(),
                      const allocator_type& alloc = allocator_type()) : _size(0)
             {
                 _alloc = alloc;
@@ -177,7 +178,7 @@ namespace ft
             }
 
             template <class InputIterator>
-            Vector(typename ft::enable_if<!(ft::is_integral<InputIterator>::value), InputIterator>::type first, 
+            vector(typename ft::enable_if<!(ft::is_integral<InputIterator>::value), InputIterator>::type first, 
                     InputIterator last,const allocator_type& alloc = allocator_type()) : _capacity(0), _size(0)
             {
                 iterator tmp = first;
@@ -188,7 +189,7 @@ namespace ft
                     push_back(*ptr);
             }                    
             
-            Vector(const Vector &x)
+            vector(const vector &x)
             {
                 size_type size = x.size();        
                 _alloc = x._alloc;
@@ -201,9 +202,9 @@ namespace ft
                 }   
             };
             
-            ~Vector()
+            ~vector()
             {};
-            Vector& operator= (const Vector& x)
+            vector& operator= (const vector& x)
             {
                 if (*this != x)
                 {
@@ -276,7 +277,7 @@ namespace ft
             reference at(size_type n)
             {
                 if (n >= size())
-                    throw std::out_of_range("Vector::at: index out \
+                    throw std::out_of_range("vector::at: index out \
                         of range");
                 return (_start[n]);
             }
@@ -284,7 +285,7 @@ namespace ft
             const_reference at(size_type n) const
             {
                 if (n >= size())
-                        throw std::out_of_range("Vector::at: index out \
+                        throw std::out_of_range("vector::at: index out \
                             of range");
                 return (_start[n]);    
             }
@@ -302,8 +303,8 @@ namespace ft
             bool empty()
             {
                 if (size())
-                    return (true);
-                return (false);
+                    return (false);
+                return (true);
             }    
 
             allocator_type get_allocator() const 
@@ -399,11 +400,13 @@ namespace ft
                     tmp = first;
                     while (tmp++ != last)
                         _range++;
-                    clear();
+                    // clear();
                     resize(_range);
+                    // tmp = begin();
                     // __extra_capacity(_range);
                     while (first != last)
                         push_back(*(first++));
+                            // assign(1, *(first++));
               };
 							
 			void	assign (size_type n, const value_type& val)
@@ -482,46 +485,46 @@ namespace ft
               return (first);                                                                                              
             };
             
-            void swap(Vector &x)
+            void swap(vector &x)
             {
-                Vector tmp(x);
+                vector tmp(x);
                 x = *this;
                 *this = tmp;
             };
         };
     
     template <class T, class Alloc>
-        bool operator== (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+        bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
         {
                 return (lhs == rhs);
         }
 
     template <class T, class Alloc>
-        bool operator!= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+        bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
         {
             return !(lhs == rhs);
         }
 
     template <class T, class Alloc>
-        bool operator<  (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+        bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
         {
             return (lhs < rhs);
         }
 
     template <class T, class Alloc>
-        bool operator<= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+        bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
         {
             return ( lhs <= rhs);
         }
 
     template <class T, class Alloc>
-        bool operator>  (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+        bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
         {
             return (lhs > rhs);
         }
 
     template <class T, class Alloc>
-        bool operator>= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+        bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
         {
             return (lhs >= rhs);
         }
