@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/13 11:13:09 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/16 16:35:58 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ namespace ft
                 typedef typename  ft::RandomAccessIterRev<value_type>              reverse_iterator;
                 typedef typename  ft::RandomAccessIterRev<const_value_type>        const_reverse_iterator;
                 
-                // Vector(){}; 
-                //--Default constructor------
         private:
             allocator_type  _alloc;       
             pointer         _start;
@@ -51,26 +49,24 @@ namespace ft
             size_type       _capacity;
             size_type       _size;
             
-            void    _extra_capacity(size_type n, pointer tmp, size_type size)
-            {       
+            void    _extra_capacity(size_type n, pointer tmp, size_type _size)
+            {     
                 _start = _alloc.allocate(n);
                 _end = _start;
-                for(size_t i = 0; i < size; i++)
+                _capacity = n;
+                for (size_t i = 0; i < _size; i++)
                 {
                     _alloc.construct(_end++, tmp[i]);
-                }
-                for (size_t i = 0; i < size; i++)
-                {
                 	_alloc.destroy(tmp + i);
                 }
-                _alloc.deallocate(tmp, size);             
+                _alloc.deallocate(tmp, _size);             
             }
 			
             void    _double( void )
             {
+                _capacity *= 2;
                 if (_capacity == 0)
                     _capacity = 1;
-                _capacity *= 2;
             }
             
 			void    _destroy_range(size_type n, size_type _size)
@@ -87,7 +83,7 @@ namespace ft
             void    _insert_end(size_type n, const value_type& val, pointer tmp, size_type _size)
             {
                 reserve(n + _size);
-                for(size_t i = 0; i < n; i++)   _alloc.construct(_end++, val);
+                for(size_t i = 0; i < n; i++) _alloc.construct(_end++, val);
             }
             
             void    __extra_capacity(size_type n)
@@ -100,27 +96,23 @@ namespace ft
             void    _middle_extra_capacity(size_type n, size_type pos, const value_type& val, size_type _size)
             {
                 pointer tmp = _start;
-                pointer _ptr = _start;
-                reserve(n + _size);
-                // if (n + _size > _capacity)
-                //     _double(); _extra_capacity(_capacity, _ptr, size());
+                if (n + _size >= _capacity)
+                       _double(); _extra_capacity(_capacity, tmp, size());
                 size_type _end_pos = size() - pos; 
                 _end = _end - _end_pos;
                 size_t i = 0;
                 for (; i < n; i++)
                 {
-                    std::cout << "dsads   " << i <<  '\n';
                     _alloc.destroy(_end);
                     _alloc.construct(_end++, val);
                 }
-                if (size() != _capacity)
+                if (size() < _size + n)
                 {
                     for (; pos < _size; pos++)
                     {
                         _alloc.construct(_end++,tmp[pos]);
                     }
                 }
-                //_destroy_ptr(tmp, _size);
             } 
             void    _insert_begin(size_type n, const value_type& val, pointer tmp, size_type _size)
             {
@@ -144,21 +136,37 @@ namespace ft
                 _alloc.deallocate(ptr, _size);
             }
 
+            void    _insert_after(pointer _ptr, size_t i, size_type _size) 
+            {
+                
+               while ( i++ < _size)
+               {
+                _alloc.destroy(_start + i), _alloc.construct(_start + i, _ptr[i]);
+               }
+               
+                // iterator _ptr_end  = end();
+                // // if (_ptr == end() - 1)
+                // //     _alloc.destroy(_start + i), _alloc.construct(_start + i, *(++_ptr));
+                    
+                // while(_ptr++ != _ptr_end && i++ < _size)
+                // {
+                //     _alloc.destroy(_start + i), _alloc.construct(_start + i, *_ptr);
+                // }
+                
+            
+            
+            }
 
         public:
             explicit Vector(const allocator_type& alloc = allocator_type()) : 
                     _alloc(alloc),
                             _start(nullptr),
                                     _end(nullptr),
-                                            _capacity(0)
+                                            _capacity(0),
+                                                _size(0)
                                     {}
-            //--Fill constructor-------
-            /// @brief printing the adress of each elements
-            /// @param n size of vector
-            /// @param val value of each elemts
-            /// @param alloc allocator
             explicit Vector(size_type n, const value_type& val = value_type(),
-                     const allocator_type& alloc = allocator_type())
+                     const allocator_type& alloc = allocator_type()) : _size(0)
             {
                 _alloc = alloc;
                 _start = _alloc.allocate(n);
@@ -167,7 +175,7 @@ namespace ft
                 while (n--)
                     _alloc.construct(_end++, val);
             }
-            // ------range constructor----
+
             template <class InputIterator>
             Vector(typename ft::enable_if<!(ft::is_integral<InputIterator>::value), InputIterator>::type first, 
                     InputIterator last,const allocator_type& alloc = allocator_type()) : _capacity(0), _size(0)
@@ -176,7 +184,7 @@ namespace ft
                 for (; tmp != last; tmp++)
                     _size++;
                 reserve(_size);
-                for(iterator ptr = first; ptr != last; ptr++)
+                for (iterator ptr = first; ptr != last; ptr++)
                     push_back(*ptr);
             }                    
             
@@ -297,12 +305,12 @@ namespace ft
                     return (true);
                 return (false);
             }    
-            //--- get allocator_object
+
             allocator_type get_allocator() const 
             {
                 return (_alloc);
             }
-            //----- element accessing (front, back)
+
             reference front()
             {
                 return (_start);
@@ -321,12 +329,12 @@ namespace ft
             {
                 return (_end - 1);        
             } 
-            ///////////////////////////////////
+
             size_type capacity()
             {         
                 return (_capacity);
             }
-            //Removes all elements form the vector and leavin the container with a size of 0
+
             void clear()
             {
                 for(;_end != _start; --_end)
@@ -337,31 +345,41 @@ namespace ft
             void insert (iterator position, typename ft::enable_if<!(ft::is_integral<InputIt>::value), InputIt>::type first, 
                         InputIt last)
             {
+                if (first == last)
+                    return;
+                size_type _size = size(); 
                 size_type pos = &(*position) - _start;
-                iterator _ptr = first;
-                for(; _ptr != last; _ptr++)
+                pointer _str = _start;
+                size_t diff = 0 , i = 0;
+                InputIt tmp = first;
+                while (tmp++ != last)
+                        diff++;
+                if (diff + _size >= _capacity)
+                       _double(); _extra_capacity(_capacity, _str, _size);
+                size_type end_pos = _size - pos;
+                _end = _end - end_pos;
+                for (size_t i =0 ; i < diff; i++)
                 {
-                    // std::cout << "im here :" << *_ptr << "last == " << *last<< std::endl;
-                    _middle_extra_capacity(1, pos++, *_ptr, size());
+                    _alloc.destroy(_start + pos + i);
                 }
-            _middle_extra_capacity(1, pos++, *last, size());           
-                // return (_start + pos);
+                for(size_t i = 0; i < diff; i++, first++)
+                {
+                    _alloc.destroy(_end);
+                    _alloc.construct(_end++, *first);
+                }
+                size_t j = -1;
+                size_type rest = _size - pos;
+                while (++j < rest)
+                {
+                    _alloc.construct(_end++, _str[pos++]);
+                }
             }
-
-            
 
 			iterator insert (iterator position, const value_type &val)
 			{
-                if (position == end() - 1)
-                {
-                    if (_capacity == 0)
-                        return (_double(), __extra_capacity(2), _alloc.construct(_end++, val), position);    /// @....
-                }
-                std::cout << "im heree" << std::endl;
-                size_type pos = &(*position) - _start;
-                _middle_extra_capacity(1, &(*position) - _start, val, size());
+                size_type pos = &(*position) - _start;         
+                insert(position, 1, val);
                 return (_start + pos);
-                // return (_start + pos);
             }
             
             iterator insert (iterator position, size_type n, const value_type& val)
@@ -369,16 +387,23 @@ namespace ft
                 if (n < 0)
                     throw std::length_error("ft::vector: negative_lenght");
                 size_type pos = &(*position) - _start;
-                _middle_extra_capacity(n - 1, &(*position) - _start, val, size());
+                _middle_extra_capacity(n, pos, val, size());
                 return (_start + pos);
             }
 
-            ///@todo: still need to implement enbale if and is_integral in this fucntion
 			template <class InputIt>
 				void assign(typename ft::enable_if<!(ft::is_integral<InputIt>::value), InputIt>::type first, InputIt last)
 				{
-                    // size_type _size = last - first;
-                    // std::cout << "_size value is :" << _size << std::endl;
+                    InputIt tmp;
+                    size_type _range = 0;
+                    tmp = first;
+                    while (tmp++ != last)
+                        _range++;
+                    clear();
+                    resize(_range);
+                    // __extra_capacity(_range);
+                    while (first != last)
+                        push_back(*(first++));
               };
 							
 			void	assign (size_type n, const value_type& val)
@@ -407,28 +432,23 @@ namespace ft
             
             void push_back(const value_type &val)
             {
-                   if (size() == _capacity)
-                    {
-                        _double();
-                        pointer tmp = _start; 
-                        _extra_capacity(_capacity, tmp, size());
-                    }
-                    _alloc.construct(_end++, val);
-            //    insert(end() - 1, val);
+               insert(end(), val);
             }
+            
             void    reserve(size_type n)
             {
                 if (n > max_size())
                         throw std::length_error("Greater than max_size");                      
                 if (n > _capacity)
                 {
+                    std::cout << "in reserveee" << std::endl;
                     pointer tmp = _start;
+                    size_type u = size();
                     _extra_capacity(n, tmp, size());
                     _capacity = n;
                 }
             };
             
-            // Removes from the vector either a single element (position) or a range of elements([first, last]) 
             void pop_back()
             {
                 --this->_end;

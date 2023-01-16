@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 21:24:12 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/11 20:47:13 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/14 15:41:44 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ namespace ft
             }
             return (first2 != last2);
         }
+    template <class InputIter>
+    size_t difference(InputIter first, InputIter last)
+    {
+        return (last - first);
+    }
 }
 
 template <typename T>

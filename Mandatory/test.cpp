@@ -253,11 +253,10 @@ void foo(int i)
 // }
 
 using namespace std;
-  #include <bits/stdc++.h>
 int _main()
 {
   
-    // Initialising the vector
+//     Initialising the vector
 //     ft::Vector<int> vector_name;
   
 //     for(size_t i = 1 ; i < 6; i++) vector_name.push_back(i);
@@ -323,36 +322,186 @@ int _main()
 //         cout<<vect[i]<<" ";
 //     }
     
-    ft::Vector<int>vect1;
-    vect1.push_back(1);
-    vect1.push_back(2);
-    // vect1.push_back(3);
-    // vect1.push_back(7);
-    // vect1.push_back(8);
-    // vect1.push_back(9);
-    ft::Vector<int>vect2;
-    vect2.push_back(4);
-    vect2.push_back(5);
-    vect2.push_back(6);
+
+  // std::cout << "##########STD::VECTOR TEST########### " << std::endl;
+
+  //     std::vector<int>vect;
+  //   vect.push_back(1);
+  //   vect.push_back(2);
+  //   vect.push_back(3);
+  //   vect.push_back(7);
+  //   vect.push_back(8);
+  //   vect.push_back(9);
+  //   std::vector<int>vect0;
+  //   vect0.push_back(4);
+  //   vect0.push_back(5);
+  //   vect0.push_back(6);
     
-    // adding new value in the vector 
-    // vect1.begin() + 3 represents the 4th index of vector1
-    // vect2.begin() and vect2.end() represents the starting and ending position of vector2
-    // vect1.insert(vect1.begin()+3,vect2.begin(),vect2.end() - 1);
+  //   // adding new value in the vector 
+  //   // vect1.begin() + 3 represents the 4th index of vector1
+  //   // vect2.begin() and vect2.end() represents the starting and ending position of vector2
+  //   std::cout << "beforrrr ====>>>" << std::endl;
+  //   std::cout << "size :: " << vect.size() << std::endl;
+  //   std::cout << "capacity :: " << vect.capacity() << std::endl;
+  //   vect.insert(vect.begin()+3,vect0.begin(),vect0.end() - 1);
     
-    //printing values of the vector 
-    for(int i=0;i<vect1.size();i++)
-    {
-        cout<<vect1[i]<<" ";
-    }
+  //   std::cout << "size :: " << vect.size() << std::endl;
+  //   std::cout << "capacity :: " << vect.capacity() << std::endl;
+  //   // //printing values of the vector 
+  //   for(int i=0;i<vect.size();i++)
+  //   {
+  //       cout<<vect[i]<<" ";
+  //   }
+  //   cout << '\n';
     
-    return 0;
-    // std::vector<int> myvec(5,100);
+
+  // std::cout << "FT::VCETOR TEST ############" << std::endl;
+
+  //   ft::Vector<int>vect1;
+  //   vect1.push_back(1);
+  //   vect1.push_back(2);
+  //   vect1.push_back(3);
+  //   vect1.push_back(7);
+  //   vect1.push_back(8);
+  //   vect1.push_back(9);
+  //   ft::Vector<int>vect2;
+  //   vect2.push_back(4);
+  //   vect2.push_back(5);
+  //   vect2.push_back(6);
+    
+  //   // adding new value in the vector 
+  //   // vect1.begin() + 3 represents the 4th index of vector1
+  //   // vect2.begin() and vect2.end() represents the starting and ending position of vector2
+  //  std::cout << "beforrrr ====>>>" << std::endl;
+  //   std::cout << "size :: " << vect.size() << std::endl;
+  //   std::cout << "capacity :: " << vect.capacity() << std::endl;
+  //   vect1.insert(vect1.begin()+3,vect2.begin(),vect2.end() - 1);
+    
+  //   // //printing values of the vector 
+  //   std::cout << "size :: " << vect1.size() << std::endl;
+  //   std::cout << "capacity :: " << vect1.capacity() << std::endl;
+  //   for(int i=0;i<vect1.size();i++)
+  //   {
+  //       cout<<vect1[i]<<" ";
+  //   }
+    
+  //   return 0;
+  //   // std::vector<int> myvec(5,100);
     // myvec.reserve(7);
     // myvec.reserve(12);
 
+
+
+// ft::Vector<int>vect;
+// vect.push_back(1);
+// vect.push_back(2);
+// vect.push_back(3);
+// vect.push_back(5);
+//     // adding new value in the vector 
+//     // vect.insert(vect.begin()+2,4);
+//     // vect.insert(vect.begin()+2,4);
+//     // vect.insert(vect.begin()+2,4);
+//     // vect.insert(vect.begin()+2,4);
+//     vect.insert(vect.begin()+2,4);
+//     vect.insert(vect.begin()+2,6);
+//     vect.insert(vect.begin()+2,7);
+//     vect.insert(vect.end(),10);
+//     for(int i=0;i<vect.size();i++)
+//     {
+//         cout<<vect[i]<<" ";
+//     }
+//     //  vect.insert(vect.begin()+2,5,3);
+    
+//     // //printing values of the vector 
+//     // for(int i=0;i<vect.size();i++)
+//     // {
+//     //     cout<<vect[i]<<" ";
+//     // }
+    
+//     return 0;
+
+
+  // ft::Vector<int>vect1;
+
+  //   vect1.push_back(2);
+  //   vect1.push_back(4);
+  //   vect1.push_back(6);
+  //   vect1.push_back(8);
+  //   vect1.push_back(8);
+  //   vect1.push_back(9);
+  //  ft::Vector<int>vect2;
+  //   vect2.push_back(1);
+  //   vect2.push_back(3);
+  //   vect2.push_back(5);
+  //   vect2.push_back(7);
+  //   vect2.push_back(10);
+  // //   // adding new value in the vector 
+  // //   // vect1.begin() + 3 represents the 4th index of vector1
+  // //   // vect2.begin() and vect2.end() represents the starting and ending position of vector2
+  // vect1.insert(vect1.begin() + 6,vect2.begin(),vect2.end());
+    
+  //   //printing values of the vector 
+  //   std::cout <<" size : main " << vect1.size() << std::endl;
+  //   std::cout <<" capacity : main " << vect1.capacity() << std::endl;
+  //   for (int i=0;i <vect1.size()  ;i++)
+  //   {
+  //       cout<< "vect   : " << vect1[i]<<" ";
+  //   }
+  // return 0;
+
+
+   
+    vector<int> v;
+    // v.push_back(5);
+    // v.push_back(6);
+    // v.push_back(7);
+    // v.push_back(9);
+    // v.push_back(10);
+    v.assign(7, 100);
+ 
+    cout << "Size of first: " << int(v.size()) << '\n';
+ 
+    cout << "Elements are\n";
+    for (int i = 0; i < v.size(); i++)
+        cout << v[i] << endl;
+    vector<int> vec(5, 50);
+    // modify the elements
+    v.assign(vec.begin(), vec.begin() + 3);
+ 
+    cout << "\nModified VectorElements are\n";
+    for (int i = 0; i < vec.size(); i++)
+        cout << v[i] << endl;
+    return 0;
     // std::cout << myvec.capacity() << "fafafa"<< std::endl;
 }
+
+
+// using namespace std;
+// int _main()
+// {  
+// 	ft::Vector<int> vec;
+	
+//   vec.push_back(1);
+//   vec.push_back(2);
+//   vec.push_back(3);
+//   vec.push_back(4);
+//   vec.push_back(5);
+
+// 	cout<<"Intially vector: ";
+// 	for(auto i=vec.begin(); i<vec.end(); i++)
+// 	{
+// 		cout<<" "<<*i;
+// 	}
+	
+// 	vec.insert(vec.begin(),10);//Inserting 10 to the vector
+	
+// 	cout<<"\n\nThe modified vector is: ";
+// 	for(auto i=vec.begin(); i<vec.end(); i++)
+// 	{
+// 		cout<<" "<<*i;
+// 	}
+// 	return 0;
+// }
 
 int main()
 {
