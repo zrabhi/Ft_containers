@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 19:06:48 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/12 21:58:56 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/16 20:39:05 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,11 @@
 
 namespace ft
 { 
-
-
-//    trying to implement true_type and false type struct 
     struct false_type
     {
         const static bool value = false;
     } ;
+    
     struct true_type
     {
         const static bool value = true;
@@ -35,15 +33,18 @@ namespace ft
     {
         // true_type.value = true;
     };
+   
     template <class _T>
     struct is_same<_T, _T> : public ft::true_type
     {
         // true_type.value = true;
     };
+   
     template <class T, bool _v = false>
     struct integral_constant {
         static const bool value = _v;
     };
+    
     template <class T>
     struct is_integral : ft::integral_constant<T, ft::is_same<int, T>::value 
         || ft::is_same<bool, T>::value || ft::is_same<char, T>::value
@@ -56,19 +57,5 @@ namespace ft
         || ft::is_same<unsigned long long int, T>::value >
     {
     };
-
-    // template <class T>
-    // struct is_integral {
-    //     static const bool value = false;
-    // };
-
-    // template <int>
-    // struct ft_is_integral
-    // {
-    //     const static bool value = true;
-    // };
-    
-    
-    
 };
 #endif
