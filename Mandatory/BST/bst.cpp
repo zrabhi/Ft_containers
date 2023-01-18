@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 22:27:50 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/17 22:29:40 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/18 21:15:28 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,24 @@ int main()
         tree.AddLeaf(Keys[i]);
     }   
 
-    tree.PrintInOrder();   
+    tree.PrintTree();
+    std:: cout << "Printing the smallest number in the tree " << std::endl;
+    std::cout << tree.FindSmallest() << std::endl;
+    std:: cout << "Printing the oldest number in the tree " << std::endl;
+    std::cout << tree.FindOldest() << std::endl;
+    
+    tree.RemoveNode(100);
+    tree.PrintTree();
+//     tree.RemoveNode(52);
+//     std::cout << "aftre removing " << std::endl;
+//     tree.PrintTree();
+//      tree.RemoveNode(14);
+//     std::cout << "aftre removing " << std::endl;
+//     tree.PrintTree();
+//      tree.RemoveNode(2);
+//     std::cout << "aftre removing " << std::endl;
+//     tree.PrintTree();
+//     tree.RemoveNode(76);
+//     std::cout << "aftre removing " << std::endl;
+//     tree.PrintTree();
 }
