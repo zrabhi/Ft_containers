@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bst.hpp                                            :+:      :+:    :+:   */
+/*   AvlTree.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 18:35:46 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/18 21:26:24 by zrabhi           ###   ########.fr       */
+/*   Created: 2023/01/19 18:47:43 by zrabhi            #+#    #+#             */
+/*   Updated: 2023/01/20 01:43:48 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BST_HPP
-# define BST_HPP
+
+
+#ifndef AvlTree_HPP
+# define AvlTree_HPP
 
 #include <iostream>
 #include <cstdlib>
 
-class BST
+class AvlTree
 {
     private :
         struct node {
@@ -42,6 +44,13 @@ class BST
             else
                 _ptr->right = creatleaf(key);
         } 
+        int height = GetBalanceHeight();
+        std::cout << "height is : " <<   height << std::endl;
+        if (height > 1 && key < root->left->key)
+        {
+            root = rightRotate(root); 
+            std:: cout << "its trueee" << std::endl;
+        }
     }
 
      void    PrintTreePrivate(node * root, int space)
@@ -116,9 +125,34 @@ class BST
         }
         std::cout << "Tree is empty " << std::endl;
     }
+
+    int CalculHieght(node *_node)
+    {
+        int _lheight;
+        int _rheight;
+        if (!_node)
+            return (-1);
+        else{
+            _lheight = CalculHieght(_node->left);
+            _rheight = CalculHieght(_node->right);
+        return ( _lheight > _rheight ? _lheight + 1: _rheight + 1);
+        }
+    }   
+    
+    node *rightRotate(node *y)
+    {
+        std::cout << "im here" << std::endl;
+        node *x = y->left;
+        node *t2 = x->right;
+        ///--- Perform rotation
+        x->right = y;
+        y->left = t2;
+        return x;
+    }
     node *root;
+
     public:
-        BST() :root(NULL)
+        AvlTree() :root(NULL)
         {
         }
         
@@ -222,6 +256,7 @@ class BST
             }
             std::cout << "tree is defenitly Empty ! " << std::endl;
         }
+       
         void RemoveMatch(node *parent, node *match, bool _N)
         {
             if (root)
@@ -270,7 +305,17 @@ class BST
             std::cout << "tree is empty ! did nothing !" << std::endl;
         } 
 
-        ~BST()
+        int    GetBalanceHeight()
+        {
+            return (root == NULL ? -1 : CalculHieght(root->left) - CalculHieght(root->right)); 
+        }    
+        
+        void CheckAndBalance(node *)
+        {
+            
+        }
+        
+        ~AvlTree()
         {
             
         }
