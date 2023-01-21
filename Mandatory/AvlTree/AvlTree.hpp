@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:47:43 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/20 01:43:48 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/21 23:00:35 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,44 +26,53 @@ class AvlTree
             node *left;
             node *right;
         };    
-    void    AddLeafPrivate(int key, node *_ptr)
+   node*    AddLeafPrivate(int key, node *_ptr)
     {
-        if (!root)
-            root = creatleaf(key);
+        if (!_ptr)
+            return (creatleaf(key));
         else if (key < _ptr->key)
-        {
-            if (_ptr->left)
-                AddLeafPrivate(key, _ptr->left);
-            else
-                _ptr->left = creatleaf(key);
-        }
+                _ptr->left = AddLeafPrivate(key, _ptr->left);
         else if (key >_ptr->key )
-        {
-            if (_ptr->right)
-                AddLeafPrivate(key, _ptr->right);
-            else
-                _ptr->right = creatleaf(key);
-        } 
-        int height = GetBalanceHeight();
-        std::cout << "height is : " <<   height << std::endl;
-        if (height > 1 && key < root->left->key)
-        {
-            root = rightRotate(root); 
-            std:: cout << "its trueee" << std::endl;
-        }
+                _ptr->right = AddLeafPrivate(key, _ptr->right);
+        else
+            return _ptr;
+        
+        return checklBalance(key, _ptr);
     }
 
-     void    PrintTreePrivate(node * root, int space)
+    node     *checklBalance(int key, node* _ptr)
+    {
+        int height = GetBalanceHeight(_ptr);
+        if (height > 1 && key < _ptr->left->key)
+                return rightRotate(_ptr);
+
+        if (height < -1 && key > _ptr->right->key)
+          return  leftRotate(_ptr);
+        if (height > 1 && key > _ptr->left->key)
         {
-            if (!root)
-                return;
-            space += 10;
-            PrintTreePrivate(root->right, space);
-            std::cout << std::endl;
-            for(size_t i = 0; i < space; i++)  std::cout << " ";
-            std::cout << root->key << std::endl;
-            PrintTreePrivate(root->left, space);
+          _ptr->left = leftRotate(_ptr->left);
+          return rightRotate(_ptr);
         }
+    
+        if (height < -1 && key < _ptr->right->key)
+        {
+            _ptr->right = rightRotate(_ptr->right);
+            return leftRotate(_ptr);
+        }
+        return _ptr;
+    }    
+
+    void    PrintTreePrivate(node * root, int space)
+    {
+        if (!root)
+            return;
+        space += 10;
+        PrintTreePrivate(root->right, space);
+        std::cout << std::endl;
+        for(size_t i = 0; i < space; i++)  std::cout << " ";
+        std::cout << root->key << std::endl;
+        PrintTreePrivate(root->left, space);
+    }
     
     void    PrintInOrderPrivate(node *ptr)
     {
@@ -128,29 +137,37 @@ class AvlTree
 
     int CalculHieght(node *_node)
     {
-        int _lheight;
-        int _rheight;
         if (!_node)
             return (-1);
         else{
-            _lheight = CalculHieght(_node->left);
-            _rheight = CalculHieght(_node->right);
+           int _lheight = CalculHieght(_node->left);
+           int _rheight = CalculHieght(_node->right);
         return ( _lheight > _rheight ? _lheight + 1: _rheight + 1);
         }
     }   
     
-    node *rightRotate(node *y)
-    {
-        std::cout << "im here" << std::endl;
-        node *x = y->left;
-        node *t2 = x->right;
-        ///--- Perform rotation
-        x->right = y;
-        y->left = t2;
-        return x;
-    }
-    node *root;
+  node * rightRotate(node * y) {
+    node * x = y->left;
+    node * T2 = x->right;
 
+    x->right= y;
+    y->left = T2;
+
+    return x;
+  }
+
+  node * leftRotate(node * x)
+  {
+    node * y = x->right;
+    node * T2 = y->left;
+
+    y->left = x;
+    x->right = T2;
+
+    return y;
+  }
+    
+    node *root;
     public:
         AvlTree() :root(NULL)
         {
@@ -167,7 +184,7 @@ class AvlTree
         
         void    AddLeaf(int key)
         {
-            AddLeafPrivate(key, root);
+           root =  AddLeafPrivate(key, root);
         }
         
         node* ReturnNode(int key, node *Ptr)
@@ -305,15 +322,11 @@ class AvlTree
             std::cout << "tree is empty ! did nothing !" << std::endl;
         } 
 
-        int    GetBalanceHeight()
+        int    GetBalanceHeight(node *_ptr)
         {
-            return (root == NULL ? -1 : CalculHieght(root->left) - CalculHieght(root->right)); 
+            return (root == NULL ? -1 : (CalculHieght(_ptr->left) - CalculHieght(_ptr->right))); 
         }    
         
-        void CheckAndBalance(node *)
-        {
-            
-        }
         
         ~AvlTree()
         {

@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/16 20:06:55 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/21 20:15:00 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ namespace ft
             void    _extra_capacity(size_type n, pointer tmp, size_type _size)
             {     
                 _start = _alloc.allocate(n);
-                _end = _start;
+                _end   = _start;
                 _capacity = n;
                 for (size_t i = 0; i < _size; i++)
                 {
