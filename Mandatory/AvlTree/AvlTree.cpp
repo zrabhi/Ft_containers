@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 22:27:50 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/21 20:55:46 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/22 00:02:05 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ int main()
     tree.AddLeaf(760);
      tree.AddLeaf(770);
     // // tree.AddLeaf(25);
+    tree.PrintTree();
+
+    tree.RemoveNode(30);
     tree.PrintTree();
 
     tree.PrintInOrder();

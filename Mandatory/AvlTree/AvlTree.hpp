@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:47:43 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/21 23:00:35 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/22 02:48:53 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ class AvlTree
 
     node     *checklBalance(int key, node* _ptr)
     {
-        int height = GetBalanceHeight(_ptr);
+        int height = CalculHieghtHeight(_ptr);
         if (height > 1 && key < _ptr->left->key)
                 return rightRotate(_ptr);
 
@@ -112,28 +112,50 @@ class AvlTree
         }
     }
     
-    void RemoveNodePrivate(int key, node* ptr)
+    node *SmallestInSubTree(node *_ptr)
     {
-        if (root)
-        {
-            if (root->key == key)
-                RemoveRootMatch();
-            else 
-            {
-                if (key < ptr->key && ptr->left)
-                {
-                    ptr->left->key == key ? RemoveMatch(ptr, ptr->left, true) : RemoveNodePrivate(key, ptr->left);
-                    return ;
-                }
-                else if (key > ptr->key && ptr->right)
-                {
-                    ptr->right->key == key ? RemoveMatch(ptr, ptr->right, false) : RemoveNodePrivate(key, ptr->right);
-                    return ;
-                }
-            }
-        }
-        std::cout << "Tree is empty " << std::endl;
+        node *curr = _ptr;
+        while (curr->left)
+            curr = curr->left;
+        return (curr);
     }
+    
+    node* deleteNode(node* _ptr, int key)
+    {
+        if (_ptr == NULL)
+            return _ptr;
+        if ( key < _ptr->key )
+            _ptr->left = deleteNode(_ptr->left, key);
+        else if( key > _ptr->key )
+            _ptr->right = deleteNode(_ptr->right, key);
+        else
+        {
+            if ((_ptr->left == NULL) || (_ptr->right == NULL) )
+            {
+                node* temp;
+                if (_ptr->left)
+                    temp = _ptr->left;
+                else
+                    temp = _ptr->right;
+            if (temp == NULL)
+            {
+                temp = _ptr;
+                _ptr = NULL;
+            }
+            else 
+                *_ptr = *temp; 
+            delete temp;
+        }
+        else
+        {
+            node* temp = SmallestInSubTree(_ptr->right);
+            _ptr->key = temp->key;
+            _ptr->right = deleteNode(_ptr->right,
+                                     temp->key);
+        }
+    }
+    return _ptr;
+}
 
     int CalculHieght(node *_node)
     {
@@ -146,17 +168,17 @@ class AvlTree
         }
     }   
     
-  node * rightRotate(node * y) {
+  node * rightRotate(node * y)
+  {
     node * x = y->left;
     node * T2 = x->right;
 
     x->right= y;
     y->left = T2;
-
     return x;
   }
 
-  node * leftRotate(node * x)
+    node * leftRotate(node * x)
   {
     node * y = x->right;
     node * T2 = y->left;
@@ -169,7 +191,7 @@ class AvlTree
     
     node *root;
     public:
-        AvlTree() :root(NULL)
+        AvlTree() : root(NULL)
         {
         }
         
@@ -223,110 +245,13 @@ class AvlTree
         
         void RemoveNode(int key)
         {
-            RemoveNodePrivate(key, root);
+            root = deleteNode(root, key);
         }
         
-        void RemoveRootMatch()
-        {
-            if (root)
-            {
-                node *delPtr =  root;
-                int rootKey = root->key;
-                int smallestInRightSubtree;
-
-                // case of 1 : 0 children
-                if (!root->left && !root->right) 
-                {
-                    root = NULL;
-                    delete delPtr;
-                }
-                // case 2 : 1 child (right child)
-                
-                if (!root->left && root->right)
-                {
-                    root = root->right;
-                    delPtr->right = NULL;
-                    delete delPtr;
-                    std:: cout <<  "Removing old root && new root is right child of the old root " << std:: endl;
-                    return ;
-                }
-                 
-                // case 2 : 1 chhild (left child)
-                if (root->left && !root->right)
-                {
-                    root = root->left;
-                    delPtr->left = NULL;
-                    delete delPtr;
-                    std:: cout <<  "Removing old root && new root is left child of the old root " << std:: endl;
-                    return ;
-                }
-
-                //case 3 : both childs exist
-                if (root->left && root->right)
-                {
-                    smallestInRightSubtree = FindSmallestPrivate(root->right);
-                    RemoveNodePrivate(smallestInRightSubtree, root);
-                    root->key = smallestInRightSubtree;
-                    std:: cout << "the root key containing key " << root->key << std::endl;
-                    return ;
-                }
-            }
-            std::cout << "tree is defenitly Empty ! " << std::endl;
-        }
-       
-        void RemoveMatch(node *parent, node *match, bool _N)
-        {
-            if (root)
-            {
-                node *delPtr;
-                int matchKey = match->key;
-                int smallestInRightSubtree;
-                if (!match->left && !match->right)
-                {
-                    delPtr = match;
-                    _N == true ? parent->left = NULL : parent->right = NULL;
-                    delete delPtr;
-                    std::cout << "case 0: the node removed " << std::endl;
-                    return ; 
-                }
-                
-                if (!match->left && match->right)
-                {
-                    _N == true ? parent->left = match->right : parent->right = match->right;
-                    match->right = NULL;
-                    delPtr = match;
-                    delete delPtr; 
-                    std::cout << "case 1cdsfsd" << std::endl;
-                    return ;   
-                }
-                
-                if (match->left && !match->right)
-                {
-                    _N == true ? parent->left = match->left : parent->right = match->left;
-                    match->left = NULL;
-                    delPtr = match;
-                    delete match;
-                    std::cout << "case1"<< std::endl;
-                    return ;
-                }
-                
-                if (match->left && match->right)
-                {
-                    smallestInRightSubtree =FindOldestPrivate(match->right);
-                    RemoveNodePrivate(smallestInRightSubtree, match);
-                    match->key = smallestInRightSubtree;
-                    std::cout << "case3"<< std::endl;
-                    return ;
-                }
-            }
-            std::cout << "tree is empty ! did nothing !" << std::endl;
-        } 
-
-        int    GetBalanceHeight(node *_ptr)
+        int    CalculHieghtHeight(node *_ptr)
         {
             return (root == NULL ? -1 : (CalculHieght(_ptr->left) - CalculHieght(_ptr->right))); 
         }    
-        
         
         ~AvlTree()
         {
