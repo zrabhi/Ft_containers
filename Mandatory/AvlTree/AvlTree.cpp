@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 22:27:50 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/22 00:02:05 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/23 03:50:26 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int main()
 
     /// @brief  Inserting elements in Tree and printing them in traverse order.
     // int Keys[4] = {10,40,30};
-    AvlTree tree;
+    ft::AvlTree<int> tree;
     // for(size_t i = 0; i < 3; i++)
     // {
     //     tree.AddLeaf(Keys[i]);
@@ -35,18 +35,24 @@ int main()
     tree.PrintTree();
     // tree.RemoveNode(10);
     tree.AddLeaf(30);
-     tree.PrintTree();
+    std::cout << "printing tree\n" << std::endl;
+    tree.PrintTree();
     tree.AddLeaf(40);
-    //  tree.PrintTree();
+    std::cout << "printing tree\n" << std::endl;
+    tree.PrintTree();
     tree.AddLeaf(50);
     tree.AddLeaf(60);
     tree.AddLeaf(720);
     tree.AddLeaf(760);
-     tree.AddLeaf(770);
+    //  tree.AddLeaf(770);
     // // tree.AddLeaf(25);
+    std::cout << "printing tree\n" << std::endl;
     tree.PrintTree();
 
     tree.RemoveNode(30);
+    // tree.RemoveNode(40);
+    // tree.RemoveNode(720);
+    std::cout << "printing tree\n" << std::endl;
     tree.PrintTree();
 
     tree.PrintInOrder();

@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:47:43 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/22 02:48:53 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/23 04:45:21 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,19 @@
 #include <iostream>
 #include <cstdlib>
 
+
+namespace ft {
+template<class T, class Allocatore = std::allocator<T> >
 class AvlTree
 {
     private :
-        struct node {
-            int key;
-            node *left;
-            node *right;
-        };    
+      struct node
+      {
+         T key;
+         node *left;
+         node *right;
+      }; 
+         
    node*    AddLeafPrivate(int key, node *_ptr)
     {
         if (!_ptr)
@@ -88,16 +93,16 @@ class AvlTree
             std::cout << "Tree is empty!" << std::endl;     
     }
   
-    int    FindSmallestPrivate(node* ptr)
+    int    FindSmallestPrivate(node* ptr) // same ass subtree function
     {
-        if (!root)
-           return ( std::cout << "Tree is Empty!" << std::endl, -1);
-        else
-        {
+        // if (!root)
+        //    return ( std::cout << "Tree is Empty!" << std::endl, -1); //// still need some optimization
+        // else
+        // {
             if (ptr->left)
                 return (FindSmallestPrivate(ptr->left));
             return (ptr->key);
-        }
+        // }
     }
 
     int FindOldestPrivate(node *ptr)
@@ -112,85 +117,105 @@ class AvlTree
         }
     }
     
-    node *SmallestInSubTree(node *_ptr)
-    {
-        node *curr = _ptr;
-        while (curr->left)
-            curr = curr->left;
-        return (curr);
+    int smallestInSubTree(node *_ptr)
+    {    
+        if (_ptr->left)
+            return (smallestInSubTree(_ptr->left));
+        return (_ptr->key);
     }
     
-    node* deleteNode(node* _ptr, int key)
+    node *deleteNode(node *_ptr, int key)
     {
         if (_ptr == NULL)
-            return _ptr;
-        if ( key < _ptr->key )
-            _ptr->left = deleteNode(_ptr->left, key);
-        else if( key > _ptr->key )
-            _ptr->right = deleteNode(_ptr->right, key);
-        else
-        {
-            if ((_ptr->left == NULL) || (_ptr->right == NULL) )
-            {
-                node* temp;
-                if (_ptr->left)
-                    temp = _ptr->left;
-                else
-                    temp = _ptr->right;
-            if (temp == NULL)
-            {
-                temp = _ptr;
-                _ptr = NULL;
-            }
-            else 
-                *_ptr = *temp; 
-            delete temp;
-        }
-        else
-        {
-            node* temp = SmallestInSubTree(_ptr->right);
-            _ptr->key = temp->key;
-            _ptr->right = deleteNode(_ptr->right,
-                                     temp->key);
+            return NULL;
+    else if (key < _ptr -> key) 
+      _ptr->left = deleteNode(_ptr->left, key);
+    else if (key > _ptr->key) {
+      _ptr-> right = deleteNode(_ptr-> right, key);
+    }
+    else
+    {
+      if (_ptr->left == NULL)
+      {
+        node * temp = _ptr-> right;
+        delete _ptr;
+        return temp;
+      } 
+      else if (_ptr->right == NULL)
+      {
+        node * temp = _ptr-> left;
+        delete _ptr;
+        return temp;
+      }
+      else 
+      {
+        int smallest = smallestInSubTree(_ptr->right);
+        _ptr->key = smallest;
+        _ptr->right = deleteNode(_ptr->right, smallest);
         }
     }
-    return _ptr;
-}
+    // return _ptr;
+    return balanceAfterDeletion(_ptr, key);
+    }
+    
+    node*   balanceAfterDeletion(node *_ptr, int key)
+    {
+        int balance = CalculHieghtHeight(_ptr);
 
+        if (balance == 2 && CalculHieghtHeight(_ptr->left) >= 0)
+            return rightRotate(_ptr);
+        else if (balance == 2 && CalculHieghtHeight(_ptr->left) == -1)
+        {
+            _ptr->left = leftRotate(_ptr->left);
+            return rightRotate(_ptr);
+        }   
+        else if (balance == -2 && CalculHieghtHeight(_ptr->right) <= 0)
+            return leftRotate(_ptr);
+        else if (balance == -1 && CalculHieghtHeight(_ptr->right) == 1)
+        {
+            _ptr->right = rightRotate(_ptr->right);
+            return leftRotate(_ptr);
+        } 
+        return _ptr;
+    }
+    
     int CalculHieght(node *_node)
     {
         if (!_node)
             return (-1);
-        else{
-           int _lheight = CalculHieght(_node->left);
-           int _rheight = CalculHieght(_node->right);
-        return ( _lheight > _rheight ? _lheight + 1: _rheight + 1);
+        else
+        {
+            int _lheight = CalculHieght(_node->left);
+            int _rheight = CalculHieght(_node->right);
+            return ( _lheight > _rheight ? _lheight + 1: _rheight + 1);
         }
     }   
     
-  node * rightRotate(node * y)
+    node * rightRotate(node * y)
   {
-    node * x = y->left;
-    node * T2 = x->right;
-
-    x->right= y;
-    y->left = T2;
-    return x;
+        node * x = y->left;
+        node * T2 = x->right;
+    
+        x->right= y;
+        y->left = T2;
+        return x;
   }
 
     node * leftRotate(node * x)
-  {
-    node * y = x->right;
-    node * T2 = y->left;
-
-    y->left = x;
-    x->right = T2;
-
-    return y;
-  }
+   {
+        node * y = x->right;
+        node * T2 = y->left;
+    
+        y->left = x;
+        x->right = T2;
+    
+        return y;
+   }
     
     node *root;
+    
     public:
+        
         AvlTree() : root(NULL)
         {
         }
@@ -258,5 +283,6 @@ class AvlTree
             
         }
 };
+}
 
 #endif
