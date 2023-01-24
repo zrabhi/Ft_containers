@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:47:43 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/23 04:45:21 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/24 20:14:37 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ class AvlTree
     private :
       struct node
       {
-         T key;
-         node *left;
-         node *right;
+        T key;
+        node *left;
+        node *right;
       }; 
          
-   node*    AddLeafPrivate(int key, node *_ptr)
+    node*    AddLeafPrivate(int key, node *_ptr)
     {
         if (!_ptr)
             return (creatleaf(key));
@@ -45,7 +45,7 @@ class AvlTree
         return checklBalance(key, _ptr);
     }
 
-    node     *checklBalance(int key, node* _ptr)
+    node    *checklBalance(int key, node* _ptr)
     {
         int height = CalculHieghtHeight(_ptr);
         if (height > 1 && key < _ptr->left->key)
@@ -93,7 +93,7 @@ class AvlTree
             std::cout << "Tree is empty!" << std::endl;     
     }
   
-    int    FindSmallestPrivate(node* ptr) // same ass subtree function
+    int     FindSmallestPrivate(node* ptr) // same ass subtree function
     {
         // if (!root)
         //    return ( std::cout << "Tree is Empty!" << std::endl, -1); //// still need some optimization
@@ -105,7 +105,7 @@ class AvlTree
         // }
     }
 
-    int FindOldestPrivate(node *ptr)
+    int     FindOldestPrivate(node *ptr)
     {
         if (!root)
             return ( std::cout << "Tree is Empty!" << std::endl, -1);
@@ -117,14 +117,14 @@ class AvlTree
         }
     }
     
-    int smallestInSubTree(node *_ptr)
+    int     smallestInSubTree(node *_ptr)
     {    
         if (_ptr->left)
             return (smallestInSubTree(_ptr->left));
         return (_ptr->key);
     }
     
-    node *deleteNode(node *_ptr, int key)
+    node   *deleteNode(node *_ptr, int key)
     {
         if (_ptr == NULL)
             return NULL;
@@ -179,7 +179,7 @@ class AvlTree
         return _ptr;
     }
     
-    int CalculHieght(node *_node)
+    int     CalculHieght(node *_node)
     {
         if (!_node)
             return (-1);
@@ -191,7 +191,7 @@ class AvlTree
         }
     }   
     
-    node * rightRotate(node * y)
+    node *  rightRotate(node * y)
   {
         node * x = y->left;
         node * T2 = x->right;
@@ -201,7 +201,7 @@ class AvlTree
         return x;
   }
 
-    node * leftRotate(node * x)
+    node *  leftRotate(node * x)
    {
         node * y = x->right;
         node * T2 = y->left;
@@ -220,7 +220,7 @@ class AvlTree
         {
         }
         
-        node* creatleaf(int key)
+        node*   creatleaf(int key)
         {
             node* New = new node;
             New->key = key;
@@ -234,7 +234,7 @@ class AvlTree
            root =  AddLeafPrivate(key, root);
         }
         
-        node* ReturnNode(int key, node *Ptr)
+        node*   ReturnNode(int key, node *Ptr)
         {
             if (Ptr)
             {
@@ -253,27 +253,27 @@ class AvlTree
            PrintTreePrivate(root, 0);
         }
         
-        void  PrintInOrder()
+        void    PrintInOrder()
         {
             PrintInOrderPrivate(root);
         }
 
-        int   FindSmallest()
+        int     FindSmallest()
         {
             return (FindSmallestPrivate(root));
         }
 
-        int   FindOldest()
+        int     FindOldest()
         {
             return (FindOldestPrivate(root));
         }
         
-        void RemoveNode(int key)
+        void    RemoveNode(int key)
         {
             root = deleteNode(root, key);
         }
         
-        int    CalculHieghtHeight(node *_ptr)
+        int     CalculHieghtHeight(node *_ptr)
         {
             return (root == NULL ? -1 : (CalculHieght(_ptr->left) - CalculHieght(_ptr->right))); 
         }    
