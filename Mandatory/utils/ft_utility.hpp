@@ -6,51 +6,55 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 21:54:08 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/25 18:27:35 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/27 23:44:35 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_UTILITY_HPP
 # define FT_UTILITY_HPP
 
+
+#include <iostream>
+
 namespace ft
 {
     template<class T1, class T2>
     struct pair
     {
-        // private:
-            typedef T1  first_type;
-            typedef T2  seconde_type;   
+        typedef T1      first_type;
+        typedef T2      seconde_type; 
+          
         first_type      first;
         seconde_type    second;
-        public:
-            
-        //---default constructor
+        
+        pair(first_type const &__a, seconde_type const &__b) :  first(__a), second(__b)
+        {}
+        
+        template <class _U1, class _U2>
+        pair(const pair<_U1, _U2>& __p) : first(__p.first), second(__p.second) 
+        {}
+        
         pair() : first(), second(0)
         {}     
-        template<class U, class V>
-        pair(const pair<U,V>& pr)
+        
+        pair& operator=(pair const &pr)
         {
             if (*this != pr)
             {
                 this->first  = pr.first;
                 this->second = pr.second;
             }
-        } 
-        //----third constructor
-        pair(const first_type& a, const seconde_type& b) :  first(a), second(b)
-        {
-        }
-        // copy assignement 
-        pair& operator = (const pair& pr)
-        {
-            if (*this != pr)
-            {
-                this->first = pr.first;
-                this->second = pr.second;
-            }
             return (*this);
         };
+    
+        const first_type& getFirst() const
+        {
+            return (first);
+        }
+
+        const seconde_type& getSecond() const{
+            return (second);
+        }
 
 };
    
