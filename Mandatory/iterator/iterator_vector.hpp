@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 16:09:51 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/16 23:00:36 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/28 22:42:42 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 //---normal_iterator
 namespace ft
-{
+{ 
     template<typename T>
     class RandomAccessIter : public ft::iterator<std::random_access_iterator_tag, T>
     {
@@ -102,7 +102,7 @@ namespace ft
             {
                 return (this->_ptr[n]);
             }
-
+    
             bool  operator==(const RandomAccessIter& iter) const
             {
                 return (_ptr == iter._ptr);

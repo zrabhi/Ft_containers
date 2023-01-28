@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/21 20:15:00 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/28 21:18:29 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,23 +139,10 @@ namespace ft
 
             void    _insert_after(pointer _ptr, size_t i, size_type _size) 
             {
-                
                while ( i++ < _size)
                {
                 _alloc.destroy(_start + i), _alloc.construct(_start + i, _ptr[i]);
                }
-               
-                // iterator _ptr_end  = end();
-                // // if (_ptr == end() - 1)
-                // //     _alloc.destroy(_start + i), _alloc.construct(_start + i, *(++_ptr));
-                    
-                // while(_ptr++ != _ptr_end && i++ < _size)
-                // {
-                //     _alloc.destroy(_start + i), _alloc.construct(_start + i, *_ptr);
-                // }
-                
-            
-            
             }
 
         public:
