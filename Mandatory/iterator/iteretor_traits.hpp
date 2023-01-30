@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 10:25:14 by zrabhi            #+#    #+#             */
-/*   Updated: 2022/12/31 18:01:20 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/30 22:59:24 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ namespace ft
     struct iterator {
         typedef T         value_type;
         typedef Distance  difference_type;
-        typedef Pointer   pointer;
+        typedef Pointer   pointer;  
         typedef Reference reference;
         typedef Category  iterator_category;
   };

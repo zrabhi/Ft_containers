@@ -22,7 +22,7 @@ int main()
     // p.insert(x);
     p.insert(y);
     p.insert(z);
-    p.insert(i);
+    // p.insert(i);
     std::cout << "Printing treee " << std::endl;
     p.printer();
     std::cout <<"\n\n" << std::endl;
@@ -35,12 +35,13 @@ int main()
     // p.erase(p.begin());
     // p.printer();
 
-    ft::map<std::string, int>::reverse_iterator __it;
-    __it = p.rbegin();
-    if (it != __it)
-        std::cout << "its trueee" << std::endl;
-    else
-        std::cout << "its falsee" << std::endl;
+    ft::map<std::string, int>::iterator __it;
+    __it = p.end();
+    ++__it;
+    // if (it != __it)
+    //     std::cout << "its trueee" << std::endl;
+    // else
+    //     std::cout << "its falsee" << std::endl;
     std::cout << "the returned node is :" << __it->first << std::endl;
     // if (p == tt)
     //     std::cout << "they are equal" << std::endl;

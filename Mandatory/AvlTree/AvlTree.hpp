@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AvlTree.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zakaria <zakaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:47:43 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/30 05:11:04 by zakaria          ###   ########.fr       */
+/*   Updated: 2023/01/31 00:25:05 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ class AvlTree
       {
         value_type  __key;
         node        *__left;
+        node        *__parent;
         node        *__right;
       };
     private:
@@ -53,9 +54,15 @@ class AvlTree
         if (!_ptr)
             return (creatleaf(key));
         if (___comp(key, _ptr->__key))
+        {
                 _ptr->__left = AddLeafPrivate(key, _ptr->__left);
+                _ptr->__left->__parent = _ptr;
+        }
         else if (___comp(_ptr->__key, key))
+        {
                 _ptr->__right = AddLeafPrivate(key, _ptr->__right);
+                _ptr->__right->__parent = _ptr;
+        }  
         else
             return _ptr;
         return checklBalance(key, _ptr);
@@ -109,23 +116,35 @@ class AvlTree
             std::cout << "Tree is empty!" << std::endl;     
     }
   
-    int     FindSmallestPrivate(node* ptr) // same ass subtree function
+    int     FindSmallestPrivate(node* ptr, node *p) // same ass subtree function
     {
         if (ptr->__left)
             return (FindSmallestPrivate(ptr->__left));
         return (ptr->__key->first);
     }
 
-    int     FindOldestPrivate(node *ptr)
+    node     *FindOldestPrivate(node *ptr, node *__match)
     {
-        if (!root)
-            return ( std::cout << "Tree is Empty!" << std::endl, -1);
-        else
+        node *__tmp = ptr;
+        while (__tmp)
         {
-            if (ptr->__right)
-                return (FindOldestPrivate(ptr->__right));
-            return (ptr->__key->first);
+            std::cout << "im hererr " << std::endl;
+                if (__tmp->__left)
+                {
+                    if (__tmp->__left->__key.first == __match->__key.first)
+                            break ;
+                    if (___comp(__tmp->__left->__key, __match->__key))
+                        __tmp = __tmp->__left;
+                }
+                if (__tmp->__right)
+                {
+                    if (__tmp->__right->__key.first == __match->__key.first)
+                        break ;
+                    if (___comp(__match->__key, __tmp->__right->__key))
+                        __tmp = __tmp->__right;
+                }
         }
+        return (__tmp);
     }
 
     bool    empty()
@@ -216,6 +235,11 @@ class AvlTree
     
         x->__right= y;
         y->__left = T2;
+        // if (y->__parent)
+        // {
+        //     if (y->__parent->__left == node)
+        //         y->__parent->__left = 
+        // }
         return x;
   }
 
@@ -247,6 +271,7 @@ class AvlTree
             __val_alloc.construct(&New->__key, key);
             New->__left  = NULL;
             New->__right = NULL;
+            New->__parent = NULL;
             return (New);
         }
         
@@ -318,9 +343,9 @@ class AvlTree
             return (FindSmallestPrivate(root));
         }
 
-        int     FindOldest()
+        node      *FindOldest(node* __root, node *__match)
         {
-            return (FindOldestPrivate(root));
+            return (FindOldestPrivate(__root, __match));
         }
         
         void    clearTree(node *_ptr)

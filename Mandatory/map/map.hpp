@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zakaria <zakaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 23:09:03 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/30 06:20:55 by zakaria          ###   ########.fr       */
+/*   Updated: 2023/01/30 23:11:18 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
             typedef typename    allocator_type::const_reference                       const_reference;
             typedef typename    allocator_type::pointer                               pointer;
             typedef typename    allocator_type::const_pointer                         const_pointer;
-            typedef typename  ft::map<Key, T, Compare>                                __map;
+            typedef typename    ft::map<Key, T, Compare>                              __map;
           
         class value_compare
         {
@@ -51,13 +51,14 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
             typedef   value_type    second_argument_type;   
             typedef   bool          result_type;
             protected:
-                key_compare       comp;
+               key_compare       comp;
             public:
-                value_compare(key_compare _c) : comp(_c){}
-                bool    operator()(const first_argument_type& __x, const second_argument_type& __y) const
-                {
-                        return comp(__x.first, __y.first);
-                }
+               value_compare(key_compare _c) : comp(_c){}
+               bool    operator()(const first_argument_type& __x, const second_argument_type& __y) const
+               {
+                       return comp(__x.first, __y.first);
+               }
+                
             friend class map;
         };
           typedef typename    ft::AvlTree<value_type, value_compare, key_type, mapped_type, __map>                    AVL;

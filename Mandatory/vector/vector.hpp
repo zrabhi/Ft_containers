@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/28 21:18:29 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/30 22:53:38 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include "../utils/ft_enable_if.hpp"
 # include "../utils/ft_is_integral.hpp"
 # include "../iterator/iterator_vector.hpp"
+
+
+vector<int>::iterator;
 
 namespace ft
 {   

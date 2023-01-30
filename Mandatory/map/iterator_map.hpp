@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator_map.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zakaria <zakaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 21:04:04 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/30 04:53:34 by zakaria          ###   ########.fr       */
+/*   Updated: 2023/01/31 00:18:54 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,29 @@ namespace ft
             // {}
 
 
-            __return_type  operator++(void);
+            __return_type  operator++()
+            {
+                node *current = __ptr->__right;
+                while (current->__left)
+                    current = current->__left;
+                __ptr = current;
+                //----case most left node have a left child;
+                std::cout << "__ptr parent is " << __ptr->__parent->__key.first << std::endl;
+                // if (__ptr->__right)
+                // {
+                //     __ptr = __ptr->__right;
+                //     while (__ptr && __ptr->__left)
+                //         __ptr = __ptr->__left;
+                // }
+                // else
+                // {
+                //     // while ()
+                //     __ptr = __tree.FindOldest(__tree.root,__ptr);
+                //     std::cout << "value oF oldest :" << __ptr->__key.first << std::endl;
+                
+                // }
+                return *this;
+            }
             
             __return_type operator++(int);
 
@@ -57,10 +79,10 @@ namespace ft
 
             __return_type operator--(int);
             __return_type &operator=(__return_type const  &pr)
-               {
-                    __tree  = pr.__tree;
-                    __ptr = pr.__ptr;
-                    return *this;    
+            {
+                __tree  = pr.__tree;
+                __ptr = pr.__ptr;
+                return *this;    
             }
             
             reference   operator*() const
