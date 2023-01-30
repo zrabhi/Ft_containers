@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
+/*   By: zakaria <zakaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 23:09:03 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/28 23:26:44 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/30 06:20:55 by zakaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <map>
 # include <utility>
 # include "iterator_map.hpp"
+# include "../utils/ft_algorithm.hpp"
+
 # include "../utils/ft_utility.hpp"
 # include "../AvlTree/AvlTree.hpp"
 
@@ -29,7 +31,6 @@ namespace ft
 {
 template<class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> > >
  class map {
-    
     public:
             typedef             T                                                     mapped_type;
             typedef             Key                                                   key_type;
@@ -42,11 +43,8 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
             typedef typename    allocator_type::const_reference                       const_reference;
             typedef typename    allocator_type::pointer                               pointer;
             typedef typename    allocator_type::const_pointer                         const_pointer;
-            typedef typename    ft::BidirectionalAccessIter<value_type>               iterator;
-            typedef typename    ft::BidirectionalAccessIter<const_value_type>         const_iterator;
-            // typedef typename  ft::BidirectionalAccessIterRev<value_type>              reverse_iterator;
-            // typedef typename  ft::BidirectionalAccessIterRev<const_value_type>        const_reverse_iterator;
-        /// nested class as a fucntion object
+            typedef typename  ft::map<Key, T, Compare>                                __map;
+          
         class value_compare
         {
             typedef   value_type    first_argument_type;
@@ -62,7 +60,16 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                 }
             friend class map;
         };
-        typedef typename    ft::AvlTree<value_type, value_compare, key_type, mapped_type>         AVL;
+          typedef typename    ft::AvlTree<value_type, value_compare, key_type, mapped_type, __map>                    AVL;
+          typedef typename    ft::AvlTree<value_type, value_compare, key_type, mapped_type, __map>::node              __node;
+          typedef typename    ft::BidirectionalAccessIter<value_type, key_compare, __node, AVL, value_compare>                iterator;
+          typedef typename    ft::BidirectionalAccessIter<const_value_type, key_compare, __node, AVL, value_compare>              const_iterator;
+          typedef typename    ft::BidirectionalAccessRevIter<value_type, key_compare, __node, AVL, value_compare>                 reverse_iterator;          
+          typedef typename    ft::BidirectionalAccessRevIter<const_value_type, key_compare, __node, AVL, value_compare>                const_reverse_iterator;
+          
+          friend class ft::BidirectionalAccessIter<value_type, key_compare, __node, AVL, value_compare>;
+          friend class ft::BidirectionalAccessRevIter<value_type, key_compare, __node, AVL, value_compare>;
+          
     private:
         AVL             __tree;
         size_type       __size;
@@ -75,6 +82,11 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                 {
                     __tree.PrintTree();
                 } ;
+	
+               map (const map& x) : __tree(x.__tree), __size(x.__size)
+               {
+               }
+
                 // //   std::pair<iterator, bool> @To remember;
                void     insert(const value_type& val)
                {
@@ -82,13 +94,11 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                     __size++;
                };
 
-               //-----allocatore getter
                allocator_type get_allocator() const
                {
                     return (__alloc);
                };
 
-               //// Empty 
                bool empty() const
                {
                     return (__tree.empty());
@@ -110,9 +120,21 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                     return (__size--, 1);
                }
                
+               void erase(iterator position)
+               {
+                    std::cout << position->second << "djshdjs" << std::endl; 
+                    __tree.DeleteWithKey(position->first);                 
+               }
+
+               void erase (iterator first, iterator last)
+               {
+                    // @todo
+               }
+               
                void    clear()
                {
-                    
+                    __tree.clearTree(__tree.root);
+                    __tree.root = nullptr;
                }
 
                mapped_type& operator[] (const key_type& k)
@@ -120,13 +142,118 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                     return ( __tree.findVal(k));
                }
 
+               map& operator= (const map& x)
+               {
+                    __tree = x.__tree;
+                    __size = x.size;
+               }
                size_type count (const key_type& k) 
                {
                     return __tree.count(k);
                }
+
+               iterator begin()
+               {
+                    return  iterator(__tree.returnBegin());
+               }
+
+               const_iterator begin() const
+               {
+                    return const_iterator(__tree.returnBegin());
+               }
+
+               const_iterator end() const
+               {
+                    return const_iterator(__tree.returnEnd());
+               }
+               
+               iterator end()
+               {
+                    return iterator(__tree.returnEnd());
+               }
+
+               reverse_iterator rbegin()
+               {
+                    return   reverse_iterator(__tree.returnEnd());
+               }
+               
+               const_reverse_iterator rbegin() const
+               {
+                    return const_reverse_iterator(__tree.returnEnd());
+               }
+
+               const_reverse_iterator rend() const
+               {
+                    return const_reverse_iterator(__tree.returnEnd());
+               }
+
+               reverse_iterator rend()
+               {
+                    return reverse_iterator(__tree.returnBegin());
+               }
+
             
+               iterator find (const key_type& k)
+               {
+                    return iterator(__tree.ReturnNodePublic(k));     
+               }
+
+               const_iterator find (const key_type& k) const
+               {
+                    return iterator(__tree.ReturnNodePublic(k));
+               }
+
+               iterator lower_bound (const key_type& k)
+               {
+                    return iterator(__tree.lower_bound(k));
+               }
+
+               pair<const_iterator,const_iterator> equal_range (const key_type& k) const
+               {
+                    /////
+               }
+               
     };
+
+//     template <class Key, class T, class Compare, class Alloc>  
+//     bool operator == ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs )
+//     {
+//          return lhs != rhs;
+//     }
+    
+//      template <class Key, class T, class Compare, class Alloc>  
+//      bool operator!= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs)
+//      { 
+//          if (lhs.size() != rhs.size())
+//                return (false);
+//           return (equal(lhs.begin(), lhs.end(), rhs.begin()));
+//      }
+
+//      template <class Key, class T, class Compare, class Alloc>  
+//      bool operator<  (const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs )
+//      {
+//           return (lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+//      }
+
+//      template <class Key, class T, class Compare, class Alloc>  
+//      bool operator<= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs )
+//      {
+//           return !(lhs > rhs);
+//      }
+
+//      template <class Key, class T, class Compare, class Alloc>  
+//      bool operator>  ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs )
+//      {
+//           return lhs < rhs;
+//      }
+
+//      template <class Key, class T, class Compare, class Alloc>  
+//      bool operator>= ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs )
+//      {
+//       return !(lhs < rhs);
+//      }
 }
+
 
 
 #endif

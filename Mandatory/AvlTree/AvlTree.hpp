@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AvlTree.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
+/*   By: zakaria <zakaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:47:43 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/28 23:22:56 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/30 05:11:04 by zakaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@
 #include "../utils/ft_utility.hpp"
 
 namespace ft {
-template<class T, class Compare, class key_type, class mapped_type, class Allocatore = std::allocator<T> >
+template<class T, class Compare, class key_type, class mapped_type, class map, class Allocatore = std::allocator<T> >
 class AvlTree 
 {
     private :
+        
         typedef             mapped_type                     _val;
         typedef             key_type                        _KEY; 
         typedef             T                               value_type;
@@ -36,14 +37,15 @@ class AvlTree
         typedef typename    allocator_type::const_reference const_reference;
         typedef typename    allocator_type::pointer         pointer;
         typedef typename    allocator_type::const_pointer   const_pointer;
-        // typedef typename    ft::pair::first_type            type; 
-      struct node
+
+       public:
+        struct node
       {
         value_type  __key;
         node        *__left;
         node        *__right;
       };
-       
+    private:
     typedef  typename allocator_type::template rebind<node>::other  node_pointer;
          
     node*    AddLeafPrivate(const value_type& key, node *_ptr)
@@ -84,7 +86,7 @@ class AvlTree
     void    PrintTreePrivate(node * root, int space)
     {
         if (!root)
-            return;
+            return ; 
         space += 10;
         PrintTreePrivate(root->__right, space);
         std::cout << std::endl;
@@ -149,16 +151,17 @@ class AvlTree
             _ptr->__right = deleteNode(_ptr->__right, key);
     else 
     {
-        std::cout << " im hereeee" << std::endl;
         if (_ptr->__left == NULL)
         {
             node * temp = _ptr->__right;
+            __val_alloc.destroy(&_ptr->__key);
             _alloc.deallocate(_ptr, 1);
             return temp;
         } 
         else if (_ptr->__right == NULL)
         {
             node * temp = _ptr->__left;
+            __val_alloc.destroy(&_ptr->__key);
             _alloc.deallocate(_ptr, 1);
             return temp;
         }
@@ -226,11 +229,11 @@ class AvlTree
     
         return y;
    }
-    
-    node            *root;
-    node_pointer    _alloc;
-    allocator_type  __val_alloc;
-    value_compare   ___comp;
+    public:
+        node            *root;
+        node_pointer    _alloc;
+        allocator_type  __val_alloc;
+        value_compare   ___comp;
     
     public:
         
@@ -250,6 +253,21 @@ class AvlTree
         void    AddLeaf(const value_type& key)
         {
            root = AddLeafPrivate(key, root);
+        }
+        
+        node* lower_bound(_KEY key)
+        {
+            node* __tmp = root;
+            while (__tmp)
+            {
+                if (key > __tmp->__key.first)
+                    __tmp = __tmp->__left;
+                else if (key < __tmp->__key.first)
+                    __tmp = __tmp->__right;
+                else
+                    return (__tmp);
+            }
+            return (__tmp);
         }
         
         node*   ReturnNode(_KEY key, node *Ptr)
@@ -283,7 +301,7 @@ class AvlTree
            PrintTreePrivate(root, 0);
         }
         
-         mapped_type&   findVal(const _KEY key)
+        mapped_type&   findVal(const _KEY key)
         {
             node *__tmp;
             __tmp = ReturnNode(key, root);
@@ -305,11 +323,38 @@ class AvlTree
             return (FindOldestPrivate(root));
         }
         
+        void    clearTree(node *_ptr)
+        {
+            if (!_ptr)
+                return ;
+            if (_ptr->__right)
+                clearTree(_ptr->__right);
+            else if(_ptr->__left)
+                clearTree(_ptr->__left);
+            __val_alloc.destroy(&_ptr->__key);
+            _alloc.deallocate(_ptr, 1);    
+        }
         void    RemoveNode(value_type key)
         {
             root = __delete(key, root);
         }
         
+        node*   returnBegin()
+        {
+            node *__ptr = root;
+            while (__ptr && __ptr->__left)
+                __ptr = __ptr->__left;
+            return (__ptr);
+        }
+
+        node*  returnEnd()
+        {
+            node *__ptr = root;
+            while (__ptr && __ptr->__right)
+                    __ptr = __ptr->__right;
+            return (__ptr);
+        }
+
 
         bool  checkKey( _KEY key, node* _ptr)
         {
@@ -330,8 +375,6 @@ class AvlTree
         {
             return (checkKey(key, root));
         }
-        
-        
 
         int     CalculHieghtHeight(node *_ptr)
         {
