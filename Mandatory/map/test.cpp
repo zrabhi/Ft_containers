@@ -4,25 +4,27 @@
 int main()
 {
     ft::map<std::string, int> p;
-    ft::map<std::string, int> tt(p);
 
-    // ft::pair<std::string, int> x("xaaaax", 5);
+    ft::pair<std::string, int> x("e", 5);
     // x.first  = "xaaaa";
     // x.second = 5;
     ft::pair<std::string, int> y;
     y.first = "a";
-    y.second = 9;
+    y.second = 10;
     ft::pair<std::string, int> z;
     z.first = "b";
-    z.second = 3;
+    z.second = 20;
     ft::pair<std::string, int> i;
     // i["iiiii"] = 10;
     i.first = "c";
-    i.second = 10;
-    // p.insert(x);
+    i.second = 30;
+    ft::pair<std::string, int> d("d", 66);
     p.insert(y);
     p.insert(z);
-    // p.insert(i);
+    p.insert(i);
+    ft::map<std::string, int> tt(p);
+    // p.insert(d);
+    // p.insert(x);
     std::cout << "Printing treee " << std::endl;
     p.printer();
     std::cout <<"\n\n" << std::endl;
@@ -33,20 +35,54 @@ int main()
     // ++it;
     std::cout << "value is " << it->first << std::endl;
     // p.erase(p.begin());
-    // p.printer();
 
     ft::map<std::string, int>::iterator __it;
-    __it = p.end();
-    ++__it;
+    __it = p.begin();
+    // std::cout << "begin is " << __it->first <<std::endl;
+    // ++__it;
+    // std::cout << "the returned node is :" << __it->first << std::endl;
+    // ++__it;
+    //  std::cout << "the returned node is :" << __it->first << std::endl;
+    // ++__it;
+    // std::cout << "the returned node is :" << __it->first << std::endl;
+    // p.printer();
     // if (it != __it)
     //     std::cout << "its trueee" << std::endl;
     // else
-    //     std::cout << "its falsee" << std::endl;
-    std::cout << "the returned node is :" << __it->first << std::endl;
-    // if (p == tt)
-    //     std::cout << "they are equal" << std::endl;
-    p.clear();
+    // std::cout << "operator -----\n\n";
+    // // --__it;
+    // std::cout << "the returned node is :" << __it->first << std::endl;
+    //  --__it;
+    // std::cout << "the returned node is :" << __it->first << std::endl;
+    // --__it;
+    // std::cout << "the returned node is :" << __it->first << std::endl;
+    // --__it;
+    // std::cout << "the returned node is :" << __it->first << std::endl;
+
+
+    std::cout << "creating another object\n\n";
+    ft::map<std::string, int> __i;
+    __i.insert(p.begin(), p.end());
+    __i.printer();
+    __i.erase(p.begin(), p.end());
+    std::cout << "Printing treee " << std::endl;
+    __i.printer();
+   
+    ft::pair<ft::map<std::string,int>::iterator, ft::map<std::string,int>::iterator> ret;
+    ret = p.equal_range("b");
+
+  std::cout << "lower bound points to: ";
+  std::cout << ret.first->first << " => " << ret.first->second << '\n';
+
+  std::cout << "upper bound points to: ";
+  std::cout << ret.second->first << " => " << ret.second->second << '\n';
+    // tt.insert(d);
+    if (tt != p)
+        std::cout << "they are equal" << std::endl;
     tt.printer();
+    // if (p == tt)
+    // p.clear();
+    // tt.printer();
 
 
     // p.printer();

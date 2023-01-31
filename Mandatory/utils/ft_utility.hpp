@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 21:54:08 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/27 23:44:35 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/31 05:37:55 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ namespace ft
         pair(const pair<_U1, _U2>& __p) : first(__p.first), second(__p.second) 
         {}
         
-        pair() : first(), second(0)
+        pair() : first(), second()
         {}     
         
         pair& operator=(pair const &pr)

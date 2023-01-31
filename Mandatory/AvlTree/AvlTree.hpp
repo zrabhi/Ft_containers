@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AvlTree.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
+/*   By: zakaria <zakaria@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:47:43 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/31 00:25:05 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/01/31 04:31:17 by zakaria          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ class AvlTree
         if (___comp(key, _ptr->__key))
         {
                 _ptr->__left = AddLeafPrivate(key, _ptr->__left);
-                _ptr->__left->__parent = _ptr;
+                // _ptr->__left->__parent = root;
         }
         else if (___comp(_ptr->__key, key))
         {
                 _ptr->__right = AddLeafPrivate(key, _ptr->__right);
-                _ptr->__right->__parent = _ptr;
+                // _ptr->__right->__parent = root;
         }  
         else
             return _ptr;
@@ -261,7 +261,7 @@ class AvlTree
     
     public:
         
-        AvlTree(const value_compare &_comp ) : root(NULL), _alloc(node_pointer()), ___comp(_comp), __val_alloc(allocator_type())
+        AvlTree(const value_compare &_comp) : root(nullptr), _alloc(node_pointer()), ___comp(_comp), __val_alloc(allocator_type())
         {
         }
         
@@ -271,7 +271,7 @@ class AvlTree
             __val_alloc.construct(&New->__key, key);
             New->__left  = NULL;
             New->__right = NULL;
-            New->__parent = NULL;
+            New->__parent = root;
             return (New);
         }
         
@@ -280,20 +280,6 @@ class AvlTree
            root = AddLeafPrivate(key, root);
         }
         
-        node* lower_bound(_KEY key)
-        {
-            node* __tmp = root;
-            while (__tmp)
-            {
-                if (key > __tmp->__key.first)
-                    __tmp = __tmp->__left;
-                else if (key < __tmp->__key.first)
-                    __tmp = __tmp->__right;
-                else
-                    return (__tmp);
-            }
-            return (__tmp);
-        }
         
         node*   ReturnNode(_KEY key, node *Ptr)
         {
@@ -396,6 +382,159 @@ class AvlTree
             return (false);
         }
 
+        
+        node* min(node *__node)
+		{
+			node* current = __node;
+
+			while (current->__left != NULL) {
+				current = current->__left;
+			}
+
+			return current;
+		}
+
+		node* max(node *__node)
+		{
+			node* current = __node;
+
+			while (current->__right) {
+				current = current->__right;
+			}
+			return current;
+		}
+
+        node* upper(value_type key, node* __root)
+		{
+			node *current = __root;
+            if (!root->__left)
+                std::cout << " in min " <<  __root->__left << std::endl;
+			node* last_valid = NULL;
+			while (current)
+            {
+				if (key.first == current->__key.first)
+                {
+					if (current->__right) {
+						return min(current->__right);
+					}
+					break ;
+				}
+				if (___comp(key , current->__key))
+                {
+					last_valid = current;
+					current = current->__left;
+				} 
+                else 
+					current = current->__right;
+			}
+			return (last_valid);
+		}
+
+        node* lower(value_type key, node* __root)
+		{
+			node *current = __root;
+            if (!root->__left)
+                std::cout << " in min " <<  __root->__left << std::endl;
+			node* last_valid = NULL;
+			while (current)
+            {
+				if (key.first == current->__key.first)
+                {
+					if (current->__left) {
+						return max(current->__left);
+					}
+					break ;
+				}
+				if (___comp(key , current->__key))
+                {
+					current = current->__left;
+				} 
+                
+                else 
+                {
+					last_valid = current;
+					current = current->__right;
+                    
+                }
+			}
+			return (last_valid);
+		}
+
+
+        
+        node*   forward(node* __ptr)
+        {
+            if (__ptr->__right)
+                return ( min(__ptr->__right));
+            return upper(__ptr->__key, root);
+        }
+
+        node* backward(node* __ptr)
+        {
+            if (__ptr->__left)
+                return max(__ptr->__left);
+            return lower(__ptr->__key, root);            
+        }
+
+        
+
+        node* lower_bound(_KEY key, node* __root)
+		{
+			node *current = __root;
+            if (!root->__left)
+                std::cout << " in min " <<  __root->__left << std::endl;
+			node* last_valid = NULL;
+			while (current)
+            {
+				if (key == current->__key.first)
+                {
+					if (current->__left) {
+						return max(current->__left);
+					}
+					break ;
+				}
+				if (key < current->__key.first)
+                {
+					current = current->__left;
+				} 
+                else 
+                {
+					last_valid = current;
+					current = current->__right;
+                }
+            }
+			return (last_valid);
+		}
+
+        
+        node *upper_bound(_KEY key,node* __root)
+        {
+            node *current = __root;
+            if (!root->__left)
+                std::cout << " in min " <<  __root->__left << std::endl;
+			node* last_valid = NULL;
+			while (current)
+            {
+				if (key == current->__key.first)
+                {
+					if (current->__right) {
+						return min(current->__right);
+					}
+					break ;
+				}
+				if (key < current->__key.first)
+                {
+					last_valid = current;
+					current = current->__left;
+				} 
+                
+                else 
+					current = current->__right;
+			}
+			return (last_valid);
+		}
+            
+        
         bool count(_KEY key)
         {
             return (checkKey(key, root));
