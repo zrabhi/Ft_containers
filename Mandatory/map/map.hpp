@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 23:09:03 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/31 07:47:17 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/01 06:36:30 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,18 @@ namespace ft
 template<class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> > >
  class map {
     public:
-            typedef             T                                                     mapped_type;
-            typedef             Key                                                   key_type;
-            typedef             Compare                                               key_compare;
-            typedef             Allocator                                             allocator_type;
-            typedef             std::size_t                                           size_type; 
-            typedef             ft::pair<const key_type, mapped_type>                 value_type;
-            typedef             ft::pair<const key_type, mapped_type>                 const_value_type;  
-            typedef typename    allocator_type::reference                             reference;
-            typedef typename    allocator_type::const_reference                       const_reference;
-            typedef typename    allocator_type::pointer                               pointer;
-            typedef typename    allocator_type::const_pointer                         const_pointer;
-            typedef typename    ft::map<Key, T, Compare>                              __map;
+          typedef             T                                                     mapped_type;
+          typedef             Key                                                   key_type;
+          typedef             Compare                                               key_compare;
+          typedef             Allocator                                             allocator_type;
+          typedef             std::size_t                                           size_type; 
+          typedef             ft::pair<const key_type, mapped_type>                 value_type;
+          typedef             ft::pair<const key_type, mapped_type>                 const_value_type;  
+          typedef typename    allocator_type::reference                             reference;
+          typedef typename    allocator_type::const_reference                       const_reference;
+          typedef typename    allocator_type::pointer                               pointer;
+          typedef typename    allocator_type::const_pointer                         const_pointer;
+          typedef typename    ft::map<Key, T, Compare>                              __map;
           
         class value_compare
         {
@@ -56,7 +56,7 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                value_compare(key_compare _c) : comp(_c){}
                bool    operator()(const first_argument_type& __x, const second_argument_type& __y) const
                {
-                       return comp(__x.first, __y.first);
+                    return comp(__x.first, __y.first);
                }
                 
             friend class map;
@@ -67,7 +67,7 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
           typedef typename    ft::BidirectionalAccessIter<const_value_type, key_compare, __node, AVL, value_compare>              const_iterator;
           typedef typename    ft::BidirectionalAccessRevIter<value_type, key_compare, __node, AVL, value_compare>                 reverse_iterator;          
           typedef typename    ft::BidirectionalAccessRevIter<const_value_type, key_compare, __node, AVL, value_compare>                const_reverse_iterator;
-          
+          typedef typename    ft::map<Key, T, Compare, Allocator>                                                                       __class_type;
           friend class ft::BidirectionalAccessIter<value_type, key_compare, __node, AVL, value_compare>;
           friend class ft::BidirectionalAccessRevIter<value_type, key_compare, __node, AVL, value_compare>;
           
@@ -77,16 +77,21 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
         allocator_type  __alloc;
     public:
                explicit map (const key_compare& comp = key_compare(),
-                const allocator_type& __alloc = allocator_type()) : __tree(value_compare(comp)), __size(0)
-                {};
+                const allocator_type& alloc = allocator_type()) : __tree(value_compare(comp)), __size(0), __alloc(alloc)
+                {
+                    
+                };
+                //// to be removed later------
                 void    printer()
                 {
                     __tree.PrintTree();
-                } ;
+                };
 
                 template <class InputIterator>
-               map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : __tree(value_compare(comp)), __size(0)
+               map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : __tree(value_compare(comp)), __size(0), __alloc(alloc)
                {
+                    if (first == last)
+                         return ;
                     while (first != last)
                     {
                          __tree.AddLeaf(*first);
@@ -95,42 +100,34 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                     __tree.AddLeaf(*last);
                }
 	
-               map (map& x) : __tree(x.__tree)
+               map (const map& x, const key_compare& comp = key_compare()) : __tree(comp)
                {
-                    // clear();
-                    // iterator  first = x.begin();
-                    // std::cout << "jksjdks " << first->second << std::endl; 
-                    // iterator  last = x.end();
+                    clear();
                     insert(x.begin(), x.end());
-                    // while (first != last)
-                    // {
-                    //      std::cout << "im hereee\n";
-                    //      __tree.AddLeaf(*first);
-                    //      first++;
-                    // }
-                    // __tree.AddLeaf(*last);
                     this->__size = x.size();
-                    // __tree = x.__tree;
-                    // __size = x.__size;
                }
 
-                // //   std::pair<iterator, bool> @To remember;
-               void     insert(const value_type& val)
+               //    std::pair<iterator, bool> @To remember;
+               void    insert(const value_type& val)
                {
                     __tree.AddLeaf(val);
                     __size++;
+                    
+                    // return (val);
                };
+               
                iterator insert (iterator position, const value_type& val);
 
                template <class InputIterator>
                void insert (InputIterator first, InputIterator last)
                {
-                    while (first != last)
+                    if (first == last)
+                         return ;
+                    for (;first != last; first++)
                     {
-                         __tree.AddLeaf(*first);
-                         first++;
+                         insert(*first);
                     }
-                    __tree.AddLeaf(*last);
+                    insert(*last);
                }
                
                allocator_type get_allocator() const
@@ -161,26 +158,39 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                
                void erase (iterator first, iterator last)
                {
-                    while (first != last)
+                    if (first == last)
+                         return ;  
+                    for(; last != first; last--)
                     {
-                         __tree.DeleteWithKey(first->first);
-                         first++;
+                         __tree.DeleteWithKey(last->first);
                     }
                     __tree.DeleteWithKey(last->first);
 
                }
-               
+                    
                void erase(iterator position)
                {
-                    std::cout << position->second << "djshdjs" << std::endl; 
-                    __tree.DeleteWithKey(position->first);                 
+                    __tree.DeleteWithKey(position->first);
+                    __size--;                
                }
 
+               void swap (map& x)
+               {
+                    ft::swap(*this, x);
+               }
                
+               //// bug in this function and leaks 
                void    clear()
                {
-                    __tree.clearTree(__tree.root);
-                    __tree.root = nullptr;
+                    if (__tree.root)
+                        {     
+                              erase(begin(), end());
+                         ///// bug is clearTree need to fix it 
+                              // __tree.clearTree(__tree.root);
+                              __tree.root = nullptr;
+                              // __alloc.deallocate(__tree.root, 1);
+                        }
+                        
                }
 
                mapped_type& operator[] (const key_type& k)
@@ -188,11 +198,14 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                     return ( __tree.findVal(k));
                }
 
-               map& operator= (const map& x)
+               map& operator= (map const &x)
                {
-                    __tree = x.__tree;
-                    __size = x.size;
+                    clear();
+                    insert(x.begin(), x.end());               
+                    __size = x.size();
+                    return (*this);
                }
+
                size_type count (const key_type& k) 
                {
                     return __tree.count(k);
@@ -266,47 +279,45 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
 
                pair<iterator,iterator>   equal_range (const key_type& k)
                {
-
                     return ft::make_pair(lower_bound(k), upper_bound(k));
                }
                
     };
 
     template <class Key, class T, class Compare, class Alloc>  
-    bool operator == (ft::map<Key,T,Compare,Alloc>& lhs, ft::map<Key,T,Compare,Alloc>& rhs )
+    bool operator == (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs )
     {
-         return lhs != rhs;
+         return !(lhs != rhs);
     }
     
      template <class Key, class T, class Compare, class Alloc>  
-     bool operator!= (ft::map<Key,T,Compare,Alloc>& lhs,  ft::map<Key,T,Compare,Alloc>& rhs)
+     bool operator!= (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
      { 
-          std:: cout << "size ____ : " << rhs.size() << " " << lhs.size() << std::endl;
-         if (lhs.size() != rhs.size())
+         if (lhs.size() == rhs.size())
                return (true);
           return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
      }
 
      template <class Key, class T, class Compare, class Alloc>  
-     bool operator<  ( ft::map<Key,T,Compare,Alloc>& lhs,  ft::map<Key,T,Compare,Alloc>& rhs )
+     bool operator<  (const ft::map<Key,T,Compare,Alloc>& lhs,  const ft::map<Key,T,Compare,Alloc>& rhs)
      {
           return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
      }
 
      template <class Key, class T, class Compare, class Alloc>  
-     bool operator<= ( ft::map<Key,T,Compare,Alloc>& lhs,  ft::map<Key,T,Compare,Alloc>& rhs )
+     bool operator<= ( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
      {
           return !(lhs > rhs);
      }
 
      template <class Key, class T, class Compare, class Alloc>  
-     bool operator>  (  ft::map<Key,T,Compare,Alloc>& lhs,  map<Key,T,Compare,Alloc>& rhs )
+     bool operator>  ( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
      {
           return lhs < rhs;
      }
 
      template <class Key, class T, class Compare, class Alloc>  
-     bool operator>= (  ft::map<Key,T,Compare,Alloc>& lhs,  ft::map<Key,T,Compare,Alloc>& rhs )
+     bool operator>= ( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
      {
       return !(lhs < rhs);
      }

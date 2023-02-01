@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AvlTree.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zakaria <zakaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:47:43 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/31 04:31:17 by zakaria          ###   ########.fr       */
+/*   Updated: 2023/02/01 06:50:45 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,11 @@ class AvlTree
         if (!_ptr)
             return (creatleaf(key));
         if (___comp(key, _ptr->__key))
-        {
                 _ptr->__left = AddLeafPrivate(key, _ptr->__left);
                 // _ptr->__left->__parent = root;
-        }
         else if (___comp(_ptr->__key, key))
-        {
                 _ptr->__right = AddLeafPrivate(key, _ptr->__right);
                 // _ptr->__right->__parent = root;
-        }  
         else
             return _ptr;
         return checklBalance(key, _ptr);
@@ -97,8 +93,8 @@ class AvlTree
         space += 10;
         PrintTreePrivate(root->__right, space);
         std::cout << std::endl;
-        for(size_t i = 0; i < space; i++)  std::cout << " ";
-        std::cout << root->__key.first << std::endl;
+        for(int i = 0; i < space; i++)  std::cout << " ";
+        std::cout << "\033[31m "<< root->__key.first << " \033[30m" <<  std::endl;
         PrintTreePrivate(root->__left, space);
     }
     
@@ -118,6 +114,7 @@ class AvlTree
   
     int     FindSmallestPrivate(node* ptr, node *p) // same ass subtree function
     {
+        (void)p;
         if (ptr->__left)
             return (FindSmallestPrivate(ptr->__left));
         return (ptr->__key->first);
@@ -197,6 +194,7 @@ class AvlTree
 
     node*   balanceAfterDeletion(node *_ptr, value_type key)
     {
+        (void)key;
         int balance = CalculHieghtHeight(_ptr);
 
         if (balance == 2 && CalculHieghtHeight(_ptr->__left) >= 0)
@@ -235,11 +233,6 @@ class AvlTree
     
         x->__right= y;
         y->__left = T2;
-        // if (y->__parent)
-        // {
-        //     if (y->__parent->__left == node)
-        //         y->__parent->__left = 
-        // }
         return x;
   }
 
@@ -261,9 +254,15 @@ class AvlTree
     
     public:
         
-        AvlTree(const value_compare &_comp) : root(nullptr), _alloc(node_pointer()), ___comp(_comp), __val_alloc(allocator_type())
+        AvlTree(const value_compare &_comp) : root(nullptr),  _alloc(node_pointer()), __val_alloc(allocator_type()),  ___comp(_comp)
         {
         }
+
+        // AvlTree(const AvlTree& x)
+        // {
+
+        //     this->___comp = x.___comp;
+        // }
         
         node*   creatleaf( const value_type& key)
         {
@@ -271,7 +270,7 @@ class AvlTree
             __val_alloc.construct(&New->__key, key);
             New->__left  = NULL;
             New->__right = NULL;
-            New->__parent = root;
+            New->__parent = NULL;
             return (New);
         }
         
@@ -303,7 +302,8 @@ class AvlTree
         {
             node * __tmp;
             __tmp = ReturnNode(key, root);
-            std::cout << "node key value is==>" <<  __tmp->__key.first  << std::endl;
+            if (!__tmp)
+                std::cout << "im heree\n";
             root = deleteNode(root, __tmp->__key);
         }
         
@@ -336,21 +336,24 @@ class AvlTree
         
         void    clearTree(node *_ptr)
         {
-            if (!_ptr)
-                return ;
-            if (_ptr->__right)
+            // if (!_ptr)
+            //     return ;
+            if ((_ptr)->__right)
                 clearTree(_ptr->__right);
-            else if(_ptr->__left)
+            else if ((_ptr)->__left)
                 clearTree(_ptr->__left);
-            __val_alloc.destroy(&_ptr->__key);
-            _alloc.deallocate(_ptr, 1);    
+            else
+            {
+                    __val_alloc.destroy(&_ptr->__key);
+                    _alloc.deallocate(_ptr, 1); 
+            }
         }
         void    RemoveNode(value_type key)
         {
             root = __delete(key, root);
         }
         
-        node*   returnBegin()
+        node*   returnBegin()const
         {
             node *__ptr = root;
             while (__ptr && __ptr->__left)
@@ -358,7 +361,7 @@ class AvlTree
             return (__ptr);
         }
 
-        node*  returnEnd()
+        node*  returnEnd() const
         {
             node *__ptr = root;
             while (__ptr && __ptr->__right)
@@ -407,8 +410,6 @@ class AvlTree
         node* upper(value_type key, node* __root)
 		{
 			node *current = __root;
-            if (!root->__left)
-                std::cout << " in min " <<  __root->__left << std::endl;
 			node* last_valid = NULL;
 			while (current)
             {
@@ -433,8 +434,6 @@ class AvlTree
         node* lower(value_type key, node* __root)
 		{
 			node *current = __root;
-            if (!root->__left)
-                std::cout << " in min " <<  __root->__left << std::endl;
 			node* last_valid = NULL;
 			while (current)
             {

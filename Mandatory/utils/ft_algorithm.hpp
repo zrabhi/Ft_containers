@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_algorithm.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zakaria <zakaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 21:24:12 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/30 06:14:30 by zakaria          ###   ########.fr       */
+/*   Updated: 2023/02/01 01:17:29 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ namespace ft
             }
             return (true);            
         }
-        template <class InputIterator1, class InputIterator2>
+    template <class InputIterator1, class InputIterator2>
         bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1,
                                 InputIterator2 first2, InputIterator2 last2)
         {
@@ -45,10 +45,18 @@ namespace ft
             }
             return (first2 != last2);
         }
+    
     template <class InputIter>
     size_t difference(InputIter first, InputIter last)
     {
         return (last - first);
+    }
+
+    template <class T> void swap ( T& a, T& b )
+    {
+        T c(a);
+        a = b; 
+        b = c;
     }
 }
 

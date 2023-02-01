@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator_map.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zakaria <zakaria@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 21:04:04 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/31 04:39:40 by zakaria          ###   ########.fr       */
+/*   Updated: 2023/02/01 06:38:48 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ namespace ft
         public:
         
            // // to be removed
-            BidirectionalAccessIter(node *_n, node *__root,  const key_compare& comp = key_compare()) : __ptr(_n), __tree(value_compare(comp))
+            BidirectionalAccessIter(node *_n, node *__root,  const key_compare& comp = key_compare()) :  __tree(value_compare(comp)),__ptr(_n)
             {
                 __tree.root = __root;
             };
@@ -48,8 +48,8 @@ namespace ft
             
             {};
             
-            BidirectionalAccessIter(const BidirectionalAccessIter<T, Compare, Node, AvlTree, value_compare>& obj) : __ptr(obj.__ptr), __tree(obj.__tree)
-            {}
+            BidirectionalAccessIter(const BidirectionalAccessIter<T, Compare, Node, AvlTree, value_compare>& obj) :  __tree(obj.__tree), __ptr(obj.__ptr)
+            {};
 
 
             __return_type  operator++()
@@ -96,7 +96,12 @@ namespace ft
                 return *this;
             }
 
-            __return_type operator--(int);
+            __return_type operator--(int)
+            {
+                 __return_type __tmp = *this;
+                operator--();
+                return __tmp;
+            }
             __return_type &operator=(__return_type const  &pr)
             {
                 __tree  = pr.__tree;
