@@ -22,11 +22,12 @@ int main()
     p.insert(y);
     p.insert(z);
     p.insert(i);
+    // p.insert(y);
     ft::map<std::string, int> tt(p);
-    p.insert(d);
-    p.insert(x);
+    // p.insert(d);
+    // p.insert(x);
     std::cout << "Printing TT tree\n\n";
-    tt.insert(d);
+    // tt.insert(d);
     tt.printer();
     std::cout << "Printing  P treee " << std::endl;
     p.printer();
@@ -36,8 +37,9 @@ int main()
 
     tt.printer();
     std::cout << "Printing  P treee " << std::endl;
-    p.erase(p.begin(), p.end());
+    // p.erase(p.begin(), p.end());
     p.printer();
+    // system("leaks Map");
 
     // std::cout <<"\n\n" << std::endl;
     // std::cout << "size of the map is "  << p.size() << std::endl;
@@ -81,22 +83,23 @@ int main()
 //     __i.erase(p.begin(), p.end());
 //     __i.printer();
    
-//     ft::pair<ft::map<std::string,int>::iterator, ft::map<std::string,int>::iterator> ret;
-//     ret = p.equal_range("b");
+  std::cout << "lower bound points to: ";
+    ft::pair<ft::map<std::string,int>::iterator, ft::map<std::string,int>::iterator> ret;
+    ret = p.equal_range("b");
 
-//   std::cout << "lower bound points to: ";
-//   std::cout << ret.first->first << " => " << ret.first->second << '\n';
+  std::cout << ret.first->first << " => " << ret.first->second << '\n';
 
 //   std::cout << "upper bound points to: ";
-//   std::cout << ret.second->first << " => " << ret.second->second << '\n';
+  std::cout << ret.second->first << " => " << ret.second->second << '\n';
 //     tt.insert(d);
 //     std::cout << "Testing swap fucntion \n\n\n";
 
-//     p.erase("b");
+    p.erase("b");
 //     std::cout << "printing TT Tree AFTERRR ERASE\n";
 //     tt.printer();
-//     // if (tt == p)
-//     //     std::cout << "they are equal" << std::endl;
+//  std::cout << p.size() << " ; " << tt.size() << std::endl;
+    // if (tt > p)
+        // std::cout << "they are equal " << p.max_size() << std::endl;
 //     // tt.swap(p);
 //     // std::cout << "printing TT Tree\n";
 //     // tt.printer();

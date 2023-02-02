@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 23:09:03 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/01 06:36:30 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/02 08:07:41 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,22 +72,25 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
           friend class ft::BidirectionalAccessRevIter<value_type, key_compare, __node, AVL, value_compare>;
           
     private:
-        AVL             __tree;
-        size_type       __size;
-        allocator_type  __alloc;
-    public:
+        AVL               __tree;
+        value_compare     __comp;
+        size_type         __size;
+        allocator_type    __alloc;
+    public:  
                explicit map (const key_compare& comp = key_compare(),
-                const allocator_type& alloc = allocator_type()) : __tree(value_compare(comp)), __size(0), __alloc(alloc)
-                {
+               const allocator_type& alloc = allocator_type()) : __tree(value_compare(comp)), __comp(value_compare(comp)), __size(0), __alloc(alloc)
+               {
                     
-                };
+               };
                 //// to be removed later------
-                void    printer()
-                {
+               void    printer()
+               {
                     __tree.PrintTree();
-                };
+               };
+               ~map();
+               
 
-                template <class InputIterator>
+               template <class InputIterator>
                map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : __tree(value_compare(comp)), __size(0), __alloc(alloc)
                {
                     if (first == last)
@@ -100,7 +103,7 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                     __tree.AddLeaf(*last);
                }
 	
-               map (const map& x, const key_compare& comp = key_compare()) : __tree(comp)
+               map (const map& x, const key_compare& comp = key_compare()) : __tree(comp), __comp(comp)
                {
                     clear();
                     insert(x.begin(), x.end());
@@ -108,12 +111,14 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                }
 
                //    std::pair<iterator, bool> @To remember;
-               void    insert(const value_type& val)
+               ft::pair<iterator, bool>  insert(const value_type& val)
                {
+                   __node* __tmp = __tree.ReturnNode(val.first, __tree.root);
+                    if (__tmp)
+                          return (ft::make_pair<iterator, bool>(iterator(__tmp, __tree.root), false));
                     __tree.AddLeaf(val);
                     __size++;
-                    
-                    // return (val);
+                    return (ft::make_pair<iterator, bool>(iterator(__tmp, __tree.root), true));
                };
                
                iterator insert (iterator position, const value_type& val);
@@ -163,8 +168,10 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                     for(; last != first; last--)
                     {
                          __tree.DeleteWithKey(last->first);
+                         __size--;
                     }
                     __tree.DeleteWithKey(last->first);
+                    __size--;
 
                }
                     
@@ -185,10 +192,8 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                     if (__tree.root)
                         {     
                               erase(begin(), end());
-                         ///// bug is clearTree need to fix it 
-                              // __tree.clearTree(__tree.root);
+                              __tree.clearTree(__tree.root);
                               __tree.root = nullptr;
-                              // __alloc.deallocate(__tree.root, 1);
                         }
                         
                }
@@ -264,22 +269,60 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
 
                iterator lower_bound (const key_type& k)
                {
-                    return iterator(__tree.lower_bound(k,  __tree.root), __tree.root);
+                    iterator __beging = begin();
+                    iterator __end = end();
+                    for (; __beging != __end; __beging++)
+                    {
+                         if (k <= __beging->first)
+                              break;     
+                    }
+                    return (__beging);
                }
-
-               iterator upper_bound (const key_type& k)
+               
+               const_iterator lower_bound (const key_type& k) const
                {
-                    return iterator(__tree.upper_bound(k, __tree.root), __tree.root);
+                    const_iterator __beging = begin();
+                    const_iterator __end = end();
+                    for (; __beging != __end; __beging++)
+                    {
+                         if (k <= __beging->first)
+                              break;     
+                    }
+                    return (__beging);
                }
 
+               iterator upper_bound(const key_type& k)
+               {
+                    iterator __beging = begin();
+                    iterator __end = end();
+                    for (; __beging != __end; __beging++)
+                    {
+                         if (k <  __beging->first)
+                              break;     
+                    }
+                    return (__beging);
+               }
+                
+               const_iterator upper_bound(const key_type& k) const
+               {
+                    const_iterator __beging = begin();
+                    const_iterator __end = end();
+                    for (; __beging != __end; __beging++)
+                    {
+                         if (k < __beging->first)
+                              break;     
+                    }
+                    return (__beging);
+               }
+               
                pair<const_iterator,const_iterator> equal_range (const key_type& k) const
                {
-                    return ft::make_pair(lower_bound(k), upper_bound(k));
+                    return ft::make_pair<const_iterator,const_iterator>(lower_bound(k), upper_bound(k));
                }
 
                pair<iterator,iterator>   equal_range (const key_type& k)
                {
-                    return ft::make_pair(lower_bound(k), upper_bound(k));
+                    return ft::make_pair<iterator,iterator>(lower_bound(k), upper_bound(k));
                }
                
     };
@@ -287,13 +330,14 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
     template <class Key, class T, class Compare, class Alloc>  
     bool operator == (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs )
     {
-         return !(lhs != rhs);
+         return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
     }
     
      template <class Key, class T, class Compare, class Alloc>  
      bool operator!= (const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
      { 
-         if (lhs.size() == rhs.size())
+          std::cout << lhs.size() << " ; " << rhs.size() << std::endl;
+         if (lhs.size() != rhs.size())
                return (true);
           return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
      }

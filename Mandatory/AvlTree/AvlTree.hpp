@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:47:43 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/01 06:50:45 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/02 08:00:14 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,15 +338,15 @@ class AvlTree
         {
             // if (!_ptr)
             //     return ;
-            if ((_ptr)->__right)
-                clearTree(_ptr->__right);
-            else if ((_ptr)->__left)
-                clearTree(_ptr->__left);
-            else
-            {
+            // if ((_ptr)->__right)
+            //     clearTree(_ptr->__right);
+            // else if ((_ptr)->__left)
+            //     clearTree(_ptr->__left);
+            // else
+            // {
                     __val_alloc.destroy(&_ptr->__key);
                     _alloc.deallocate(_ptr, 1); 
-            }
+            // }
         }
         void    RemoveNode(value_type key)
         {

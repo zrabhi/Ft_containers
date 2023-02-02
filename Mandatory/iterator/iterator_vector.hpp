@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 16:09:51 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/28 22:42:42 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/02 06:16:30 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,8 @@ namespace ft
                 
                     RandomAccessIterRev& operator++()
                     {
-                        return (--_ptr, *this);    
+                        std::cout << "in operator \n";
+                        return (_ptr--, *this);    
                     }
                 
                     RandomAccessIterRev& operator--()
@@ -164,16 +165,16 @@ namespace ft
                     RandomAccessIterRev operator--(int)
                     {
                         RandomAccessIterRev tmp(*this);
-                        return (++_ptr, *this);
+                        return (++_ptr, tmp);
                     }
                 
                     RandomAccessIterRev operator++(int)
                     {
                         RandomAccessIterRev tmp(*this);
-                        return (--_ptr, *this);   
+                        return (--_ptr, tmp);   
                     }
                     
-                    RandomAccessIterRev& operator=(RandomAccessIterRev& obj)
+                    RandomAccessIterRev& operator=( const RandomAccessIterRev& obj)
                     {
                         return (this->_ptr = obj._ptr, *this);
                     }

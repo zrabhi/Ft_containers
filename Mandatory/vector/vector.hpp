@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/30 22:53:38 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/02 08:36:39 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 # include <memory>
 # include "../utils/ft_enable_if.hpp"
 # include "../utils/ft_is_integral.hpp"
+# include "../utils/ft_utility.hpp" 
 # include "../iterator/iterator_vector.hpp"
 
 
-vector<int>::iterator;
 
 namespace ft
 {   
@@ -85,6 +85,7 @@ namespace ft
 			
             void    _insert_end(size_type n, const value_type& val, pointer tmp, size_type _size)
             {
+                (void)tmp;
                 reserve(n + _size);
                 for(size_t i = 0; i < n; i++) _alloc.construct(_end++, val);
             }
@@ -151,13 +152,14 @@ namespace ft
         public:
             explicit vector(const allocator_type& alloc = allocator_type()) : 
                     _alloc(alloc),
-                            _start(nullptr),
-                                    _end(nullptr),
-                                            _capacity(0),
-                                                _size(0)
-                                    {}
+                           _capacity(0),
+                                     _size(0)
+                {
+                     _start = _alloc.allocate(_capacity);
+                     _end = _start;
+                }
             explicit vector(size_type n, const value_type& val = value_type(),
-                     const allocator_type& alloc = allocator_type()) : _size(0)
+                     const allocator_type& alloc = allocator_type()) : _size(n)
             {
                 _alloc = alloc;
                 _start = _alloc.allocate(n);
@@ -169,7 +171,7 @@ namespace ft
 
             template <class InputIterator>
             vector(typename ft::enable_if<!(ft::is_integral<InputIterator>::value), InputIterator>::type first, 
-                    InputIterator last,const allocator_type& alloc = allocator_type()) : _capacity(0), _size(0)
+                    InputIterator last,const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(0), _size(0)
             {
                 iterator tmp = first;
                 for (; tmp != last; tmp++)
@@ -193,66 +195,63 @@ namespace ft
             };
             
             ~vector()
-            {};
+            {
+                clear();
+               _alloc.deallocate(_start, size()); 
+            };
             vector& operator= (const vector& x)
             {
-                if (*this != x)
-                {
-                    // if (size() == x.size())
-                    // {
-                        _alloc = x._alloc;
-                       size_type _size = x.size(); 
-                        _start = _alloc.allocate(_size);
-                        _end = _start;
-                        _capacity = x._capacity;
-                        for (size_t i = 0; i < _size; i++)
-                        {
-                            _alloc.construct(_end++, x[i]);
-                        }
-                    // }
-                    // else if (_capacity >=)
-                }
+                 _alloc = x._alloc;
+                size_type _size = x.size(); 
+                 _start = _alloc.allocate(_size);
+                 _end = _start;
+                 _capacity = x._capacity;
+                 for (size_t i = 0; i < _size; i++)
+                 {
+                     _alloc.construct(_end++, x[i]);
+                 }
+            
                 return (*this);
             } 
                    
             iterator begin()
             {
-            	return (_start);        
+            	return (iterator(_start));        
             }
             
             iterator end()
             {
-                return (_end);
+                return (iterator(_end));
             }
             
             const_iterator begin() const
             {
-                return (_start);
+                return (const_iterator(_start));
             }
             
             const_iterator end() const
             {
-                return (_end);
+                return (const_iterator(_end));
             }
             
             reverse_iterator rbegin()
             {
-                return (_end);
+                return (reverse_iterator(_end - 1));
             }
             
             reverse_iterator rend()
             {
-                return (_start);        
+                return (reverse_iterator(_start - 1));        
             }
             
             const_reverse_iterator rend() const
             {
-                return (_start);      
+                return (const_reverse_iterator(_start));      
             }
             
             const_reverse_iterator rbegin() const
             {
-                return (_end);
+                return (const_reverse_iterator(_end));
             }
             
             size_type       size() const
@@ -304,21 +303,22 @@ namespace ft
 
             reference front()
             {
-                return (_start);
+                
+                return (_start[0]);
             }
             const_reference front() const 
             {
-                return (_start);
+                return (_start[0]);
             }
              
             reference back()
             {
-                return (_end - 1);
+                return (_start[size() - 1]);
             }
             
             const_reference back() const 
             {
-                return (_end - 1);        
+                return (_start[size() - 1]);        
             } 
 
             size_type capacity()
@@ -341,7 +341,7 @@ namespace ft
                 size_type _size = size(); 
                 size_type pos = &(*position) - _start;
                 pointer _str = _start;
-                size_t diff = 0 , i = 0;
+                size_t diff = 0;
                 InputIt tmp = first;
                 while (tmp++ != last)
                         diff++;
@@ -390,13 +390,12 @@ namespace ft
                     tmp = first;
                     while (tmp++ != last)
                         _range++;
-                    // clear();
+                    clear();
                     resize(_range);
-                    // tmp = begin();
-                    // __extra_capacity(_range);
-                    while (first != last)
-                        push_back(*(first++));
-                            // assign(1, *(first++));
+                    size_type i = 0;
+                    for (; first != last; ++i, ++first)
+                        _alloc.construct(&_end[i], *first);
+                    _size = i;
               };
 							
 			void	assign (size_type n, const value_type& val)
@@ -407,25 +406,40 @@ namespace ft
 			
             void    resize(size_type n, value_type val = value_type())
             {
-                size_type _size = size();
-                if (n < _size)
-                      _destroy_range(n, _size);
-                if (n > _size)
-                {
-                    if (n > _capacity)
-                    {
-                        pointer tmp = _start;
-                        _extra_capacity(n, tmp, _size);
-                        _capacity = n;
-                        for(; _size < n; _size++)  _alloc.construct(_end++, val);
-                    }
-                    for(; _size < n; _size++)  _alloc.construct(_end++, val);
-                }
+                // size_type _size = size();
+                // if (n < _size)
+                //       _destroy_range(n, _size);
+                // if (n > _size)
+                // {
+                //     if (n > _capacity)
+                //     {
+                //         pointer tmp = _start;
+                //         _extra_capacity(n, tmp, _size);
+                //         _capacity = n;
+                //         for(; _size < n; _size++)  _alloc.construct(_end++, val);
+                //     }
+                //     for(; _size < n; _size++)  _alloc.construct(_end++, val);
+                // }
+                // pointer tmp = _start;
+                if (n > _capacity)
+                    __extra_capacity(n);
+                while (n > size())
+                    push_back(val);
+                while (n < size())
+                    pop_back();
             } 
             
             void push_back(const value_type &val)
             {
-               insert(end(), val);
+                insert(end(), 1, val);
+                // size_type s = size();
+                // pointer tmp = _start;
+                // if (s + 1 > _capacity)
+                // {
+                //     _double();
+                //     _extra_capacity(_capacity, tmp, s);
+                // }
+                // _alloc.construct(_end++, val);
             }
             
             void    reserve(size_type n)
@@ -434,9 +448,7 @@ namespace ft
                         throw std::length_error("Greater than max_size");                      
                 if (n > _capacity)
                 {
-                    std::cout << "in reserveee" << std::endl;
                     pointer tmp = _start;
-                    size_type u = size();
                     _extra_capacity(n, tmp, size());
                     _capacity = n;
                 }
@@ -444,8 +456,12 @@ namespace ft
             
             void pop_back()
             {
-                --this->_end;
-                this->_alloc.destroy(this->_end);
+                // if (size())
+                // {
+                    _end--;
+                    this->_alloc.destroy(_end);
+                // }   
+                // --this->_end;
             }
             
             iterator erase(iterator position)
@@ -481,43 +497,86 @@ namespace ft
                 x = *this;
                 *this = tmp;
             };
-        };
+            
+        friend bool operator== (const vector& lhs, const vector& rhs)
+        {
+            if (lhs.size() != rhs.size())
+                    return (false);
+            const_iterator __end = lhs.end();
+            ft::pair<const_iterator, const_iterator> _it(lhs.begin(), rhs.begin());
+            for (; _it.first !=  __end; ++_it.first, ++_it.second)
+            {
+                if (*(_it.first) != *(_it.second))
+                        return false;
+            }
+            return true;
+        }
+
+        friend bool operator!= (const vector& lhs, const vector& rhs)
+        {
+            if (lhs.size() != rhs.size())
+                    return (true);
+            const_iterator __end = lhs.end();
+            ft::pair<const_iterator, const_iterator> _it(lhs.begin(), rhs.begin());
+            for (; _it.first !=  __end; ++_it.first, ++_it.second)
+            {
+                if (*(_it.first) != *(_it.second))
+                        return true;
+            }
+            return false;
+        }
+
+        friend bool operator<  (const vector& lhs, const vector& rhs)
+        {
+            if (lhs.size() < rhs.size())
+                return (true);
+            const_iterator __end_l = lhs.end();
+            const_iterator __end_r = rhs.end();
+            ft::pair<const_iterator, const_iterator> _it(lhs.begin(), rhs.begin());
+            for (; _it.first !=  __end_l && _it.second != __end_r ; ++_it.first, ++_it.second)
+            {
+                if (*(_it.first) < *(_it.second))
+                        return true;
+            }
+            return false;
+        }
+
+        friend bool operator<= (const vector& lhs, const vector& rhs)
+        {
+            return (lhs < rhs || lhs == rhs);
+        }
+
+      friend  bool operator>  (const vector& lhs, const vector& rhs)
+        {
+            if (lhs.size() > rhs.size())
+                return (true);
+            const_iterator __end_l = lhs.end();
+            const_iterator __end_r = rhs.end();
+            ft::pair<const_iterator, const_iterator> _it(lhs.begin(), rhs.begin());
+            for (; _it.first !=  __end_l && _it.second != __end_r ; ++_it.first, ++_it.second)
+            {
+                if (*(_it.first) > *(_it.second))
+                        return true;
+            }
+            return false;
+        }
+
+        friend bool operator>= (const vector& lhs, const vector& rhs)
+        {
+           if (lhs.size() >= rhs.size())
+                return (true);
+            const_iterator __end_l = lhs.end();
+            const_iterator __end_r = rhs.end();
+            ft::pair<const_iterator, const_iterator> _it(lhs.begin(), rhs.begin());
+            for (; _it.first !=  __end_l && _it.second != __end_r ; ++_it.first, ++_it.second)
+            {
+                if (*(_it.first) >= *(_it.second))
+                        return true;
+            }
+            return false;
+        }
+};
     
-    template <class T, class Alloc>
-        bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-        {
-                return (lhs == rhs);
-        }
-
-    template <class T, class Alloc>
-        bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-        {
-            return !(lhs == rhs);
-        }
-
-    template <class T, class Alloc>
-        bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-        {
-            return (lhs < rhs);
-        }
-
-    template <class T, class Alloc>
-        bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-        {
-            return ( lhs <= rhs);
-        }
-
-    template <class T, class Alloc>
-        bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-        {
-            return (lhs > rhs);
-        }
-
-    template <class T, class Alloc>
-        bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-        {
-            return (lhs >= rhs);
-        }
 }
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 21:04:04 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/01 06:38:48 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/01 23:02:35 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ namespace ft
             {
                 __tree.root = __root;
             };
-            BidirectionalAccessIter(const key_compare& comp = key_compare()) : __ptr(nullptr), __tree(value_compare(comp))
+            BidirectionalAccessIter(const key_compare& comp = key_compare()) : __tree(value_compare(comp)), __ptr(nullptr)
             
             
             {};
@@ -59,6 +59,7 @@ namespace ft
                 // std::cout << __ptr->__parent->__key.first << std::endl;
                 // __tree.PrintTree();
                 __ptr = __tree.forward(__ptr);
+                std::cout << "operator ++" << std::endl;
                 // std::cout << "im hereee " <<  std::endl;
                 return (*this);
                 // node *current = __ptr->__right;
@@ -165,13 +166,32 @@ namespace ft
             
             BidirectionalAccessRevIter(const BidirectionalAccessIter<T, Compare, Node, AvlTree, value_compare>& obj) : __ptr(obj.__ptr), __tree(obj.__tree)
             {}
-            __return_type  operator++(void);
+            __return_type  operator++()
+            {
+                __ptr = __tree.backward(__ptr);
+                return *this;
+            }
             
-            __return_type operator++(int);
+            __return_type operator++(int)
+            {
+                __return_type __tmp = *this;
+                operator++();
+                return __tmp;
+            }
 
-            __return_type operator--();
+            __return_type operator--()
+            {
+                __ptr = __tree.forward(__ptr);
+                return (*this);
+            }
 
-            __return_type operator--(int);
+            __return_type operator--(int)
+            {
+                __return_type __tmp = *this;
+                operator--();
+                return __tmp;
+                
+            }
             __return_type &operator=(__return_type const  &pr)
                {
                     __tree  = pr.__tree;
