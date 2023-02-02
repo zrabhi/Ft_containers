@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 15:22:32 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/02 08:35:31 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/02 08:42:00 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -875,8 +875,9 @@ void vector_tests()
 
     }
 }
-int main()
-{
+
+  int main()
+  {
     vector_tests();
     system("leaks Map");
-}
+  }

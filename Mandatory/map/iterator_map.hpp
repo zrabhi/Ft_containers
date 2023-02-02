@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 21:04:04 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/01 23:02:35 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/02 09:10:43 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,34 +54,8 @@ namespace ft
 
             __return_type  operator++()
             {
-
-                
-                // std::cout << __ptr->__parent->__key.first << std::endl;
-                // __tree.PrintTree();
                 __ptr = __tree.forward(__ptr);
-                std::cout << "operator ++" << std::endl;
-                // std::cout << "im hereee " <<  std::endl;
                 return (*this);
-                // node *current = __ptr->__right;
-                // while (current->__left)
-                //     current = current->__left;
-                // __ptr = current;
-                // //----case most left node have a left child;
-                // std::cout << "__ptr parent is " << __ptr->__parent->__key.first << std::endl;
-                // if (__ptr->__right)
-                // {
-                //     __ptr = __ptr->__right;
-                //     while (__ptr && __ptr->__left)
-                //         __ptr = __ptr->__left;
-                // }
-                // else
-                // {
-                //     // while ()
-                //     __ptr = __tree.FindOldest(__tree.root,__ptr);
-                //     std::cout << "value oF oldest :" << __ptr->__key.first << std::endl;
-                
-                // }
-                return *this;
             }
             
             __return_type operator++(int)
@@ -107,7 +81,6 @@ namespace ft
             {
                 __tree  = pr.__tree;
                 
-                std::cout << "operator " << pr.__tree.root->__key.first << std::endl;
                 __ptr = pr.__ptr;
                 return *this;    
             }

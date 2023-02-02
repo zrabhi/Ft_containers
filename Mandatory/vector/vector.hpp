@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/02 08:36:39 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/02 10:27:14 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ namespace ft
 {   
     template <class T, class Allocator = std::allocator<T> >
     class vector {
-            
 			public:
                 typedef                 T                                          value_type;
                 typedef           const T                                          const_value_type;
@@ -199,18 +198,18 @@ namespace ft
                 clear();
                _alloc.deallocate(_start, size()); 
             };
+            
             vector& operator= (const vector& x)
             {
-                 _alloc = x._alloc;
+                _alloc = x._alloc;
                 size_type _size = x.size(); 
-                 _start = _alloc.allocate(_size);
-                 _end = _start;
-                 _capacity = x._capacity;
-                 for (size_t i = 0; i < _size; i++)
-                 {
+                _start = _alloc.allocate(_size);
+                _end = _start;
+                _capacity = x._capacity;
+                for (size_t i = 0; i < _size; i++)
+                {
                      _alloc.construct(_end++, x[i]);
-                 }
-            
+                }         
                 return (*this);
             } 
                    
@@ -432,14 +431,6 @@ namespace ft
             void push_back(const value_type &val)
             {
                 insert(end(), 1, val);
-                // size_type s = size();
-                // pointer tmp = _start;
-                // if (s + 1 > _capacity)
-                // {
-                //     _double();
-                //     _extra_capacity(_capacity, tmp, s);
-                // }
-                // _alloc.construct(_end++, val);
             }
             
             void    reserve(size_type n)

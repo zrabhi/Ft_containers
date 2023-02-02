@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 23:09:03 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/02 08:07:41 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/02 11:07:14 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
         value_compare     __comp;
         size_type         __size;
         allocator_type    __alloc;
-    public:  
+    public:
                explicit map (const key_compare& comp = key_compare(),
                const allocator_type& alloc = allocator_type()) : __tree(value_compare(comp)), __comp(value_compare(comp)), __size(0), __alloc(alloc)
                {
@@ -87,7 +87,7 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                {
                     __tree.PrintTree();
                };
-               ~map();
+               // ~map()
                
 
                template <class InputIterator>
@@ -200,7 +200,11 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
 
                mapped_type& operator[] (const key_type& k)
                {
-                    return ( __tree.findVal(k));
+                    __node* __tmp = __tree.ReturnNode(k, __tree.root);
+                    if (__tmp) 
+                         return (__tmp->__key.second);          
+                    const value_type __value = ft::make_pair<const key_type, mapped_type>(k, mapped_type());
+                    return (__tree.AddLeaf(__value), __tree.findVal(__value.first));
                }
 
                map& operator= (map const &x)
@@ -228,7 +232,7 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
 
                const_iterator end() const 
                {
-                    return const_iterator(__tree.returnEnd(), __tree.root);
+                    return const_iterator(__tree.returnEnd()  , __tree.root);
                }
                
                iterator end()
