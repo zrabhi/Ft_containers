@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 21:04:04 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/02 09:10:43 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/03 10:10:02 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ namespace ft
 
             __return_type  operator++()
             {
+                if (__ptr == __tree.__last_element)
+                {
+                    __ptr = __tree.__last_element->__right;
+                    return (*this);
+                }
                 __ptr = __tree.forward(__ptr);
                 return (*this);
             }
@@ -67,6 +72,11 @@ namespace ft
 
             __return_type operator--()
             {
+                if (__ptr == __tree.__last_element)
+                {
+                    __ptr = __tree.__last_element->__right;
+                    return (*this);
+                }
                 __ptr = __tree.backward(__ptr);
                 return *this;
             }
@@ -165,11 +175,11 @@ namespace ft
                 return __tmp;
                 
             }
-            __return_type &operator=(__return_type const  &pr)
+            __return_type &operator=(_BidirectionalAccessRevIter& const  &pr)
                {
-                    __tree  = pr.__tree;
-                    __ptr = pr.__ptr;
-                    return *this;    
+                   __tree  = pr.__tree;
+                   __ptr = pr.__ptr;
+                   return *this;    
             }
             
             reference   operator*() const

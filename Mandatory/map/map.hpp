@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 23:09:03 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/02 11:07:14 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/03 10:04:56 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
           typedef typename    ft::BidirectionalAccessRevIter<value_type, key_compare, __node, AVL, value_compare>                 reverse_iterator;          
           typedef typename    ft::BidirectionalAccessRevIter<const_value_type, key_compare, __node, AVL, value_compare>                const_reverse_iterator;
           typedef typename    ft::map<Key, T, Compare, Allocator>                                                                       __class_type;
-          friend class ft::BidirectionalAccessIter<value_type, key_compare, __node, AVL, value_compare>;
-          friend class ft::BidirectionalAccessRevIter<value_type, key_compare, __node, AVL, value_compare>;
+          friend              class ft::BidirectionalAccessIter<value_type, key_compare, __node, AVL, value_compare>;
+          friend              class ft::BidirectionalAccessRevIter<value_type, key_compare, __node, AVL, value_compare>;
           
     private:
         AVL               __tree;
@@ -82,12 +82,17 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                {
                     
                };
-                //// to be removed later------
+               //// to be removed later------
+               
                void    printer()
                {
                     __tree.PrintTree();
                };
-               // ~map()
+               ~map()
+               {
+                    clear();
+                    // __tree.clearTree(__tree.root);
+               }
                
 
                template <class InputIterator>
@@ -111,6 +116,24 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                }
 
                //    std::pair<iterator, bool> @To remember;
+              
+
+               ///////// to change it later------
+               /// @brief 
+               /// @param position search for the postion to be inserted after 
+               /// @param val value to be inserted
+               /// @return iterator  
+               size_type insert (iterator position, const value_type& val)
+               {
+                         (void)position;
+               
+                mapped_type __match = __tree.findVal(position->first);
+                     if (__match != position->first )
+                         return (0);
+                    insert(val);
+                    return (1);
+               }
+
                ft::pair<iterator, bool>  insert(const value_type& val)
                {
                    __node* __tmp = __tree.ReturnNode(val.first, __tree.root);
@@ -121,8 +144,6 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                     return (ft::make_pair<iterator, bool>(iterator(__tmp, __tree.root), true));
                };
                
-               iterator insert (iterator position, const value_type& val);
-
                template <class InputIterator>
                void insert (InputIterator first, InputIterator last)
                {
@@ -163,16 +184,12 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                
                void erase (iterator first, iterator last)
                {
-                    if (first == last)
-                         return ;  
-                    for(; last != first; last--)
+                    while (first != last)
                     {
-                         __tree.DeleteWithKey(last->first);
-                         __size--;
+                         iterator tmp(first);
+                         ++first;
+                         erase(tmp);
                     }
-                    __tree.DeleteWithKey(last->first);
-                    __size--;
-
                }
                     
                void erase(iterator position)
@@ -192,8 +209,8 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                     if (__tree.root)
                         {     
                               erase(begin(), end());
-                              __tree.clearTree(__tree.root);
-                              __tree.root = nullptr;
+                              // __tree.clearTree(__tree.root);
+                              // __tree.root = nullptr;
                         }
                         
                }
@@ -207,7 +224,7 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                     return (__tree.AddLeaf(__value), __tree.findVal(__value.first));
                }
 
-               map& operator= (map const &x)
+               map& operator= (const map &x)
                {
                     clear();
                     insert(x.begin(), x.end());               
@@ -240,7 +257,7 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                     return iterator(__tree.returnEnd(), __tree.root);
                }
 
-               reverse_iterator rbegin()
+               reverse_iterator rbegin() 
                {
                     return   reverse_iterator(__tree.returnEnd(), __tree.root);
                }
