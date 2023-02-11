@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 16:09:51 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/02 06:16:30 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/10 13:27:50 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ namespace ft
             RandomAccessIter(const RandomAccessIter<T> &obj) : _ptr(obj._ptr)
             {};
             
-            
+            pointer base() const
+            {
+                return (this->_ptr);
+            }
             RandomAccessIter& operator++() 
             {
                 return (++_ptr, *this);    
@@ -70,7 +73,7 @@ namespace ft
             {
                 if (*this != obj)
                 {
-                    this->_ptr =obj._ptr;
+                    this->_ptr = obj._ptr;
                 }
                 return ( *this);
             }
@@ -83,14 +86,21 @@ namespace ft
             {
                 return ((this->_ptr = this->_ptr - n), *this);
             }
+
+            
+            difference_type operator-( const RandomAccessIter& iter1)
+            {
+                return (this->_ptr - iter1._ptr );    
+            }
+
             RandomAccessIter& operator+(difference_type n) 
             {
                 return ((this->_ptr = this->_ptr + n), *this);
             }
         
-            RandomAccessIter& operator+=(difference_type n) const
+            RandomAccessIter& operator+=(difference_type n) 
             {
-                return (this->_ptr +=n, *this );
+                return (this->_ptr +=n , *this );
             }
             
             RandomAccessIter& operator-=(difference_type n) const
@@ -153,7 +163,7 @@ namespace ft
                 
                     RandomAccessIterRev& operator++()
                     {
-                        std::cout << "in operator \n";
+                        
                         return (_ptr--, *this);    
                     }
                 

@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/02 10:27:14 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/10 17:54:04 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,12 @@
 # define VECTOR_HPP
 
 # include <iostream>
-# include <sstream>
-# include <algorithm>
-# include <vector>
 # include <memory>
 # include "../utils/ft_enable_if.hpp"
 # include "../utils/ft_is_integral.hpp"
 # include "../utils/ft_utility.hpp" 
 # include "../iterator/iterator_vector.hpp"
-
+# include "../iterator/reverse_iterator.hpp"
 
 
 namespace ft
@@ -41,8 +38,8 @@ namespace ft
                 typedef typename  allocator_type::difference_type                  difference_type;
                 typedef typename  ft::RandomAccessIter<value_type>                 iterator;
                 typedef typename  ft::RandomAccessIter<const_value_type>           const_iterator;
-                typedef typename  ft::RandomAccessIterRev<value_type>              reverse_iterator;
-                typedef typename  ft::RandomAccessIterRev<const_value_type>        const_reverse_iterator;
+                typedef typename  ft::reverse_iterator<iterator>                   reverse_iterator;    
+                typedef typename  ft::reverse_iterator<const_iterator>             const_reverse_iterator;
                 
         private:
             allocator_type  _alloc;       
@@ -91,6 +88,7 @@ namespace ft
             
             void    __extra_capacity(size_type n)
             {
+                _alloc.deallocate(_start, size());
                 _start = _alloc.allocate(n);
                 _end = _start; 
                 _capacity = n;
@@ -172,11 +170,11 @@ namespace ft
             vector(typename ft::enable_if<!(ft::is_integral<InputIterator>::value), InputIterator>::type first, 
                     InputIterator last,const allocator_type& alloc = allocator_type()) : _alloc(alloc), _capacity(0), _size(0)
             {
-                iterator tmp = first;
+                InputIterator tmp = first;
                 for (; tmp != last; tmp++)
                     _size++;
                 reserve(_size);
-                for (iterator ptr = first; ptr != last; ptr++)
+                for (InputIterator ptr = first; ptr != last; ptr++)
                     push_back(*ptr);
             }                    
             
@@ -203,12 +201,13 @@ namespace ft
             {
                 _alloc = x._alloc;
                 size_type _size = x.size(); 
+                _alloc.deallocate(_start, size());
                 _start = _alloc.allocate(_size);
                 _end = _start;
                 _capacity = x._capacity;
                 for (size_t i = 0; i < _size; i++)
                 {
-                     _alloc.construct(_end++, x[i]);
+                    _alloc.construct(_end++, x[i]);
                 }         
                 return (*this);
             } 
@@ -235,22 +234,22 @@ namespace ft
             
             reverse_iterator rbegin()
             {
-                return (reverse_iterator(_end - 1));
+                return (reverse_iterator(iterator(_end)));
             }
             
             reverse_iterator rend()
             {
-                return (reverse_iterator(_start - 1));        
+                return (reverse_iterator(iterator(_start)));        
             }
             
             const_reverse_iterator rend() const
             {
-                return (const_reverse_iterator(_start));      
+                return (const_reverse_iterator(const_reverse_iterator(_start)));      
             }
             
             const_reverse_iterator rbegin() const
             {
-                return (const_reverse_iterator(_end));
+                return (const_reverse_iterator(const_reverse_iterator(_end )));
             }
             
             size_type       size() const
@@ -399,27 +398,12 @@ namespace ft
 							
 			void	assign (size_type n, const value_type& val)
 			{
-                std::cout << "in normale assign " << std::endl;
+                _size = n;
 				_fill_val(val, n);
 			}
 			
             void    resize(size_type n, value_type val = value_type())
             {
-                // size_type _size = size();
-                // if (n < _size)
-                //       _destroy_range(n, _size);
-                // if (n > _size)
-                // {
-                //     if (n > _capacity)
-                //     {
-                //         pointer tmp = _start;
-                //         _extra_capacity(n, tmp, _size);
-                //         _capacity = n;
-                //         for(; _size < n; _size++)  _alloc.construct(_end++, val);
-                //     }
-                //     for(; _size < n; _size++)  _alloc.construct(_end++, val);
-                // }
-                // pointer tmp = _start;
                 if (n > _capacity)
                     __extra_capacity(n);
                 while (n > size())

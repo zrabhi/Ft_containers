@@ -9,7 +9,7 @@
 
 void    blue()
 {
-    std::cout << BLUE;
+    // std::cout << BLUE;
 }
 
 void    red()
@@ -24,7 +24,7 @@ void    green()
 
 void yellow()
 {
-    std::cout << YELLOW;
+    // std::cout << YELLOW;
 }
 
 void    reset()

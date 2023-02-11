@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:47:43 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/02 08:00:14 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/11 13:43:41 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #include "../utils/ft_utility.hpp"
 
 namespace ft {
-template<class T, class Compare, class key_type, class mapped_type, class map, class Allocatore = std::allocator<T> >
+template<class T, class Compare, class key_type , class mapped_type , class Allocatore = std::allocator<T> >
 class AvlTree 
 {
     private :
@@ -45,28 +45,63 @@ class AvlTree
         node        *__left;
         node        *__parent;
         node        *__right;
-      };
+        int          height;
+            /// returns true is the parent right or left chlid matches this node;
+            bool    isRight() 
+            {
+                if (this->__parent && this->__parent->__right == this)
+                    return true;
+                else 
+                    return false;
+            };
+            bool    isLeft() 
+            {
+                if (this->__parent && this->__parent->__left && this->__parent->__left == this)
+                    return true;
+                else   
+                    return false;
+            }
+        };
     private:
     typedef  typename allocator_type::template rebind<node>::other  node_pointer;
          
+    int max(int a, int b)
+    {
+	    return (a > b)? a : b;
+    }
+
+    int height(node *N)
+    {
+	    if (N == NULL)
+		    return 0;
+	    return N->height;
+    }
+   
     node*    AddLeafPrivate(const value_type& key, node *_ptr)
     {
         if (!_ptr)
             return (creatleaf(key));
         if (___comp(key, _ptr->__key))
-                _ptr->__left = AddLeafPrivate(key, _ptr->__left);
-                // _ptr->__left->__parent = root;
+        {
+            _ptr->__left = AddLeafPrivate(key, _ptr->__left);
+            if ( _ptr->__left)
+                _ptr->__left->__parent = _ptr; 
+        }
         else if (___comp(_ptr->__key, key))
-                _ptr->__right = AddLeafPrivate(key, _ptr->__right);
-                // _ptr->__right->__parent = root;
+        {
+            _ptr->__right = AddLeafPrivate(key, _ptr->__right);
+            if ( _ptr->__right)
+                 _ptr->__right->__parent = _ptr; 
+        }
         else
             return _ptr;
+        _ptr->height = 1 + max(height(_ptr->__left), height(_ptr->__right));
         return checklBalance(key, _ptr);
     }
 
     node    *checklBalance(value_type key, node* _ptr)
     {
-        int height = CalculHieghtHeight(_ptr);
+        int height = getBalance(_ptr);
         if (height > 1 && ___comp(key, _ptr->__key))
                 return rightRotate(_ptr);
  
@@ -93,26 +128,12 @@ class AvlTree
         space += 10;
         PrintTreePrivate(root->__right, space);
         std::cout << std::endl;
-        for(int i = 0; i < space; i++)  std::cout << " ";
+        for(int i = 0; i < space; i++)   std::cout << " ";
         std::cout << "\033[31m "<< root->__key.first << " \033[30m" <<  std::endl;
         PrintTreePrivate(root->__left, space);
     }
-    
-    void    PrintInOrderPrivate(node *ptr)
-    {
-        if (root)
-        {
-            if (ptr->__left)
-                PrintInOrderPrivate(ptr->__left);
-            std::cout << ptr->__key->second << " "; 
-            if (ptr->__right)
-                PrintInOrderPrivate(ptr->__right);
-        }
-        else
-            std::cout << "Tree is empty!" << std::endl;     
-    }
   
-    int     FindSmallestPrivate(node* ptr, node *p) // same ass subtree function
+    int     FindSmallestPrivate(node* ptr, node *p) 
     {
         (void)p;
         if (ptr->__left)
@@ -120,36 +141,7 @@ class AvlTree
         return (ptr->__key->first);
     }
 
-    node     *FindOldestPrivate(node *ptr, node *__match)
-    {
-        node *__tmp = ptr;
-        while (__tmp)
-        {
-            std::cout << "im hererr " << std::endl;
-                if (__tmp->__left)
-                {
-                    if (__tmp->__left->__key.first == __match->__key.first)
-                            break ;
-                    if (___comp(__tmp->__left->__key, __match->__key))
-                        __tmp = __tmp->__left;
-                }
-                if (__tmp->__right)
-                {
-                    if (__tmp->__right->__key.first == __match->__key.first)
-                        break ;
-                    if (___comp(__match->__key, __tmp->__right->__key))
-                        __tmp = __tmp->__right;
-                }
-        }
-        return (__tmp);
-    }
 
-    bool    empty()
-    {
-        if (!root)
-            return (true);
-        return (false);
-    }
     value_type     smallestInSubTree(node *_ptr)
     {    
         if (_ptr->__left)
@@ -157,14 +149,23 @@ class AvlTree
         return (_ptr->__key);
     }
     
+
     node   *deleteNode(node *_ptr, value_type key)
     {
         if (_ptr == NULL)
             return NULL;
         if (___comp(key, _ptr->__key)) 
+        {
             _ptr->__left = deleteNode(_ptr->__left, key);
+            if ( _ptr->__left)
+                _ptr->__left->__parent = _ptr;
+        }
         else if (___comp(_ptr->__key, key)) 
+        {
             _ptr->__right = deleteNode(_ptr->__right, key);
+            if (_ptr->__right)
+                _ptr->__right->__parent = _ptr;
+        }
     else 
     {
         if (_ptr->__left == NULL)
@@ -232,38 +233,59 @@ class AvlTree
         node * T2 = x->__right;
     
         x->__right= y;
+        y->__parent =  x;
         y->__left = T2;
+        if (T2)
+            T2->__parent = y;
+        y->height = max(height(y->__left),
+					height(y->__right)) + 1;
+	    x->height = max(height(x->__left),
+					height(x->__right)) + 1;
         return x;
   }
 
-    node *  leftRotate(node * x)
-   {
-        node * y = x->__right;
-        node * T2 = y->__left;
+    node *  leftRotate(node * y)
+    {
+         node * x = y->__right;
+        node * T2 = x->__left;
     
-        y->__left = x;
-        x->__right = T2;
+        x->__left= y;
+        y->__parent =  x;
+        y->__right = T2;
+        if (T2)
+            T2->__parent = y;
+        y->height = max(height(y->__right),
+					height(y->__left)) + 1;
+	    x->height = max(height(x->__right),
+					height(x->__left)) + 1;
+        return x;
+    }
     
-        return y;
-   }
     public:
         node            *root;
         node_pointer    _alloc;
         allocator_type  __val_alloc;
+        node            *__last_element;
+        node            *__last_elemt_left;
         value_compare   ___comp;
     
     public:
-        
-        AvlTree(const value_compare &_comp) : root(nullptr),  _alloc(node_pointer()), __val_alloc(allocator_type()),  ___comp(_comp)
+        AvlTree() : root(nullptr), ___comp(std::less<int>())
         {
+            
+        }
+        AvlTree(const value_compare &_comp) : root(nullptr),  _alloc(node_pointer()), __val_alloc(allocator_type()), 
+                                                        __last_element(nullptr),__last_elemt_left(nullptr), ___comp(_comp)
+        {
+        };
+        
+        int getBalance(node *N)
+        {
+	        if (N == NULL)
+		        return 0;
+	        return height(N->__left) - height(N->__right);
         }
 
-        // AvlTree(const AvlTree& x)
-        // {
-
-        //     this->___comp = x.___comp;
-        // }
-        
         node*   creatleaf( const value_type& key)
         {
             node *New = _alloc.allocate(1);
@@ -271,14 +293,40 @@ class AvlTree
             New->__left  = NULL;
             New->__right = NULL;
             New->__parent = NULL;
+            New->height = 1;
             return (New);
         }
         
-        void    AddLeaf(const value_type& key)
+        bool    DeleteWithKey(_KEY key)
         {
-           root = AddLeafPrivate(key, root);
+            node * __tmp;
+            
+            __tmp = ReturnNode(key, root);
+            if (__tmp && __tmp->__key.first != key)
+                return false;
+            root = deleteNode(root, __tmp->__key);
+            if (!root)
+                return true;
+            root->__parent = __last_element;
+            __last_element->__left = root;
+            return true;
+        }
+       node  *AddLeaf(const value_type& key)
+        {
+            root = AddLeafPrivate(key, root);
+            
+            root->__parent = __last_element;
+            __last_element->__left = root;
+            return ReturnNode(key.first, root);
         }
         
+        node    *insert(value_type key, node *__root)
+        {
+            __root = AddLeafPrivate(key, __root);
+            __root->__parent = nullptr;
+            return (__root);
+        }
+
         
         node*   ReturnNode(_KEY key, node *Ptr)
         {
@@ -289,26 +337,45 @@ class AvlTree
                         __tmp = __tmp->__right;
                 else if (key < __tmp->__key.first)
                         __tmp = __tmp->__left;
-            } 
+            }
             return (__tmp);
         }
+        
+        bool    empty() const
+    {
+        if (!root)
+            return (true);
+        return (false);
+    }
         
         node*   ReturnNodePublic(_KEY key)
         {
             return (ReturnNode(key, root));         
         }
 
-        void    DeleteWithKey(_KEY key)
+        node_pointer get_allocatore()
         {
-            node * __tmp;
-            __tmp = ReturnNode(key, root);
-            if (!__tmp)
-                std::cout << "im heree\n";
-            root = deleteNode(root, __tmp->__key);
+            return (_alloc);
         }
+
+        
+        
+        AvlTree &operator=(AvlTree  const  &pr)
+        {
+            // if (*this != pr)
+            // {
+                if (!empty())
+                     clear_it(root);
+                clone(pr.root);
+                __last_element = pr.__last_element;
+            // }
+            return (*this);
+        }
+        
         
         void    PrintTree()
         {
+            std::cout << "PRINTING TREEE\n";
            PrintTreePrivate(root, 0);
         }
         
@@ -334,20 +401,6 @@ class AvlTree
             return (FindOldestPrivate(__root, __match));
         }
         
-        void    clearTree(node *_ptr)
-        {
-            // if (!_ptr)
-            //     return ;
-            // if ((_ptr)->__right)
-            //     clearTree(_ptr->__right);
-            // else if ((_ptr)->__left)
-            //     clearTree(_ptr->__left);
-            // else
-            // {
-                    __val_alloc.destroy(&_ptr->__key);
-                    _alloc.deallocate(_ptr, 1); 
-            // }
-        }
         void    RemoveNode(value_type key)
         {
             root = __delete(key, root);
@@ -361,15 +414,14 @@ class AvlTree
             return (__ptr);
         }
 
-        node*  returnEnd() const
+        node*  returnEnd() 
         {
             node *__ptr = root;
             while (__ptr && __ptr->__right)
                     __ptr = __ptr->__right;
             return (__ptr);
         }
-
-
+        
         bool  checkKey( _KEY key, node* _ptr)
         {
             node *__tmp = _ptr;
@@ -386,154 +438,6 @@ class AvlTree
         }
 
         
-        node* min(node *__node)
-		{
-			node* current = __node;
-
-			while (current->__left != NULL) {
-				current = current->__left;
-			}
-
-			return current;
-		}
-
-		node* max(node *__node)
-		{
-			node* current = __node;
-
-			while (current->__right) {
-				current = current->__right;
-			}
-			return current;
-		}
-
-        node* upper(value_type key, node* __root)
-		{
-			node *current = __root;
-			node* last_valid = NULL;
-			while (current)
-            {
-				if (key.first == current->__key.first)
-                {
-					if (current->__right) {
-						return min(current->__right);
-					}
-					break ;
-				}
-				if (___comp(key , current->__key))
-                {
-					last_valid = current;
-					current = current->__left;
-				} 
-                else 
-					current = current->__right;
-			}
-			return (last_valid);
-		}
-
-        node* lower(value_type key, node* __root)
-		{
-			node *current = __root;
-			node* last_valid = NULL;
-			while (current)
-            {
-				if (key.first == current->__key.first)
-                {
-					if (current->__left) {
-						return max(current->__left);
-					}
-					break ;
-				}
-				if (___comp(key , current->__key))
-                {
-					current = current->__left;
-				} 
-                
-                else 
-                {
-					last_valid = current;
-					current = current->__right;
-                    
-                }
-			}
-			return (last_valid);
-		}
-
-
-        
-        node*   forward(node* __ptr)
-        {
-            if (__ptr->__right)
-                return ( min(__ptr->__right));
-            return upper(__ptr->__key, root);
-        }
-
-        node* backward(node* __ptr)
-        {
-            if (__ptr->__left)
-                return max(__ptr->__left);
-            return lower(__ptr->__key, root);            
-        }
-
-        
-
-        node* lower_bound(_KEY key, node* __root)
-		{
-			node *current = __root;
-            if (!root->__left)
-                std::cout << " in min " <<  __root->__left << std::endl;
-			node* last_valid = NULL;
-			while (current)
-            {
-				if (key == current->__key.first)
-                {
-					if (current->__left) {
-						return max(current->__left);
-					}
-					break ;
-				}
-				if (key < current->__key.first)
-                {
-					current = current->__left;
-				} 
-                else 
-                {
-					last_valid = current;
-					current = current->__right;
-                }
-            }
-			return (last_valid);
-		}
-
-        
-        node *upper_bound(_KEY key,node* __root)
-        {
-            node *current = __root;
-            if (!root->__left)
-                std::cout << " in min " <<  __root->__left << std::endl;
-			node* last_valid = NULL;
-			while (current)
-            {
-				if (key == current->__key.first)
-                {
-					if (current->__right) {
-						return min(current->__right);
-					}
-					break ;
-				}
-				if (key < current->__key.first)
-                {
-					last_valid = current;
-					current = current->__left;
-				} 
-                
-                else 
-					current = current->__right;
-			}
-			return (last_valid);
-		}
-            
-        
         bool count(_KEY key)
         {
             return (checkKey(key, root));
@@ -542,13 +446,73 @@ class AvlTree
         int     CalculHieghtHeight(node *_ptr)
         {
             return (root == NULL ? -1 : (CalculHieght(_ptr->__left) - CalculHieght(_ptr->__right))); 
-        }    
+        }
+
+        void    clear(node* _ptr, node* _last)    
+        {
+            if (!_ptr | _ptr == _last)
+                return ;
+            clear(_ptr->__right ,_last);
+            clear(_ptr->__left,_last);
+           __val_alloc.destroy(&_ptr->__key);
+            _alloc.deallocate(_ptr, 1);
+            _ptr = nullptr;
+        }
+
+        void    clear_it(node* _ptr)    
+        {
+            if (!_ptr || _ptr->__right == __last_element)
+                return ;
+            clear_it(_ptr->__right);
+            clear_it(_ptr->__left);
+            __val_alloc.destroy(&_ptr->__key);
+            _alloc.deallocate(_ptr, 1);
+            _ptr = nullptr;
+        }
         
         ~AvlTree()
         {
-            
+            if (!empty() && root != nullptr)
+              {
+                clear_it(root);
+                root  = nullptr;
+              }
         }
-};
+        void clone( node *node)
+        {
+            if (!node)
+                return ;
+            clone(node->__left);
+            if (node->__key.first)
+                AddLeaf((node->__key));
+            clone(node->__right);
+        }
+
+        
+
+        node *getCopy(node* _ptr)
+        {
+            if (!_ptr )
+                return  _ptr;
+            _ptr->__left = getCopy(_ptr->__left);
+            if (_ptr->__key.first)
+                insert((_ptr->__key), _ptr);
+            _ptr->__right = getCopy(_ptr->__right);
+            return ( _ptr);
+        }
+       
+        node* clone_root(node *_ptr)
+        {
+
+            if (!_ptr )
+                return _ptr;
+            _ptr->__left = clone_root(_ptr->__left);
+            if (_ptr->__key.first)
+                AddLeaf((_ptr->__key));
+            _ptr->__right = clone_root(_ptr->__right);
+            return (_ptr);
+        }
+    };
 }
 
 #endif

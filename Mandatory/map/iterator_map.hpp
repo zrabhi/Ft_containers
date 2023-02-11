@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 21:04:04 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/03 10:10:02 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/10 13:34:30 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,50 +18,51 @@
 #include "iterator_map_traits.hpp"
 namespace ft
 {
-    template <class T, class Compare, class Node, class AvlTree, class value_compare>
+    template <class T, class Node>
     class BidirectionalAccessIter : public ft::iterator<std::bidirectional_iterator_tag, T>
      {
          
         public:
-            typedef Node                                                                                                                node;
-            typedef AvlTree                                                                                                             tree;
-            typedef Compare                                                                                                             key_compare;
-            typedef typename    ft::iterator_traits<ft::iterator<std::bidirectional_iterator_tag, T> >::value_type                      value_type;
+            typedef T                                                                                                                    _type;
+            typedef Node                                                                                                                 node;
+            typedef typename    ft::iterator_traits<ft::iterator<std::bidirectional_iterator_tag, T> >::value_type                       value_type;
             typedef typename    ft::iterator_traits<ft::iterator<std::bidirectional_iterator_tag, T> >::Distance                         difference_type;
             typedef typename    ft::iterator_traits<ft::iterator<std::bidirectional_iterator_tag, T> >::pointer                          pointer;
             typedef typename    ft::iterator_traits<ft::iterator<std::bidirectional_iterator_tag, T> >::reference                        reference;
             typedef typename    ft::iterator_traits<ft::iterator<std::bidirectional_iterator_tag, T> >::iterator_category                iterator_category;
-            typedef typename    ft::BidirectionalAccessIter<T, Compare, node, tree, value_compare>                                       __return_type;
-        
-        protected:
-            tree    __tree;    
-            node    *__ptr;
+            typedef typename    ft::BidirectionalAccessIter<T, node>                                                                     __return_type;
+        protected: 
+            node             *__ptr;
         public:
-        
-           // // to be removed
-            BidirectionalAccessIter(node *_n, node *__root,  const key_compare& comp = key_compare()) :  __tree(value_compare(comp)),__ptr(_n)
+          
+            
+            BidirectionalAccessIter(node *_n) :  __ptr(_n)
             {
-                __tree.root = __root;
             };
-            BidirectionalAccessIter(const key_compare& comp = key_compare()) : __tree(value_compare(comp)), __ptr(nullptr)
-            
-            
-            {};
-            
-            BidirectionalAccessIter(const BidirectionalAccessIter<T, Compare, Node, AvlTree, value_compare>& obj) :  __tree(obj.__tree), __ptr(obj.__ptr)
-            {};
 
+            BidirectionalAccessIter() : __ptr(nullptr)
+            {};
+            
+            BidirectionalAccessIter(const __return_type& obj) 
+            {
+                *this = obj;
+            };
+
+            ~BidirectionalAccessIter()
+            {
+                
+            }
 
             __return_type  operator++()
             {
-                if (__ptr == __tree.__last_element)
+                if (__ptr->__right)
                 {
-                    __ptr = __tree.__last_element->__right;
+                    __ptr = __min(__ptr->__right);
                     return (*this);
                 }
-                __ptr = __tree.forward(__ptr);
-                return (*this);
-            }
+                __ptr = __upper(__ptr);
+                return ( *this);
+            } 
             
             __return_type operator++(int)
             {
@@ -72,27 +73,28 @@ namespace ft
 
             __return_type operator--()
             {
-                if (__ptr == __tree.__last_element)
+               if (__ptr->__left)
                 {
-                    __ptr = __tree.__last_element->__right;
+                    __ptr = __max(__ptr->__left);
                     return (*this);
                 }
-                __ptr = __tree.backward(__ptr);
-                return *this;
+                __ptr = upper(__ptr);
+                return ( *this);
             }
 
             __return_type operator--(int)
             {
-                 __return_type __tmp = *this;
+                __return_type __tmp = *this;
                 operator--();
                 return __tmp;
             }
+            
             __return_type &operator=(__return_type const  &pr)
             {
-                __tree  = pr.__tree;
-                
-                __ptr = pr.__ptr;
-                return *this;    
+                if (*this == pr)
+                    return (*this);
+                __ptr    = pr.__ptr;
+              return *this;    
             }
             
             reference   operator*() const
@@ -102,111 +104,61 @@ namespace ft
 
             pointer     operator->() const
             {
+
                 return &__ptr->__key;
             }
             
-            bool operator==(const BidirectionalAccessIter& pr) const
+            bool operator==(const __return_type& pr) const
             {
                 
                 return (__ptr == pr.__ptr);
             } 
 
-            bool operator!=(const BidirectionalAccessIter& pr) const
+            bool operator!=(const __return_type& pr) const
             {
+    
                 return (__ptr != pr.__ptr);
             }
-    };    
-
-
-     template <class T, class Compare, class Node, class AvlTree, class value_compare>
-    class BidirectionalAccessRevIter : public ft::iterator<std::bidirectional_iterator_tag, T>
-     {
-         
-        public:
-            typedef Node                                                                                                                node;
-            typedef AvlTree                                                                                                             tree;
-            typedef Compare                                                                                                             key_compare;
-            typedef typename    ft::iterator_traits<ft::iterator<std::bidirectional_iterator_tag, T> >::value_type                      value_type;
-            typedef typename    ft::iterator_traits<ft::iterator<std::bidirectional_iterator_tag, T> >::Distance                         difference_type;
-            typedef typename    ft::iterator_traits<ft::iterator<std::bidirectional_iterator_tag, T> >::pointer                          pointer;
-            typedef typename    ft::iterator_traits<ft::iterator<std::bidirectional_iterator_tag, T> >::reference                        reference;
-            typedef typename    ft::iterator_traits<ft::iterator<std::bidirectional_iterator_tag, T> >::iterator_category                iterator_category;
-            typedef typename    ft::BidirectionalAccessRevIter<T, Compare, node, tree, value_compare>                                    __return_type;
-        protected:
-            tree    __tree;    
-            node    *__ptr;
-        public:
         
-           // // to be removed
-            BidirectionalAccessRevIter(node *_n, node *__root,  const key_compare& comp = key_compare()) : __ptr(_n), __tree(value_compare(comp))
-            {
-                __tree.root = __root;
-            };
-            BidirectionalAccessRevIter(const key_compare& comp = key_compare()) : __ptr(nullptr), __tree(value_compare(comp))
-            
-            
-            {};
-            
-            BidirectionalAccessRevIter(const BidirectionalAccessIter<T, Compare, Node, AvlTree, value_compare>& obj) : __ptr(obj.__ptr), __tree(obj.__tree)
-            {}
-            __return_type  operator++()
-            {
-                __ptr = __tree.backward(__ptr);
-                return *this;
-            }
-            
-            __return_type operator++(int)
-            {
-                __return_type __tmp = *this;
-                operator++();
-                return __tmp;
-            }
+        private:
 
-            __return_type operator--()
-            {
-                __ptr = __tree.forward(__ptr);
-                return (*this);
-            }
+            node* __min(node *__node)
+		    { 
+			    node* current = __node;
+                if (__node) 
+                {
+			        while (current->__left != NULL) 
+			    	    current = current->__left;
+                }
+			    return current;
+		    }
 
-            __return_type operator--(int)
-            {
-                __return_type __tmp = *this;
-                operator--();
-                return __tmp;
-                
-            }
-            __return_type &operator=(_BidirectionalAccessRevIter& const  &pr)
-               {
-                   __tree  = pr.__tree;
-                   __ptr = pr.__ptr;
-                   return *this;    
-            }
+            node* __upper(node* __ptr)
+		    {
+                while (!__ptr->isLeft()) 
+                    __ptr = __ptr->__parent;
+                __ptr = __ptr->__parent;
+               return (__ptr);
+		    }
             
-            reference   operator*() const
-            {
-                return (__ptr->__key);
-            }
+            node*  upper(node* __ptr)
+		    {
+                while (!__ptr->isRight()) 
+                    __ptr = __ptr->__parent;
+                __ptr = __ptr->__parent;
+               return (__ptr);
+		    }
+          
+            node* __max(node *__node)
+		    {
+			    node* current = __node;
+    
+			    while (current->__right)
+			    	current = current->__right;
+			    return current;
+		    }
 
-            pointer     operator->() const
-            {
-                return &__ptr->__key;
-            }
-            
-            bool operator==(const BidirectionalAccessRevIter& pr) const
-            {
-                return (__ptr == pr.__ptr);
-            } 
-
-            bool operator!=(const BidirectionalAccessRevIter& pr) const
-            {
-                return (__ptr != pr.__ptr);
-            }
-    };    
-
+};    
 }
 
-
-
-
-
-#endif
+# endif

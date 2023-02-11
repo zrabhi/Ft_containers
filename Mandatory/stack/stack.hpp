@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:36:52 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/02 09:04:24 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/11 15:56:05 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,8 @@
 # define STACK_HPP
 
 # include <iostream>
-# include <sstream>
-# include <stack>
 # include <deque>
 # include <memory>
-# include "../utils/ft_defines.hpp"
 # include "../vector/vector.hpp"
 # include "../utils/ft_enable_if.hpp"
 # include "../utils/ft_is_integral.hpp"

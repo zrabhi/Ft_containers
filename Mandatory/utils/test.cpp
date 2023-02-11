@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 19:58:27 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/24 20:11:21 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/06 13:24:34 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <utility>
 #include "ft_utility.hpp"      // ft::pair, std::make_pair
 #include <string>       // std::string
-#include <iostream>     // std::cout
+#include <iostream>     // // std::cout
 
 int main () {
   ft::pair <std::string,double> product1;                     // default constructor
@@ -27,9 +27,9 @@ int main () {
   product2.first = "shoes";                  // the type of first is string
   product2.second = 39.90;                   // the type of second is double
 
-  std::cout << "The price of " << product1.first << " is $" << product1.second << '\n';
-  std::cout << "The price of " << product2.first << " is $" << product2.second << '\n';
-  std::cout << "The price of " << product3.first << " is $" << product3.second << '\n';
+  // std::cout << "The price of " << product1.first << " is $" << product1.second << '\n';
+  // std::cout << "The price of " << product2.first << " is $" << product2.second << '\n';
+  // std::cout << "The price of " << product3.first << " is $" << product3.second << '\n';
   return 0;
 
 //  std::pair <std::string,double> product1;                     // default constructor
@@ -41,8 +41,8 @@ int main () {
 //   product2.first = "shoes";                  // the type of first is string
 //   product2.second = 39.90;                   // the type of second is double
 
-//   std::cout << "The price of " << product1.first << " is $" << product1.second << '\n';
-//   std::cout << "The price of " << product2.first << " is $" << product2.second << '\n';
-//   std::cout << "The price of " << product3.first << " is $" << product3.second << '\n';
+//   // std::cout << "The price of " << product1.first << " is $" << product1.second << '\n';
+//   // std::cout << "The price of " << product2.first << " is $" << product2.second << '\n';
+//   // std::cout << "The price of " << product3.first << " is $" << product3.second << '\n';
 //   return 0;
 }

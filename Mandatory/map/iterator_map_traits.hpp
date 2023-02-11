@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 21:06:00 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/28 21:07:36 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/08 11:12:26 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ namespace ft
         typedef Category  iterator_category;
   };
 
+    
     template<class Iterator>
     struct iterator_traits
     {
@@ -35,6 +36,7 @@ namespace ft
         typedef typename Iterator::reference             reference;
         typedef typename Iterator::iterator_category     iterator_category ;      
     };
+    
     template<class T> 
     struct iterator_traits<T*>
     {
