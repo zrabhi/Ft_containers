@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 21:04:04 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/10 13:34:30 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/11 18:33:08 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 
 
-#include "iterator_map_traits.hpp"
+// #include "iterator_map_traits.hpp"
+#include "../iterator/iteretor_traits.hpp"
 namespace ft
 {
     template <class T, class Node>

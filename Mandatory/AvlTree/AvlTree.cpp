@@ -6,14 +6,14 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 22:27:50 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/11 16:41:20 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/11 17:41:58 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "AvlTree.hpp"
-#include "../map/map.hpp"
-// int main()
+// #include "AvlTree.hpp"
+// #include "../map/map.hpp"
+// // int main()
 // {
 
 //     /// @brief  Inserting elements in Tree and printing them in traverse order.
@@ -79,7 +79,7 @@
 
 // C++ program to insert a node in AVL tree
 // #include <iostream>
-u
+
 // // Driver Code
 // int main()
 // {
@@ -115,35 +115,35 @@ u
 // This code is contributed by
 // rathbhupendra
 
-int main()
-{
-    ft::pair<char , int> pair;
+// int main()
+// {
+//     ft::pair<char , int> pair;
     
-    ft::AvlTree<ft::pair<int , int>, ft::map<int, int>::value_compare, int, int > tree;
-    std::map<char, int> mymap;
-    // char c = 'a';
-    for (int i = 0; i < 1000000; i++)
-        mymap.insert(std::pair<char , int>(i, i));
-        // tree.AddLeaf(ft::pair<int, int>(i, i));
+//     ft::AvlTree<ft::pair<int , int>, ft::map<int, int>::value_compare, int, int > tree;
+//     std::map<char, int> mymap;
+//     // char c = 'a';
+//     for (int i = 0; i < 1000000; i++)
+//         mymap.insert(std::pair<char , int>(i, i));
+//         // tree.AddLeaf(ft::pair<int, int>(i, i));
     
-    // tree.PrintTree();
-    return 0;
-}
+//     // tree.PrintTree();
+//     return 0;
+// }
 
-void PrintTree(Node *root, int space)
-{
+// void PrintTree(Node *root, int space)
+// {
 
-    if (!root)
-            return ; 
-    space += 10;
-    PrintTree(root->right, space);
-    // std::cout << std::endl;
-    for(int i = 0; i < space; i++)  // std::cout << " ";
-    // std::cout << "\033[31m "<< root->key << " \033[30m" <<  std::endl;
-    PrintTree(root->left, space);
+//     if (!root)
+//             return ; 
+//     space += 10;
+//     PrintTree(root->right, space);
+//     // std::cout << std::endl;
+//     for(int i = 0; i < space; i++)  // std::cout << " ";
+//     // std::cout << "\033[31m "<< root->key << " \033[30m" <<  std::endl;
+//     PrintTree(root->left, space);
 
 
-}
+// }
 
 // int main()
 // {

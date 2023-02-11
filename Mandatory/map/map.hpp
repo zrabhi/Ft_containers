@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 23:09:03 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/11 14:04:14 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/11 17:55:56 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -339,46 +339,42 @@ template<class Key, class T, class Compare = std::less<Key>, class Allocator = s
                {
                     return ft::make_pair<iterator,iterator>(lower_bound(k), upper_bound(k));
                }
-               
-    };
 
-    template <typename Key, typename T, typename Compare>
-	bool operator==(const map<Key, T, Compare> &lhs, const map<Key, T, Compare> &rhs)
+	friend bool operator==(const map<Key, T, Compare> &lhs, const map<Key, T, Compare> &rhs)
 	{
 		if (lhs.size() != rhs.size())
 			return false;
 		return equal(lhs.begin(), lhs.end(), rhs.begin());
 	}
 
-	template <typename Key, typename T, typename Compare>
-	bool operator!=(const map<Key, T, Compare> &lhs, const map<Key, T, Compare> &rhs)
+	friend bool operator!=(const map<Key, T, Compare> &lhs, const map<Key, T, Compare> &rhs)
 	{
 		return !(lhs == rhs);
 	}
 
-	template <typename Key, typename T, typename Compare>
-	bool operator<(const map<Key, T, Compare> &lhs, const map<Key, T, Compare> &rhs)
+	friend bool operator<(const map<Key, T, Compare> &lhs, const map<Key, T, Compare> &rhs)
 	{
 		return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
-	template <typename Key, typename T, typename Compare>
-	bool operator>=(const map<Key, T, Compare> &lhs, const map<Key, T, Compare> &rhs)
+	friend bool operator>=(const map<Key, T, Compare> &lhs, const map<Key, T, Compare> &rhs)
 	{
 		return !(lhs < rhs);
 	}
 
-	template <typename Key, typename T, typename Compare>
-	bool operator>(const map<Key, T, Compare> &lhs, const map<Key, T, Compare> &rhs)
+	friend bool operator>(const map<Key, T, Compare> &lhs, const map<Key, T, Compare> &rhs)
 	{
 		return rhs < lhs;
 	}
 
-	template <typename Key, typename T, typename Compare>
-	bool operator<=(const map<Key, T, Compare> &lhs, const map<Key, T, Compare> &rhs)
+	
+	friend bool operator<=(const map<Key, T, Compare> &lhs, const map<Key, T, Compare> &rhs)
 	{
 		return !(lhs > rhs);
      }
+
+     };
+
 }
 
 

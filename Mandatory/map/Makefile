@@ -6,7 +6,7 @@
 #    By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/01 06:33:45 by zrabhi            #+#    #+#              #
-#    Updated: 2023/02/11 15:49:16 by zrabhi           ###   ########.fr        #
+#    Updated: 2023/02/11 18:00:14 by zrabhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,9 +25,9 @@ STL 	:= STDmap
 HEADERS := Map.hpp
 
 all: $(NAME)
-	@sleep 1
 	@echo ""
-	@sleep 2
+	@echo " \n$(BLUE)Creating Map...$(BLUE)"
+	@echo " \n"
 stl : $(STL)
 
 $(NAME) : $(OBJ)

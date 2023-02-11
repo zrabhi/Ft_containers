@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:47:43 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/11 13:43:41 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/11 17:59:27 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ class AvlTree
 
        public:
         struct node
-      {
-        value_type  __key;
-        node        *__left;
-        node        *__parent;
-        node        *__right;
-        int          height;
+        {
+            value_type  __key;
+            node        *__left;
+            node        *__parent;
+            node        *__right;
+            int          height;
             /// returns true is the parent right or left chlid matches this node;
             bool    isRight() 
             {
@@ -63,7 +63,7 @@ class AvlTree
             }
         };
     private:
-    typedef  typename allocator_type::template rebind<node>::other  node_pointer;
+        typedef  typename allocator_type::template rebind<node>::other  node_pointer;
          
     int max(int a, int b)
     {
@@ -133,15 +133,6 @@ class AvlTree
         PrintTreePrivate(root->__left, space);
     }
   
-    int     FindSmallestPrivate(node* ptr, node *p) 
-    {
-        (void)p;
-        if (ptr->__left)
-            return (FindSmallestPrivate(ptr->__left));
-        return (ptr->__key->first);
-    }
-
-
     value_type     smallestInSubTree(node *_ptr)
     {    
         if (_ptr->__left)
@@ -166,29 +157,29 @@ class AvlTree
             if (_ptr->__right)
                 _ptr->__right->__parent = _ptr;
         }
-    else 
-    {
-        if (_ptr->__left == NULL)
-        {
-            node * temp = _ptr->__right;
-            __val_alloc.destroy(&_ptr->__key);
-            _alloc.deallocate(_ptr, 1);
-            return temp;
-        } 
-        else if (_ptr->__right == NULL)
-        {
-            node * temp = _ptr->__left;
-            __val_alloc.destroy(&_ptr->__key);
-            _alloc.deallocate(_ptr, 1);
-            return temp;
-        }
         else 
         {
-            value_type smallest = smallestInSubTree(_ptr->__right);
-            __val_alloc.construct(&_ptr->__key, smallest);
-            _ptr->__right = deleteNode(_ptr->__right, smallest);
+            if (_ptr->__left == NULL)
+            {
+                node * temp = _ptr->__right;
+                __val_alloc.destroy(&_ptr->__key);
+                _alloc.deallocate(_ptr, 1);
+                return temp;
+            } 
+            else if (_ptr->__right == NULL)
+            {
+                node * temp = _ptr->__left;
+                __val_alloc.destroy(&_ptr->__key);
+                _alloc.deallocate(_ptr, 1);
+                return temp;
+            }
+            else 
+            {
+                value_type smallest = smallestInSubTree(_ptr->__right);
+                __val_alloc.construct(&_ptr->__key, smallest);
+                _ptr->__right = deleteNode(_ptr->__right, smallest);
+            }
         }
-    }
     
     return balanceAfterDeletion(_ptr, key);
     }
@@ -228,7 +219,7 @@ class AvlTree
     }   
     
     node *  rightRotate(node * y)
-  {
+    {
         node * x = y->__left;
         node * T2 = x->__right;
     
@@ -242,7 +233,7 @@ class AvlTree
 	    x->height = max(height(x->__left),
 					height(x->__right)) + 1;
         return x;
-  }
+    }
 
     node *  leftRotate(node * y)
     {
@@ -391,16 +382,6 @@ class AvlTree
             PrintInOrderPrivate(root);
         }
 
-        int     FindSmallest()
-        {
-            return (FindSmallestPrivate(root));
-        }
-
-        node      *FindOldest(node* __root, node *__match)
-        {
-            return (FindOldestPrivate(__root, __match));
-        }
-        
         void    RemoveNode(value_type key)
         {
             root = __delete(key, root);
@@ -478,6 +459,7 @@ class AvlTree
                 root  = nullptr;
               }
         }
+        
         void clone( node *node)
         {
             if (!node)
@@ -487,31 +469,7 @@ class AvlTree
                 AddLeaf((node->__key));
             clone(node->__right);
         }
-
-        
-
-        node *getCopy(node* _ptr)
-        {
-            if (!_ptr )
-                return  _ptr;
-            _ptr->__left = getCopy(_ptr->__left);
-            if (_ptr->__key.first)
-                insert((_ptr->__key), _ptr);
-            _ptr->__right = getCopy(_ptr->__right);
-            return ( _ptr);
-        }
-       
-        node* clone_root(node *_ptr)
-        {
-
-            if (!_ptr )
-                return _ptr;
-            _ptr->__left = clone_root(_ptr->__left);
-            if (_ptr->__key.first)
-                AddLeaf((_ptr->__key));
-            _ptr->__right = clone_root(_ptr->__right);
-            return (_ptr);
-        }
+    
     };
 }
 

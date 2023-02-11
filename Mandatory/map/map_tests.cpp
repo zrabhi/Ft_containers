@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 10:30:24 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/11 15:45:38 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/11 17:53:06 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,6 +279,31 @@ void map_tests()
     first=ft::map<char,int>();  // and first is now empty
 
     std::cout << "Size of first: " << first.size() << '\n';
+  }
+
+  {
+      red();
+      std::cout << "################################ RELATION OPERATORS TEST################################\n\n";
+      green();
+      ft::map<char,int> foo,bar;
+      foo['a']=100;
+      foo['b']=200;
+      bar['a']=10;
+      bar['z']=1000;
+    
+      // foo ({{a,100},{b,200}}) vs bar ({a,10},{z,1000}}):
+      if (foo==bar) 
+          std::cout << "foo and bar are equal\n";
+      if (foo!=bar) 
+          std::cout << "foo and bar are not equal\n";
+      if (foo< bar) 
+          std::cout << "foo is less than bar\n";
+      if (foo> bar) 
+          std::cout << "foo is greater than bar\n";
+      if (foo<=bar) 
+          std::cout << "foo is less than or equal to bar\n";
+      if (foo>=bar) 
+          std::cout << "foo is greater than or equal to bar\n";
   }
 }
     

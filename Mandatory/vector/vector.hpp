@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/10 17:54:04 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/11 17:47:59 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -431,12 +431,9 @@ namespace ft
             
             void pop_back()
             {
-                // if (size())
-                // {
-                    _end--;
-                    this->_alloc.destroy(_end);
-                // }   
-                // --this->_end;
+                _end--;
+                this->_alloc.destroy(_end);
+
             }
             
             iterator erase(iterator position)
@@ -521,7 +518,7 @@ namespace ft
             return (lhs < rhs || lhs == rhs);
         }
 
-      friend  bool operator>  (const vector& lhs, const vector& rhs)
+        friend  bool operator>  (const vector& lhs, const vector& rhs)
         {
             if (lhs.size() > rhs.size())
                 return (true);

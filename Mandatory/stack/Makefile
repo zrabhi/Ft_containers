@@ -6,7 +6,7 @@
 #    By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/02 08:47:35 by zrabhi            #+#    #+#              #
-#    Updated: 2023/02/11 16:06:45 by zrabhi           ###   ########.fr        #
+#    Updated: 2023/02/11 18:01:14 by zrabhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,12 +21,11 @@ STD 	:=  -D STL=1
 FT		:=	-D STL=0
 NAME 	:= FTstack
 STL 	:= STDstack
-# ASCII	:= ../map/ 
 HEADERS := stack.hpp
 
 all: $(NAME)
 	@echo ""
-	@echo " \n$(BLUE)Creating :Stack...$(BLUE)"
+	@echo " \n$(BLUE)Creating Stack...$(BLUE)"
 	@echo " \n"
 	
 stl : $(STL)

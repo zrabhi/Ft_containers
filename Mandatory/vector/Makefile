@@ -6,7 +6,7 @@
 #    By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/02 01:05:07 by zrabhi            #+#    #+#              #
-#    Updated: 2023/02/10 18:17:08 by zrabhi           ###   ########.fr        #
+#    Updated: 2023/02/11 17:59:46 by zrabhi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ HEADERS := vector.hpp
 
 all: $(NAME)
 	@echo ""
-	@echo " \n$(BLUE)Creating :Vector...$(BLUE)"
+	@echo " \n$(BLUE)Creating Vector...$(BLUE)"
 	@echo " \n"
 
 stl : $(STL)
