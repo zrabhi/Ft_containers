@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 10:30:24 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/11 17:53:06 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/12 12:32:46 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void map_tests()
     //    mymap.insert(ft::pair<int, int>(i, i));
     // }
   {  
-    red();
+    BLUE_COLOR;
     std::cout << "################################ CLEAR MEMBER FUNCTION TEST################################\n\n";
-    green();
+    GREEN_COLOR;
     ft::map<char,int> mymap;
 
     mymap['x']=100;
@@ -53,9 +53,9 @@ void map_tests()
   }
 
   {  
-    red();
+    BLUE_COLOR;
     std::cout << "################################ COUNT MEMBER FUNCTION TEST################################\n\n";
-    green();
+    GREEN_COLOR;
     ft::map<char,int> mymap;
     char c;
   
@@ -74,9 +74,9 @@ void map_tests()
   }
 
   {
-    red();
+    BLUE_COLOR;
     std::cout << "################################ EMPTY MEMBER FUNCTION TEST################################\n\n";
-    green();
+    GREEN_COLOR;
     ft::map<char,int> mymap;
 
     mymap['a']=10;
@@ -92,9 +92,9 @@ void map_tests()
 
 
   {
-    red();
+    BLUE_COLOR;
     std::cout << "################################ END MEMBER FUNCTION TEST################################\n\n";
-    green();
+    GREEN_COLOR;
     ft::map<char,int> mymap;
 
     mymap['b'] = 100;
@@ -108,9 +108,9 @@ void map_tests()
   }
   
   {
-    red();
+    BLUE_COLOR;
     std::cout << "################################ EQUAL_RANGE || LOWER_BOUND || UPPER_BOUND  MEMBER FUNCTION TEST################################\n\n";
-    green();
+    GREEN_COLOR;
     ft::map<char,int> mymap;
 
     mymap['a']=10;
@@ -129,9 +129,9 @@ void map_tests()
   }
 
   {
-    red();
+    BLUE_COLOR;
     std::cout << "################################ ERASE MEMBER FUNCTION TEST################################\n\n";
-    green();
+    GREEN_COLOR;
     ft::map<char,int> _mymap;
     ft::map<char,int>::iterator _it;
   
@@ -158,9 +158,9 @@ void map_tests()
   }
 
   {
-    red();
+    BLUE_COLOR;
     std::cout << "################################ FIND MEMBER FUNCTION TEST################################\n\n";
-    green();
+    GREEN_COLOR;
     ft::map<char,int> _mymap;
     ft::map<char,int>::iterator _it;
   
@@ -183,9 +183,9 @@ void map_tests()
   }
 
   {
-    red();
+    BLUE_COLOR;
     std::cout << "################################ GET_ALLOCATOR MEMBER FUNCTION TEST################################\n\n";
-    green();
+    GREEN_COLOR;
     int psize;
     ft::map<char,int> mymap;
     ft::pair<const char,int>* p;
@@ -203,9 +203,9 @@ void map_tests()
   }
   {
  
-    red();
+    BLUE_COLOR;
     std::cout << "################################ INSERT MEMBER FUNCTION TEST################################\n\n";
-    green();
+    GREEN_COLOR;
     ft::map<char,int> mymap;
 
   // first insert function version (single parameter):
@@ -245,9 +245,9 @@ void map_tests()
   
 
   {
-    red();
+    BLUE_COLOR;
     std::cout << "################################ OPERATOR[] FUNCTION TEST################################\n\n";
-    green();
+    GREEN_COLOR;
 
     
     ft::map<char,std::string> _mymap;
@@ -265,9 +265,9 @@ void map_tests()
   }
   
   {
-    red();
+    BLUE_COLOR;
     std::cout << "################################ OPERATOR =  || RRBEGIN  || REND  TEST################################\n\n";
-    green();
+    GREEN_COLOR;
     ft::map<char,int> first;
     ft::map<char,int> second;
 
@@ -282,9 +282,9 @@ void map_tests()
   }
 
   {
-      red();
+      BLUE_COLOR;
       std::cout << "################################ RELATION OPERATORS TEST################################\n\n";
-      green();
+      GREEN_COLOR;
       ft::map<char,int> foo,bar;
       foo['a']=100;
       foo['b']=200;
@@ -306,9 +306,4 @@ void map_tests()
           std::cout << "foo is greater than or equal to bar\n";
   }
 }
-    
   
-int main()
-{
-    map_tests();
-}

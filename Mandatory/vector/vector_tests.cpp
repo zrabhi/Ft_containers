@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 15:22:32 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/10 17:55:51 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/12 12:35:35 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@
     
 
 
-void vector_tests() 
+void vector_tests()
     {
       {
-        red();
+       BLUE_COLOR;
         std::cout << "################################ ASSIGN MEMBER FUNCTION TEST################################\n\n";
-        green();
+        GREEN_COLOR;
         ft::vector<int> f;
         ft::vector<int> s;
         ft::vector<int> t;
@@ -45,9 +45,9 @@ void vector_tests()
     }
  
     {
-      red();
+     BLUE_COLOR;
       std::cout << "################################ AT MEMBER FUNCTION TEST################################\n\n";
-      green();
+      GREEN_COLOR;
       ft::vector<int> myv (10);  
       for (unsigned i=0; i<myv.size(); i++)
         myv.at(i)=i;
@@ -59,9 +59,9 @@ void vector_tests()
     }
     
     {
-      red();
+     BLUE_COLOR;
       std::cout << "################################ BACK MEMBER FUNCTION TEST################################\n\n";
-      green();
+      GREEN_COLOR;
       ft::vector<int> myv;
       myv.push_back(10);
       while (myv.back() != 0)
@@ -77,9 +77,9 @@ void vector_tests()
     }
     
     {
-      red();
+     BLUE_COLOR;
       std::cout << "################################ BEGIN MEMBER FUNCTION TEST################################\n\n";
-      green();
+      GREEN_COLOR;
       ft::vector<int> myv;
       for (int i=1; i<=5; i++) myv.push_back(i);
       
@@ -92,9 +92,9 @@ void vector_tests()
     {
       try {
         
-        red();
+       BLUE_COLOR;
         std::cout << "################################ OPERATOR[] MEMBER FUNCTION TEST################################\n\n";
-        green();
+        GREEN_COLOR;
         ft::vector<int> myv (10);  
         ft::vector<int>::size_type ss = myv.size();
         
@@ -120,9 +120,9 @@ void vector_tests()
     }
     
     {
-        red();
+       BLUE_COLOR;
         std::cout << "################################ CLEAR MEMBER FUNCTION TEST################################\n\n";
-        green();
+        GREEN_COLOR;
         ft::vector<int> myv;
         myv.push_back (100);
         myv.push_back (200);
@@ -145,9 +145,9 @@ void vector_tests()
     
     
     {
-        red();
+       BLUE_COLOR;
         std::cout << "################################ EMPTY MEMBER FUNCTION TEST################################\n\n";
-        green();
+        GREEN_COLOR;
         ft::vector<int> myv;
         int result (0);
         
@@ -164,9 +164,9 @@ void vector_tests()
     }
     
     {
-        red();
+       BLUE_COLOR;
         std::cout << "################################ END MEMBER FUNCTION TEST################################\n\n";
-        green();
+        GREEN_COLOR;
         ft::vector<int> myv;
         for (int i=1; i<=5; i++) myv.push_back(i);
       
@@ -177,9 +177,9 @@ void vector_tests()
     }
     
     {
-      red();
+     BLUE_COLOR;
       std::cout << "################################ ERASE MEMBER FUNCTION TEST################################\n\n";
-      green();
+      GREEN_COLOR;
       ft::vector<int> myv;
      
       std::cout << "myv contains before erase :";
@@ -203,9 +203,9 @@ void vector_tests()
     }
     
     {
-      red();
+     BLUE_COLOR;
       std::cout << "################################ FRONT MEMBER FUNCTION TEST################################\n\n";
-      green();
+      GREEN_COLOR;
       ft::vector<int> myv;
 
       myv.push_back(78);
@@ -218,9 +218,9 @@ void vector_tests()
     }
     
     {
-      red();
+     BLUE_COLOR;
       std::cout << "################################ FRONT MEMBER FUNCTION TEST################################\n\n";
-      green();
+      GREEN_COLOR;
       ft::vector<int> myv;
       int * t;
       unsigned int j;
@@ -237,9 +237,9 @@ void vector_tests()
     }
     
     {
-      red();
+     BLUE_COLOR;
       std::cout << "################################ INSERT MEMBER FUNCTION TEST################################\n\n";
-      green();
+      GREEN_COLOR;
       ft::vector<int> myv (3,100);
       ft::vector<int>::iterator _it;
     
@@ -262,9 +262,9 @@ void vector_tests()
     }
     
     {
-      red();
+     BLUE_COLOR;
       std::cout << "################################ MAX_SIZE  | SIZE | CAPACITY  MEMBER FUNCTIONs TEST################################\n\n";
-      green();
+      GREEN_COLOR;
       ft::vector<int> myv;
 
       for (int i=0; i<100; i++) myv.push_back(i);
@@ -276,9 +276,9 @@ void vector_tests()
     }
     
     {
-      red();
+     BLUE_COLOR;
       std::cout << "################################ OPERATOR= MEMBER FUNCTION TEST################################\n\n";
-      green();
+      GREEN_COLOR;
       ft::vector<int> fo (3,0);
       ft::vector<int> ba (5,0);
     
@@ -290,9 +290,9 @@ void vector_tests()
     }
     
     {
-      red();
+     BLUE_COLOR;
       std::cout << "################################ POP_BACK MEMBER FUNCTION TEST################################\n\n";
-      green();
+      GREEN_COLOR;
       ft::vector<int> myv;
       int result (0);
       myv.push_back (100);
@@ -308,9 +308,9 @@ void vector_tests()
     }
     
     {
-      red();
+     BLUE_COLOR;
       std::cout << "################################ RBEGIN MEMBER FUNCTION TEST################################\n\n";
-      green();
+      GREEN_COLOR;
       ft::vector<int> myv (5);  
     
       int j = 0;
@@ -331,9 +331,9 @@ void vector_tests()
     }
     
      {
-      red();
+     BLUE_COLOR;
       std::cout << "################################ REND MEMBER FUNCTION TEST################################\n\n";
-      green();
+      GREEN_COLOR;
       
       ft::vector<int> myv (5);  
 
@@ -351,9 +351,9 @@ void vector_tests()
     
   
     {
-      red();
+     BLUE_COLOR;
       std::cout << "################################ RESIZE MEMBER FUNCTION TEST################################\n\n";
-      green();
+      GREEN_COLOR;
       ft::vector<int> myv;
         
       // set some initial content:
@@ -368,9 +368,9 @@ void vector_tests()
     }
     
     {
-      red();
+     BLUE_COLOR;
       std::cout << "################################ SIZE MEMBER FUNCTION TEST################################\n\n";
-      green();
+      GREEN_COLOR;
       std::cout <<              " ###################  STD=======>>>>    ####################  \n\n";
       ft::vector<int> myi;
       std::cout << "0. size: " << myi.size() << '\n';
@@ -386,9 +386,9 @@ void vector_tests()
     }
     
     {
-      red();
+     BLUE_COLOR;
       std::cout << "################################ SWAP MEMBER FUNCTION TEST################################\n\n";
-      green();
+      GREEN_COLOR;
       ft::vector<int> fo (3,100);   
       ft::vector<int> ba (5,200);  
       
@@ -412,8 +412,8 @@ void vector_tests()
     
 }
 
-  int main()
-  {
-    vector_tests();
-    // system("leaks Vector");
-  }
+  // int main()
+  // {
+  //   vector_tests();
+  //   // system("leaks Vector");
+  // }

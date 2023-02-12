@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:49:14 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/11 16:04:21 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/12 12:26:10 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 void    stack_tests()
 {
   {
-    red();
+    BLUE_COLOR;
     std::cout << "################################ EMPTY MEMBER FUNCTION TEST################################\n\n";
-    green();
+    GREEN_COLOR;
     
     ft::stack<int> mys;
     int result (0);
@@ -41,9 +41,9 @@ void    stack_tests()
   }
   
   {
-    red();
+    BLUE_COLOR;
     std::cout << "################################ POP MEMBER FUNCTION TEST################################\n\n";
-    green();
+    GREEN_COLOR;
     
     ft::stack<int> mys;
 
@@ -59,9 +59,9 @@ void    stack_tests()
   }
 
   {
-    red();
+    BLUE_COLOR;
     std::cout << "################################ PUSH MEMBER FUNCTION TEST################################\n\n";
-    green();
+    GREEN_COLOR;
     
    ft::stack<int> mys;
 
@@ -79,9 +79,9 @@ void    stack_tests()
 
   {
 
-    red();
+    BLUE_COLOR;
     std::cout << "################################ SIZE  MEMBER FUNCTION TEST################################\n\n";
-    green();
+    GREEN_COLOR;
    
     ft::stack<int> my;
     std::cout << "0. size: " << my.size() << '\n';
@@ -94,9 +94,9 @@ void    stack_tests()
   }
 
   {
-    red();
+    BLUE_COLOR;
     std::cout << "################################ TOP MEMBER FUNCTION TEST################################\n\n";
-    green();
+    GREEN_COLOR;
    
     ft::stack<int> mys;
 
@@ -106,17 +106,17 @@ void    stack_tests()
   
     mys.top() -= 5;
   
-    // std/::cout << "mys.top()   is now " << mys.top() << '\n';
+    std::cout << "mys.top()   is now " << mys.top() << '\n';
   }
   
 }
 
 
 
-int main ()
-{
-  stack_tests();
-  // system("leaks Stack");
-}
+// int main ()
+// {
+//   stack_tests();
+//   // system("leaks Stack");
+// }
 
 

@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 19:06:48 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/01/16 20:39:05 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/12 12:23:10 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ namespace ft
     struct true_type
     {
         const static bool value = true;
-    };
+    };   
     
     template <class T, class U>
     struct is_same : public ft::false_type 

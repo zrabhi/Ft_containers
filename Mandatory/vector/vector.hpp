@@ -6,7 +6,7 @@
 /*   By: zrabhi <zrabhi@student.1337.ma >           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 09:08:35 by zrabhi            #+#    #+#             */
-/*   Updated: 2023/02/11 17:47:59 by zrabhi           ###   ########.fr       */
+/*   Updated: 2023/02/12 12:22:29 by zrabhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 namespace ft
 {   
-    template <class T, class Allocator = std::allocator<T> >
+    template <class T, class Allocator = std::allocator<T> > 
     class vector {
 			public:
                 typedef                 T                                          value_type;
@@ -50,7 +50,7 @@ namespace ft
             
             void    _extra_capacity(size_type n, pointer tmp, size_type _size)
             {     
-                _start = _alloc.allocate(n);
+                _start = _alloc.allocate(n);   
                 _end   = _start;
                 _capacity = n;
                 for (size_t i = 0; i < _size; i++)
