@@ -16,7 +16,7 @@ Here are some resources that may be helpful for understanding the concepts and i
 - [cplusplus.com](http://www.cplusplus.com/)
 - [CPPReference](https://en.cppreference.com/w/)
 - [Stanford CS Library](https://stanford.edu/~stepp/cppdoc/)
-- [Data Structures and Algorithms in C++ by Adam Drozdek]([https://www.amazon.com/Data-Structures-Algorithms-C-4th/dp/1133608426](https://itlectures.ro/wp-content/uploads/2016/04/AdamDrozdek__DataStructures_and_Algorithms_in_C_4Ed.pdf))
+- [Data Structures and Algorithms in C++ by Adam Drozdek](https://itlectures.ro/wp-content/uploads/2016/04/AdamDrozdek__DataStructures_and_Algorithms_in_C_4Ed.pdf)
 
 
 ## Implemented Containers
