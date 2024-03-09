@@ -8,6 +8,16 @@
 
 The primary motivation behind this project is to deepen understanding of data structures and algorithms by implementing them from scratch. By developing our versions of these containers, we gain insights into their internal workings, algorithms, and complexities. Furthermore, this project allows us to practice C++ programming, including template programming, memory management, and algorithm design.
 
+## Resources
+Here are some resources that may be helpful for understanding the concepts and implementations related to this project:
+
+GeeksforGeeks
+cplusplus.com
+CPPReference
+Stanford CS Library
+Data Structures and Algorithms in C++ by Adam Drozdek
+
+
 ## Implemented Containers
 
 ### 1. Vector
